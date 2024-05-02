@@ -26,43 +26,45 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
   public void ExpedienteBaja(int id)
   {
     var expediente = ListarExpediente();
-    var productoEliminar = expediente.Find(p => p.Id == id);
-    if (productoEliminar != null)
+    var expedienteEliminar = expediente.Find(p => p.Id == id);
+    if (expedienteEliminar != null)
     {
-      expediente.Remove(productoEliminar);
+      expediente.Remove(expedienteEliminar);
 
-      using var sw = new StreamWriter(_nombreArch, false);
-      foreach (var e in expediente)
-      {
-        sw.WriteLine(e.Id);
-        sw.WriteLine(e.Caratula);
-        sw.WriteLine(e.FechaCreacion);
-        sw.WriteLine(e.UltimaModificacion);
-        sw.WriteLine(e.IdUsuario);
-        sw.WriteLine(e.Estado);
-      }
+      ReescribirArchivo(expediente);
     }
   }
 
-  public void ExpedienteModificacion(int id)
-  {/*
+  public void ExpedienteModificacion(int id,string caratula,int idUsuario)
+  {
     var expediente = ListarExpediente();
-    var index = expediente.FindIndex(p => p.Id == id);
+    var index = expediente.FindIndex(e => e.Id == id);
     if (index >= 0)
     {
-      expediente[index]
+      expediente[index].Caratula=caratula;
+      expediente[index].IdUsuario=idUsuario;
+      expediente[index].UltimaModificacion=DateTime.Now;
 
-      using var sw = new StreamWriter(_nombreArch, false);
-      foreach (var e in expediente)
-      {
-        sw.WriteLine(e.Id);
-        sw.WriteLine(e.Caratula);
-        sw.WriteLine(e.FechaCreacion);
-        sw.WriteLine(e.UltimaModificacion);
-        sw.WriteLine(e.IdUsuario);
-        sw.WriteLine(e.Estado);
-      }
-    }*/
+      ReescribirArchivo(expediente);
+    }
+  }
+
+  public void ExpedienteConsultaPorId(int id)
+  {
+    List<Expediente> expediente=ListarExpediente();
+    var index = expediente.FindIndex(e => e.Id == id);
+    
+    expediente[index].ToString();
+
+  }
+
+  public void ExpedienteConsultaTodos()
+  {
+    List<Expediente> expediente=ListarExpediente();
+    foreach (var e in expediente)
+    {
+      e.ToString();
+    }
   }
 
   private List<Expediente> ListarExpediente(){
@@ -99,5 +101,19 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
       sr.ReadLine();
     }
     return ultimoId;
+  }
+
+  private void ReescribirArchivo(List<Expediente> expediente)
+  {
+    using var sw = new StreamWriter(_nombreArch, false);
+    foreach (var e in expediente)
+    {
+      sw.WriteLine(e.Id);
+      sw.WriteLine(e.Caratula);
+      sw.WriteLine(e.FechaCreacion);
+      sw.WriteLine(e.UltimaModificacion);
+      sw.WriteLine(e.IdUsuario);
+      sw.WriteLine(e.Estado);
+    }
   }
 }
