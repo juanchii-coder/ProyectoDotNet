@@ -2,7 +2,8 @@
 
 public class CasoDeUsoExpedienteConsultaPorId(IExpedienteRepositorio repo)
 {
-  public void Ejecutar(int id){
-    repo.ExpedienteConsultaPorId(id);
-  } 
+  public Expediente Ejecutar(int id)
+  {
+    return repo.ExpedienteConsultaPorId(id);
+  }
 }

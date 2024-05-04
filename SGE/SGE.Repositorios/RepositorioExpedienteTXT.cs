@@ -4,15 +4,15 @@ namespace SGE.Repositorios;
 
 public class RepositorioExpedienteTXT : IExpedienteRepositorio
 {
-  readonly string _nombreArch="expedientes.txt";
-  public void ExpedienteAlta(Expediente expediente,int idUsuario)
+  readonly string _nombreArch = "expedientes.txt";
+  public void ExpedienteAlta(Expediente expediente, int idUsuario)
   {
-    int nuevoId=ObtenerUltimoId();
-    expediente.Id=nuevoId;
-    expediente.FechaCreacion=DateTime.Now;
-    expediente.UltimaModificacion=DateTime.Now;
-    expediente.IdUsuario=idUsuario;
-    expediente.Estado=EstadoExpediente.RecienIniciado;
+    int nuevoId = ObtenerUltimoId();
+    expediente.Id = nuevoId;
+    expediente.FechaCreacion = DateTime.Now;
+    expediente.UltimaModificacion = DateTime.Now;
+    expediente.IdUsuario = idUsuario;
+    expediente.Estado = EstadoExpediente.RecienIniciado;
 
     using var sw = new StreamWriter(_nombreArch, true);
     sw.WriteLine(expediente.Id);
@@ -35,50 +35,48 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
     }
   }
 
-  public void ExpedienteModificacion(int id,string caratula,int idUsuario)
+  public void ExpedienteModificacion(int id, string caratula, int idUsuario)
   {
     var expediente = ListarExpediente();
     var index = expediente.FindIndex(e => e.Id == id);
     if (index >= 0)
     {
-      expediente[index].Caratula=caratula;
-      expediente[index].IdUsuario=idUsuario;
-      expediente[index].UltimaModificacion=DateTime.Now;
+      expediente[index].Caratula = caratula;
+      expediente[index].IdUsuario = idUsuario;
+      expediente[index].UltimaModificacion = DateTime.Now;
 
       ReescribirArchivo(expediente);
     }
   }
 
-  public void ExpedienteConsultaPorId(int id)
+  public Expediente ExpedienteConsultaPorId(int id)
   {
-    List<Expediente> expediente=ListarExpediente();
+    List<Expediente> expediente = ListarExpediente();
     var index = expediente.FindIndex(e => e.Id == id);
-    
-    expediente[index].ToString();
+
+    return expediente[index];
 
   }
 
-  public void ExpedienteConsultaTodos()
+  public List<Expediente> ExpedienteConsultaTodos()
   {
-    List<Expediente> expediente=ListarExpediente();
-    foreach (var e in expediente)
-    {
-      e.ToString();
-    }
+    List<Expediente> expediente = ListarExpediente();
+    return expediente;
   }
 
-  private List<Expediente> ListarExpediente(){
-    var resultado=new List<Expediente>();
+  private List<Expediente> ListarExpediente()
+  {
+    var resultado = new List<Expediente>();
     using var sr = new StreamReader(_nombreArch);
     while (!sr.EndOfStream)
     {
-      var expediente=new Expediente();
+      var expediente = new Expediente();
       expediente.Id = int.Parse(sr.ReadLine() ?? "");
-      expediente.Caratula=sr.ReadLine()?? "";
-      expediente.FechaCreacion=DateTime.Parse(sr.ReadLine()?? "");
-      expediente.UltimaModificacion=DateTime.Parse(sr.ReadLine()?? "");
+      expediente.Caratula = sr.ReadLine() ?? "";
+      expediente.FechaCreacion = DateTime.Parse(sr.ReadLine() ?? "");
+      expediente.UltimaModificacion = DateTime.Parse(sr.ReadLine() ?? "");
       expediente.IdUsuario = int.Parse(sr.ReadLine() ?? "");
-      expediente.Estado=(EstadoExpediente)Enum.Parse(typeof(EstadoExpediente),(sr.ReadLine()?? ""));
+      expediente.Estado = (EstadoExpediente)Enum.Parse(typeof(EstadoExpediente), (sr.ReadLine() ?? ""));
     }
     return resultado;
   }
@@ -87,14 +85,14 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
   {
     if (!File.Exists(_nombreArch))
       return 0; // Si el archivo no existe, comenzamos desde 0
-            
+
     int ultimoId = 0;
     using var sr = new StreamReader(_nombreArch);
     while (!sr.EndOfStream)
     {
       ultimoId = int.Parse(sr.ReadLine() ?? "0");
       // Saltar nombre y precio
-      sr.ReadLine(); 
+      sr.ReadLine();
       sr.ReadLine();
       sr.ReadLine();
       sr.ReadLine();

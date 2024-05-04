@@ -2,7 +2,8 @@
 
 public class CasoDeUsoExpedienteConsultaTodos(IExpedienteRepositorio repo)
 {
-  public void Ejecutar(){
-    repo.ExpedienteConsultaTodos();
-  } 
+  public List<Expediente> Ejecutar()
+  {
+    return repo.ExpedienteConsultaTodos();
+  }
 }

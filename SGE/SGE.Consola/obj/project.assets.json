@@ -46,19 +46,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\juanb\\.nuget\\packages\\": {}
+    "C:\\Users\\Juanchi\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\juanb\\OneDrive\\Escritorio\\ProyectoDotNet\\SGE\\SGE.Consola\\SGE.Consola.csproj",
+      "projectUniqueName": "C:\\Users\\Juanchi\\Desktop\\ProyectoDotNet\\SGE\\SGE.Consola\\SGE.Consola.csproj",
       "projectName": "SGE.Consola",
-      "projectPath": "C:\\Users\\juanb\\OneDrive\\Escritorio\\ProyectoDotNet\\SGE\\SGE.Consola\\SGE.Consola.csproj",
-      "packagesPath": "C:\\Users\\juanb\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\juanb\\OneDrive\\Escritorio\\ProyectoDotNet\\SGE\\SGE.Consola\\obj\\",
+      "projectPath": "C:\\Users\\Juanchi\\Desktop\\ProyectoDotNet\\SGE\\SGE.Consola\\SGE.Consola.csproj",
+      "packagesPath": "C:\\Users\\Juanchi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Juanchi\\Desktop\\ProyectoDotNet\\SGE\\SGE.Consola\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\juanb\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Juanchi\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -70,11 +70,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\juanb\\OneDrive\\Escritorio\\ProyectoDotNet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj": {
-              "projectPath": "C:\\Users\\juanb\\OneDrive\\Escritorio\\ProyectoDotNet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj"
+            "C:\\Users\\Juanchi\\Desktop\\ProyectoDotNet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj": {
+              "projectPath": "C:\\Users\\Juanchi\\Desktop\\ProyectoDotNet\\SGE\\SGE.Aplicacion\\SGE.Aplicacion.csproj"
             },
-            "C:\\Users\\juanb\\OneDrive\\Escritorio\\ProyectoDotNet\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj": {
-              "projectPath": "C:\\Users\\juanb\\OneDrive\\Escritorio\\ProyectoDotNet\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj"
+            "C:\\Users\\Juanchi\\Desktop\\ProyectoDotNet\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj": {
+              "projectPath": "C:\\Users\\Juanchi\\Desktop\\ProyectoDotNet\\SGE\\SGE.Repositorios\\SGE.Repositorios.csproj"
             }
           }
         }
@@ -109,7 +109,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
