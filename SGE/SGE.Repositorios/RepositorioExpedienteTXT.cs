@@ -4,7 +4,7 @@ namespace SGE.Repositorios;
 
 public class RepositorioExpedienteTXT : IExpedienteRepositorio
 {
-  readonly string _nombreArch = "expedientes.txt";
+  readonly string _nombreArch = "expedientes.xt";
   public void ExpedienteAlta(Expediente expediente, int idUsuario)
   {
     int nuevoId = ObtenerUltimoId();
