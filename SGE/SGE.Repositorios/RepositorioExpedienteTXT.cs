@@ -91,7 +91,6 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
     while (!sr.EndOfStream)
     {
       ultimoId = int.Parse(sr.ReadLine() ?? "0");
-      // Saltar nombre y precio
       sr.ReadLine();
       sr.ReadLine();
       sr.ReadLine();
