@@ -2,5 +2,5 @@
 
 public class RepositorioException
 {
-
+ public RepositorioException(string message) : base(message){}
 }
