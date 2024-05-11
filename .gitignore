@@ -3,3 +3,11 @@
 *.json
 *.editorconfig
 *.props
+/SGE/SGE.Aplicacion/obj/Debug/net8.0
+/SGE/SGE.Aplicacion/obj/Debug/net8.0
+/SGE/SGE.Aplicacion/obj/Debug
+/SGE/SGE.Aplicacion/obj
+/SGE/SGE.Repositorios/obj
+/SGE/SGE.Repositorios/obj
+/SGE/SGE.Repositorios/obj/Debug
+/SGE/SGE.Repositorios/obj/Debug/net8.0
