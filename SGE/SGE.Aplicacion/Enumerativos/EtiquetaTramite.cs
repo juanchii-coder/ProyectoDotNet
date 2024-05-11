@@ -2,10 +2,10 @@
 
 public enum EtiquetaTramite
 {
-Escrito presentado,
-Pase a estudio,
-Despacho,
-Resolución,
-Notificación,
-Pase al Archivo
+  EscritoPresentado,
+  PaseAEstudio,
+  Despacho,
+  Resolución,
+  Notificación,
+  PaseAlArchivo
 }
