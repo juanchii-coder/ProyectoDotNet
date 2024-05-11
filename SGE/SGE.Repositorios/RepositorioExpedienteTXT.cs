@@ -33,6 +33,14 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
 
       ReescribirArchivo(expediente);
     }
+    List<Tramite> tramites = RepositorioTramiteTXT.ListarTramites();
+    foreach (Tramite tramite in tramites)
+    {
+      if (tramite.IdExpediente = id)
+      {
+        RepositorioTramiteTXT.TramiteBaja(tramite.Id);
+      }
+    }
   }
 
   public void ExpedienteModificacion(int id, string caratula, int idUsuario)
