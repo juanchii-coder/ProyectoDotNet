@@ -9,6 +9,6 @@ public class ServicioActualizacionEstado(ITramiteRepositorio repoTramite,IExpedi
 
             var expediente = repoExpediente.ConsultaPorId(idExpediente);
             expediente.Estado = especificacionCambioEstado.ObtenerNuevoEstado(nuevaEtiqueta);
-            repoExpediente.Modificacion(expediente);
+            repoExpediente.ExpedienteModificacion(expediente);
         }
 }
