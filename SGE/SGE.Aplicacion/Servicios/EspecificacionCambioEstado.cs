@@ -2,6 +2,9 @@
 
 public class EspecificacionCambioEstado
 {
+        public EtiquetaTramite ObtenerNuevaEtiqueta(int idExpediente)
+        {
+        }
 public EstadoExpediente ObtenerNuevoEstado(EtiquetaTramite nuevaEtiqueta)
         {
             switch (nuevaEtiqueta)
