@@ -12,7 +12,6 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
     expediente.FechaCreacion = DateTime.Now;
     expediente.UltimaModificacion = DateTime.Now;
     expediente.IdUsuario = idUsuario;
-    expediente.Estado = EstadoExpediente.RecienIniciado;
 
     using var sw = new StreamWriter(_nombreArch, true);
     sw.WriteLine(expediente.Id);
@@ -32,14 +31,6 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
       expediente.Remove(expedienteEliminar);
 
       ReescribirArchivo(expediente);
-    }
-    List<Tramite> tramites = RepositorioTramiteTXT.ListarTramites();
-    foreach (Tramite tramite in tramites)
-    {
-      if (tramite.IdExpediente = id)
-      {
-        RepositorioTramiteTXT.TramiteBaja(tramite.Id);
-      }
     }
   }
 

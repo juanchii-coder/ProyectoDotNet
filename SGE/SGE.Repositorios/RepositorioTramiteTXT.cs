@@ -2,27 +2,27 @@
 
 namespace SGE.Repositorios;
 
-public class RepositorioTramiteTXT:ItramiteRepositorio
+public class RepositorioTramiteTXT : ITramiteRepositorio
 {
-readonly string _nombreArch = "tramites.xt";
+  readonly string _nombreArch = "tramites.txt";
 
-private List<Tramite> ListarTramites()
+  private List<Tramite> ListarTramites()
   {
-    var listado = new List<tramite>();
+    var listado = new List<Tramite>();
     using var sr = new StreamReader(_nombreArch);
     while (!sr.EndOfStream)
     {
       var tramite = new Tramite();
       tramite.Id = int.Parse(sr.ReadLine() ?? "");
       tramite.ExpedienteId = int.Parse(sr.ReadLine() ?? "");
-      tramite.Etiqueta = sr.ReadLine() ?? "";
+      tramite.Etiqueta = (EtiquetaTramite)Enum.Parse(typeof(EtiquetaTramite), (sr.ReadLine() ?? ""));
       tramite.Contenido = sr.ReadLine() ?? "";
       tramite.FechaCreacion = DateTime.Parse(sr.ReadLine() ?? "");
       tramite.UltimaModificacion = DateTime.Parse(sr.ReadLine() ?? "");
       tramite.IdUsuarioUltimaModificacion = int.Parse(sr.ReadLine() ?? "");
 
       listado.Add(tramite);
-    }   
+    }
     return listado;
   }
 
@@ -44,30 +44,30 @@ private List<Tramite> ListarTramites()
     }
     return ultimoId;
   }
-private void ReescribirArchivo(List<Tramite> tramites)
-{
-    using (StreamWriter sw = new StreamWriter(_nombreArchivo, false))
+  private void ReescribirArchivo(List<Tramite> tramites)
+  {
+    using (StreamWriter sw = new StreamWriter(_nombreArch, false))
     {
-        foreach (var tramite in tramites)
-        {
-            sw.WriteLine(tramite.Id);
-            sw.WriteLine(tramite.ExpedienteId);
-            sw.WriteLine(tramite.Etiqueta);
-            sw.WriteLine(tramite.Contenido);
-            sw.WriteLine(tramite.FechaCreacion);
-            sw.WriteLine(tramite.UltimaModificacion);
-            sw.WriteLine(tramite.IdUsuarioUltimaModificacion);
-        }
+      foreach (var tramite in tramites)
+      {
+        sw.WriteLine(tramite.Id);
+        sw.WriteLine(tramite.ExpedienteId);
+        sw.WriteLine(tramite.Etiqueta);
+        sw.WriteLine(tramite.Contenido);
+        sw.WriteLine(tramite.FechaCreacion);
+        sw.WriteLine(tramite.UltimaModificacion);
+        sw.WriteLine(tramite.IdUsuarioUltimaModificacion);
+      }
     }
-}
-public void TramiteAlta(Tramite tramite, int idUsuario)
+  }
+  public void TramiteAlta(Tramite tramite, int idUsuario)
   {
     int nuevoId = ObtenerUltimoId();
-    tramite.Id = nuevoId;    
+    tramite.Id = nuevoId;
     tramite.FechaCreacion = DateTime.Now;
     tramite.UltimaModificacion = DateTime.Now;
-    tramite.IdUsuario = idUsuario;
-    tramite.etiqueta = EtiquetaTramite.RecienIniciado;
+    tramite.IdUsuarioUltimaModificacion = idUsuario;
+    tramite.Etiqueta = EtiquetaTramite.EscritoPresentado;
 
     using var sw = new StreamWriter(_nombreArch, true);
     sw.WriteLine(tramite.Id);
@@ -78,9 +78,10 @@ public void TramiteAlta(Tramite tramite, int idUsuario)
     sw.WriteLine(tramite.UltimaModificacion);
     sw.WriteLine(tramite.IdUsuarioUltimaModificacion);
   }
-public void TramiteBaja(int id){ 
-    
-    var tramites= ListarTramites()
+  public void TramiteBaja(int id)
+  {
+
+    var tramites = ListarTramites();
     var tramiteAEliminar = tramites.Find(x => x.Id == id);
     if (tramiteAEliminar != null)
     {
@@ -89,21 +90,27 @@ public void TramiteBaja(int id){
       ReescribirArchivo(tramites);
     }
   }
-public void TramiteModificacion(int id, string etiqueta, int idUsuario)
-{
+  public void TramiteModificacion(int id, string contenido, int idUsuario)
+  {
     var tramites = ListarTramites();
     var index = tramites.FindIndex(t => t.Id == id);
     if (index >= 0)
     {
-        tramites[index].Etiqueta = etiqueta;
-        tramites[index].IdUsuarioUltimaModificacion = idUsuario;
-        tramites[index].UltimaModificacion = DateTime.Now;
+      tramites[index].Contenido = contenido;
+      tramites[index].IdUsuarioUltimaModificacion = idUsuario;
+      tramites[index].UltimaModificacion = DateTime.Now;
 
-        ReescribirArchivo(tramites);
+      ReescribirArchivo(tramites);
     }
-}
+  }
 
-public List<Tramite> TramiteConsultaPorEtiqueta(string etiqueta){
-    return ListarTramites().Where(t =>t.etiqueta==etiqueta);
-}
+  public List<Tramite> TramitesPorEtiqueta(EtiquetaTramite etiqueta)
+  {
+    return ListarTramites().Where(t => t.Etiqueta == etiqueta).ToList();
+  }
+
+  public List<Tramite> TramiteConsultaTodos()
+  {
+    return ListarTramites();
+  }
 }

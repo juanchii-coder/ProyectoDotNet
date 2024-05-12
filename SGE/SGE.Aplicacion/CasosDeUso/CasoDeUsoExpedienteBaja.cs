@@ -1,16 +1,26 @@
-﻿namespace SGE.Aplicacion;
+﻿using System.Runtime.InteropServices;
 
-public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repo)
+namespace SGE.Aplicacion;
+
+public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repo, IServicioAutorizacion auto, ITramiteRepositorio tramiteRepo)
 {
   public void Ejecutar(int id, Permiso permiso)
   {
-    if (permiso == 0)
-    {
-      repo.ExpedienteBaja(id);
-    }
-    else
+    if (!auto.PoseeElPermiso(id, permiso))
     {
       throw new AutorizacionException();
+    }
+    if (repo.ExpedienteConsultaPorId(id).Estado == EstadoExpediente.Finalizado)
+    {
+      repo.ExpedienteBaja(id);
+      List<Tramite> tramites = tramiteRepo.TramiteConsultaTodos();
+      foreach (Tramite tramite in tramites)
+      {
+        if (tramite.ExpedienteId == id)
+        {
+          tramiteRepo.TramiteBaja(tramite.Id);
+        }
+      }
     }
   }
 }
