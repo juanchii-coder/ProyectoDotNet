@@ -10,7 +10,8 @@ public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repo, IServicioAutor
     {
       throw new AutorizacionException();
     }
-    if (repo.ExpedienteConsultaPorId(id).Estado == EstadoExpediente.Finalizado)
+    Expediente x = repo.ExpedienteConsultaPorId(id);
+    if ((x != null) && (x.Estado == EstadoExpediente.Finalizado))
     {
       repo.ExpedienteBaja(id);
       List<Tramite> tramites = tramiteRepo.TramiteConsultaTodos();
@@ -21,6 +22,10 @@ public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repo, IServicioAutor
           tramiteRepo.TramiteBaja(tramite.Id);
         }
       }
+    }
+    else
+    {
+      throw new RepositorioException();
     }
   }
 }

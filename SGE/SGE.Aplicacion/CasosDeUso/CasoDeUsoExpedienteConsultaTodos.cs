@@ -4,6 +4,14 @@ public class CasoDeUsoExpedienteConsultaTodos(IExpedienteRepositorio repo)
 {
   public List<Expediente> Ejecutar()
   {
-    return repo.ExpedienteConsultaTodos();
+    List<Expediente> expedientes = repo.ExpedienteConsultaTodos();
+    if (expedientes != null)
+    {
+      return expedientes;
+    }
+    else
+    {
+      throw new RepositorioException("");
+    }
   }
 }
