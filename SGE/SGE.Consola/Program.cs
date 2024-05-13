@@ -1,2 +1,16 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿//testear Altas
+
+
+//testear Consultas (todos)
+
+
+//testear Modificaciones
+
+
+//consulta de nuevo (id)
+
+
+//testear Bajas
+
+
+//consuta de nuevo(todos)
