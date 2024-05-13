@@ -1,14 +1,26 @@
 ﻿namespace SGE.Aplicacion;
 
-public class ServicioActualizacionEstado(ITramiteRepositorio repoTramite,IExpedienteRepositorio repoExpediente,EspecificacionCambioEstado especificacionCambioEstado)
+public class ServicioActualizacionEstado(ITramiteRepositorio repoTramite,IExpedienteRepositorio repoExpediente)
 {
-   public void ActualizarEstado(int idExpediente)
+   public void ActualizarEstado(int idExpediente,int idUsuario)
         {
-            var ultimoTramite = repoTramite.ConsultaPorId(idExpediente);
-            var nuevaEtiqueta = especificacionCambioEstado.ObtenerNuevaEtiqueta(ultimoTramite.ExpedienteId);
-
-            var expediente = repoExpediente.ConsultaPorId(idExpediente);
-            expediente.Estado = especificacionCambioEstado.ObtenerNuevoEstado(nuevaEtiqueta);
-            repoExpediente.ExpedienteModificacion(expediente);
+            var ultimoTramite = repoTramite.ListarTramites().Where(t => t.ExpedienteId == idExpediente).ToList().Last();
+            var expediente = repoExpediente.ExpedienteConsultaPorId(idExpediente);
+            switch (ultimoTramite.Etiqueta)
+            {
+                case EtiquetaTramite.Resolucion:
+                    expediente.Estado = EstadoExpediente.ConResolucion;
+                    break;
+                case EtiquetaTramite.PaseAEstudio:
+                    expediente.Estado = EstadoExpediente.ParaResolver;
+                    break;
+                case EtiquetaTramite.Notificacion:
+                    expediente.Estado = EstadoExpediente.EnNotificacion;
+                    break;
+                case EtiquetaTramite.PaseAlArchivo:
+                    expediente.Estado = EstadoExpediente.Finalizado;
+                    break;
+            }
+            repoExpediente.ExpedienteModificacion(idExpediente,expediente.Caratula,expediente.Estado,idUsuario);
         }
 }

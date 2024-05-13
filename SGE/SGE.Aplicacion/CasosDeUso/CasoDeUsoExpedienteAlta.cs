@@ -6,7 +6,7 @@ public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IServicioAutor
   {
     if (!auto.PoseeElPermiso(idUsuario, permiso))
     {
-      throw new AutorizacionException(ERROR_MESSAGE+ $"id{idUsuario}, Permiso={permiso}");
+      throw new AutorizacionException(ERROR_MESSAGE+ $"id usuario={idUsuario} debe ser igual a 1, Permiso={permiso}");
     }
     if (!val.EsExpedienteValido(idUsuario, expediente))
     {

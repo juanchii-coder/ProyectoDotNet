@@ -9,7 +9,7 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repo, IServi
     Expediente x=repo.ExpedienteConsultaPorId(expediente.Id);
     if (!auto.PoseeElPermiso(idUsuario, permiso))
     {
-      throw new AutorizacionException(ERROR_MESSAGE+ $"id{idUsuario}, Permiso={permiso}");
+      throw new AutorizacionException(ERROR_MESSAGE+ $"id usuario={idUsuario} debe ser igual a 1, Permiso={permiso}");
     }
     if(!valo.EsExpedienteValido(idUsuario, expediente))
     {
@@ -19,6 +19,6 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repo, IServi
     {
       throw new RepositorioException(ERROR_MESSAGE+"Expediente no Existe");
     }
-    repo.ExpedienteModificacion(expediente.Id, expediente.Caratula, idUsuario);
+    repo.ExpedienteModificacion(expediente.Id, expediente.Caratula, expediente.Estado, idUsuario);
   }
 }

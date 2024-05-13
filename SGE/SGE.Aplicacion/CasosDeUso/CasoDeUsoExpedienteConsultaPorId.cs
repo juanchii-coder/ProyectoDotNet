@@ -1,18 +1,19 @@
 ﻿namespace SGE.Aplicacion;
 
-public class CasoDeUsoExpedienteConsultaPorId(IExpedienteRepositorio repo)
+public class CasoDeUsoExpedienteConsultaPorId(IExpedienteRepositorio repo, ExpedienteValidador val)
 {
    private const string ERROR_MESSAGE="Error en la Consulta - ";
-  public Expediente Ejecutar(int id)
+  public Expediente Ejecutar(int idExpediente, int idUsuario)
   {
-    Expediente expediente = repo.ExpedienteConsultaPorId(id);
-    if (expediente != null)
+    Expediente expediente = repo.ExpedienteConsultaPorId(idExpediente);
+    if (expediente == null)
     {
-      return expediente;
+      throw new RepositorioException(ERROR_MESSAGE+$"Expediente {idExpediente} No Existe");
     }
-    else
+    if(!val.EsExpedienteValido(idUsuario, expediente))
     {
-      throw new RepositorioException(ERROR_MESSAGE+$"Expediente {id} No Existe");
+      throw new ValidacionException(ERROR_MESSAGE+$"id de usuario = {idUsuario} debe ser > 0");
     }
+    return expediente;
   }
 }

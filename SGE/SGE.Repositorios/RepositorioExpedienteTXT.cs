@@ -34,7 +34,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
     }
   }
 
-  public void ExpedienteModificacion(int id, string caratula, int idUsuario)
+  public void ExpedienteModificacion(int id, string caratula, EstadoExpediente estado, int idUsuario)
   {
     var expediente = ListarExpediente();
     var index = expediente.FindIndex(e => e.Id == id);
@@ -43,6 +43,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
       expediente[index].Caratula = caratula;
       expediente[index].IdUsuario = idUsuario;
       expediente[index].UltimaModificacion = DateTime.Now;
+      expediente[index].Estado = estado;
 
       ReescribirArchivo(expediente);
     }
@@ -52,7 +53,8 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
   {
     List<Expediente> expediente = ListarExpediente();
     var index = expediente.FindIndex(e => e.Id == id);
-
+    if(index < 0)
+      return null;
     return expediente[index];
 
   }
@@ -76,6 +78,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
       expediente.UltimaModificacion = DateTime.Parse(sr.ReadLine() ?? "");
       expediente.IdUsuario = int.Parse(sr.ReadLine() ?? "");
       expediente.Estado = (EstadoExpediente)Enum.Parse(typeof(EstadoExpediente), (sr.ReadLine() ?? ""));
+      resultado.Add(expediente);
     }
     return resultado;
   }
@@ -96,7 +99,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
       sr.ReadLine();
       sr.ReadLine();
     }
-    return ultimoId;
+    return ultimoId + 1;
   }
 
   private void ReescribirArchivo(List<Expediente> expediente)

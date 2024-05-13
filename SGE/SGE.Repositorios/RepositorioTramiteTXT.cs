@@ -6,7 +6,7 @@ public class RepositorioTramiteTXT : ITramiteRepositorio
 {
   readonly string _nombreArch = "tramites.txt";
 
-  private List<Tramite> ListarTramites()
+  public List<Tramite> ListarTramites()
   {
     var listado = new List<Tramite>();
     using var sr = new StreamReader(_nombreArch);
@@ -41,8 +41,9 @@ public class RepositorioTramiteTXT : ITramiteRepositorio
       sr.ReadLine();
       sr.ReadLine();
       sr.ReadLine();
+      sr.ReadLine();
     }
-    return ultimoId;
+    return ultimoId + 1;
   }
   private void ReescribirArchivo(List<Tramite> tramites)
   {
@@ -90,7 +91,7 @@ public class RepositorioTramiteTXT : ITramiteRepositorio
       ReescribirArchivo(tramites);
     }
   }
-  public void TramiteModificacion(int id, string contenido,  int idUsuario)
+  public void TramiteModificacion(int id, string contenido, EtiquetaTramite etiqueta, int idUsuario)
   {
     var tramites = ListarTramites();
     var index = tramites.FindIndex(t => t.Id == id);
@@ -99,6 +100,7 @@ public class RepositorioTramiteTXT : ITramiteRepositorio
       tramites[index].Contenido = contenido;
       tramites[index].IdUsuarioUltimaModificacion = idUsuario;
       tramites[index].UltimaModificacion = DateTime.Now;
+      tramites[index].Etiqueta = etiqueta;
 
       ReescribirArchivo(tramites);
     }
@@ -118,7 +120,8 @@ public class RepositorioTramiteTXT : ITramiteRepositorio
     {
       List<Tramite> tramite = ListarTramites();
       var index = tramite.FindIndex(t => t.Id == id);
-
+      if(index < 0)
+        return null;
       return tramite[index];
     }
 }

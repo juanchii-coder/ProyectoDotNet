@@ -1,6 +1,6 @@
 ﻿namespace SGE.Aplicacion;
 
-public class CasoDeUsoTramiteAlta(ITramiteRepositorio repo, IServicioAutorizacion auto, TramiteValidador val)
+public class CasoDeUsoTramiteAlta(ITramiteRepositorio repo, IServicioAutorizacion auto, TramiteValidador val, ServicioActualizacionEstado act)
 {
   private const string ERROR_MESSAGE="Error en alta de tramite - ";
   public void Ejecutar(Tramite tramite, int id, Permiso permiso)
@@ -15,5 +15,6 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repo, IServicioAutorizacio
     }
     tramite.Etiqueta= EtiquetaTramite.EscritoPresentado;
     repo.TramiteAlta(tramite, id);
+    act.ActualizarEstado(tramite.ExpedienteId, id);
   }
 }

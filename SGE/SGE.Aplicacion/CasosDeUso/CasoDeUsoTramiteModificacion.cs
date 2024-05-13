@@ -1,6 +1,6 @@
 ﻿namespace SGE.Aplicacion;
 
-public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioAutorizacion auto, TramiteValidador val)
+public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioAutorizacion auto, TramiteValidador val, ServicioActualizacionEstado act)
 {
   private const string ERROR_MESSAGE= "Error en modificacion del tramite -" ;
      public void Ejecutar(Tramite tramite, int id, Permiso permiso)
@@ -20,7 +20,6 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioAut
     {
       throw new ValidacionException(ERROR_MESSAGE + $"id={id} | Contenido={tramite.Contenido} no valido");
     }
-   
-    repo.TramiteModificacion(tramite.Id, tramite.Contenido, id);
+    repo.TramiteModificacion(tramite.Id, tramite.Contenido, tramite.Etiqueta, id);
   }
 }
