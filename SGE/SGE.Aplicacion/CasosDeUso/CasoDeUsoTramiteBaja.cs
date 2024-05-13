@@ -1,20 +1,20 @@
 ﻿namespace SGE.Aplicacion;
 
-public class CasoDeUsoTramiteBaja(ITramiteRepositorio repo, IServicioAutorizacion auto, TramiteValidador val)
+public class CasoDeUsoTramiteBaja(ITramiteRepositorio repo, IServicioAutorizacion auto)
 {
-  private const ERROR_MESSAGE: 'Error en baja del tramite - ';
-     public void Ejecutar(Tramite tramite, int id, Permiso permiso)
+  private const string ERROR_MESSAGE="Error en baja del tramite - ";
+  public void Ejecutar(int id, Permiso permiso)
   {
+    Tramite x= repo.TramiteConsultaPorId(id);
     if (!auto.PoseeElPermiso(id, permiso))
     {
       throw new AutorizacionException(ERROR_MESSAGE + $"id{id}, Permiso={permiso}");
     }
-    if (!val.EsTramiteValido(id, tramite))
+    if (x==null)
     {
-      throw new ValidacionException(ERROR_MESSAGE + $"id={id} | Contenido={tramite.Contenido} no valido");
+      throw new RepositorioException(ERROR_MESSAGE + "Tramite no Existe");
     }
    
     repo.TramiteBaja(id);
   }
 }
-1

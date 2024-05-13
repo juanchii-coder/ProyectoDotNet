@@ -7,4 +7,5 @@ public interface ITramiteRepositorio
     void TramiteModificacion(int id, string etiqueta, int idUsuario); // Modificar trámite
     List<Tramite> TramiteConsultaTodos(); // Consultar todos los trámites
     List<Tramite> TramitesPorEtiqueta(EtiquetaTramite etiqueta); // Consultar trámites por etiqueta
+    Tramite TramiteConsultaPorId(int id);
 }

@@ -1,18 +1,24 @@
 ﻿namespace SGE.Aplicacion;
 
-public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repo, IServicioAutorizacion auto)
+public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repo, IServicioAutorizacion auto,ExpedienteValidador valo)
 {
-  public void Ejecutar(int id, string caratula, int idUsuario, Permiso permiso)
+  
+  private const string ERROR_MESSAGE="Error en la Modificacion - ";
+  public void Ejecutar(Expediente expediente, int idUsuario, Permiso permiso)
   {
-    Expediente x = repo.ExpedienteConsultaPorId(id);
-    if (!auto.PoseeElPermiso(id, permiso))
+    Expediente x=repo.ExpedienteConsultaPorId(expediente.Id);
+    if (!auto.PoseeElPermiso(idUsuario, permiso))
     {
-      throw new AutorizacionException();
+      throw new AutorizacionException(ERROR_MESSAGE+ $"id{idUsuario}, Permiso={permiso}");
     }
-    if (x == null)
+    if(!valo.EsExpedienteValido(idUsuario, expediente))
     {
-      throw new RepositorioException();
+      throw new ValidacionException(ERROR_MESSAGE+$"El Expediente no es Valido");
     }
-    repo.ExpedienteModificacion(id, caratula, idUsuario);
+    if (x==null)
+    {
+      throw new RepositorioException(ERROR_MESSAGE+"Expediente no Existe");
+    }
+    repo.ExpedienteModificacion(expediente.Id, expediente.Caratula, idUsuario);
   }
 }

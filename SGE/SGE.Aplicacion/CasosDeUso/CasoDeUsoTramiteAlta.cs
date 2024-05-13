@@ -2,8 +2,8 @@
 
 public class CasoDeUsoTramiteAlta(ITramiteRepositorio repo, IServicioAutorizacion auto, TramiteValidador val)
 {
-  private const ERROR_MESSAGE: 'Error en alta de tramite - ';
-     public void Ejecutar(Tramite tramite, int id, Permiso permiso)
+  private const string ERROR_MESSAGE="Error en alta de tramite - ";
+  public void Ejecutar(Tramite tramite, int id, Permiso permiso)
   {
     if (!auto.PoseeElPermiso(id, permiso))
     {

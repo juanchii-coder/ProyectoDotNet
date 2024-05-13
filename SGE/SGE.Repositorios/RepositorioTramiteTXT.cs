@@ -90,7 +90,7 @@ public class RepositorioTramiteTXT : ITramiteRepositorio
       ReescribirArchivo(tramites);
     }
   }
-  public void TramiteModificacion(int id, string contenido, int idUsuario)
+  public void TramiteModificacion(int id, string contenido,  int idUsuario)
   {
     var tramites = ListarTramites();
     var index = tramites.FindIndex(t => t.Id == id);
@@ -113,4 +113,12 @@ public class RepositorioTramiteTXT : ITramiteRepositorio
   {
     return ListarTramites();
   }
+
+    public Tramite TramiteConsultaPorId(int id)
+    {
+      List<Tramite> tramite = ListarTramites();
+      var index = tramite.FindIndex(t => t.Id == id);
+
+      return tramite[index];
+    }
 }

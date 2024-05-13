@@ -1,18 +1,18 @@
 ﻿namespace SGE.Aplicacion;
 
 public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IServicioAutorizacion auto, ExpedienteValidador val)
-{
-  public void Ejecutar(Expediente expediente, int id, Permiso permiso)
+{private const string ERROR_MESSAGE="Error en la Alta - ";
+  public void Ejecutar(Expediente expediente, int idUsuario, Permiso permiso)
   {
-    if (!auto.PoseeElPermiso(id, permiso))
+    if (!auto.PoseeElPermiso(idUsuario, permiso))
     {
-      throw new AutorizacionException();
+      throw new AutorizacionException(ERROR_MESSAGE+ $"id{idUsuario}, Permiso={permiso}");
     }
-    if (!val.EsExpedienteValido(id, expediente))
+    if (!val.EsExpedienteValido(idUsuario, expediente))
     {
-      throw new ValidacionException();
+      throw new ValidacionException(ERROR_MESSAGE+$"El Expediente no es Valido");
     }
     expediente.Estado = EstadoExpediente.RecienIniciado;
-    repo.ExpedienteAlta(expediente, id);
+    repo.ExpedienteAlta(expediente, idUsuario);
   }
 }
