@@ -15,11 +15,11 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioAut
     {
       throw new RepositorioException(ERROR_MESSAGE + "Tramite no Existe");
     }
-    
     if (!val.EsTramiteValido(id, tramite))
     {
       throw new ValidacionException(ERROR_MESSAGE + $"id={id} | Contenido={tramite.Contenido} no valido");
     }
+    act.ActualizarEstado(tramite.ExpedienteId, id);
     repo.TramiteModificacion(tramite.Id, tramite.Contenido, tramite.Etiqueta, id);
   }
 }
