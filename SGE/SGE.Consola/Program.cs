@@ -51,6 +51,26 @@ try
     Console.WriteLine("Expediente modificado efectivamente");
     expConsultado = expCasoConsulta.Ejecutar(1,idUsuario2);
     Console.WriteLine("Consulta del expediente 1 finalizada efectivamente: " + expConsultado);
+    
+    CasoDeUsoTramitePorEtiqueta tramCasoConsultaEtiqueta= new CasoDeUsoTramitePorEtiqueta(tramRepo);
+    List<Tramite> listaTramiteEtiqueta= tramCasoConsultaEtiqueta.Ejecutar(EtiquetaTramite.EscritoPresentado);
+    foreach(Tramite tram in listaTramiteEtiqueta){
+        Console.WriteLine(tram);
+    }
+
+    Tramite ultimoTramite= listaTramiteEtiqueta.Where(t=>t.ExpedienteId==1).Last();
+    Console.WriteLine("ultimo Tramite");
+    Console.WriteLine(ultimoTramite);
+    ultimoTramite.Etiqueta=EtiquetaTramite.PaseAEstudio;
+    CasoDeUsoTramiteModificacion tramCasoModificacion= new CasoDeUsoTramiteModificacion(tramRepo,auto,val,servActualizacion);
+    tramCasoModificacion.Ejecutar(ultimoTramite,idUsuario1,Permiso.TramiteModificacion);
+    Console.WriteLine("Modificacion de tramite finalizado");
+    listaTramiteEtiqueta= tramCasoConsultaEtiqueta.Ejecutar(EtiquetaTramite.EscritoPresentado);
+    /*foreach(Tramite tram in listaTramiteEtiqueta){
+        Console.WriteLine(tram);
+    }*/
+    ultimoTramite= listaTramiteEtiqueta.Where(t=>t.ExpedienteId==1).Last();
+    Console.WriteLine(ultimoTramite);
 
     //testear Bajas
     CasoDeUsoExpedienteBaja expCasoBaja = new CasoDeUsoExpedienteBaja(expRepo,auto,tramRepo);
