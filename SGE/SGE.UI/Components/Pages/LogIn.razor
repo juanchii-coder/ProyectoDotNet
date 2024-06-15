@@ -1,44 +1,49 @@
 @page "/login"
-@inject AuthService AuthService
+@using System.ComponentModel.DataAnnotations
 @inject NavigationManager Navigation
+@rendermode InteractiveServer
 
 
+<div>
 <h3>Login</h3>
 
-<EditForm Model="loginModel" OnValidSubmit="HandleLogin">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+<div>
+    <input @bind="@usuario.Email" placeholder="Email" /><br>    
+</div>
+<div>
+    <input @bind="@usuario.Contraseña" type="password" placeholder="Password" /><br>   
+</div>
+<button @onclick="Submit">iniciar Sesion</button>
+<button @onclick="NoContraseña">perdi la contraseña</button>
+<button @onclick="Registro">registrarse</button>
+</div>
 
-    <InputText @bind-Value="loginModel.Email" placeholder="Email" />
-    <InputText @bind-Value="loginModel.Password" type="password" placeholder="Password" />
-
-    <button type="submit">Login</button>
-</EditForm>
-
-<a href="/register">Register</a>
+@if (error){
+    <p>error</p>
+}
 
 @code {
-    private LoginModel loginModel = new LoginModel();
+    bool error=false;
+    bool login=false;
+    private Usuario usuario = new Usuario();
 
-    private async Task HandleLogin()
-    {
-        var result = await AuthService.Login(loginModel.Email, loginModel.Password);
-        if (result)
+    void Submit(){
+        if (!string.IsNullOrWhiteSpace(usuario.Contraseña)&&!string.IsNullOrWhiteSpace(usuario.Email)){
+            login=true;
+        }
+        if (login)
         {
-            Navigation.NavigateTo("/personlist");
+            Navigation.NavigateTo($"/expedientes/{login}");
         }
         else
         {
-            // Handle login failure
+            Navigation.NavigateTo("/register");
         }
     }
-}
-
-public class LoginModel
-{
-    [Required]
-    public string Email { get; set; }
-    
-    [Required]
-    public string Password { get; set; }
+    void NoContraseña(){
+        Navigation.NavigateTo("/register"); 
+    }
+    void Registro(){
+        Navigation.NavigateTo("/register");
+    }
 }

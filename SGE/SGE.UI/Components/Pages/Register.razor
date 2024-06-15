@@ -1,42 +1,43 @@
 @page "/register"
-@inject AuthService AuthService
 @inject NavigationManager Navigation
+@rendermode InteractiveServer
 
 <h3>Register</h3>
 
-<EditForm Model="registerModel" OnValidSubmit="HandleRegister">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+<div>
 
-    <InputText @bind-Value="registerModel.FirstName" placeholder="First Name" />
-    <InputText @bind-Value="registerModel.LastName" placeholder="Last Name" />
-    <InputText @bind-Value="registerModel.Email" placeholder="Email" />
-    <InputText @bind-Value="registerModel.Password" type="password" placeholder="Password" />
-    <InputText @bind-Value="registerModel.ConfirmPassword" type="password" placeholder="Confirm Password" />
+    <input @bind="usuario.Nombre" placeholder="First Name" /><br>
+</div>
+<div>
+    <input @bind="usuario.Apellido" placeholder="Last Name" /><br> 
+</div>
+<div>
+    <input @bind="usuario.Email" placeholder="Email" /><br>    
+</div>
+<div>
+    <input @bind="usuario.Contraseña" type="password" placeholder="Password" /><br>   
+</div>
 
-    <button type="submit">Register</button>
-</EditForm>
+@if(contraseñaDesigual){<p>la contraseña no es la misma</p>}
+<div>
+    <input @bind="confirmContraseña" type="password" placeholder="Confirm Password" /><br>  
+</div>
+
+
+<button @onclick="Agregar">Register</button>
+
 
 @code {
-    private RegisterModel registerModel = new RegisterModel();
+    private Usuario usuario = new Usuario();
+    private string? confirmContraseña;
+    private bool contraseñaDesigual=false;
 
-    private async Task HandleRegister()
-    {
-        if (registerModel.Password != registerModel.ConfirmPassword)
+    void Agregar(){
+        if (usuario.Contraseña != confirmContraseña)
         {
-            // Handle password mismatch
-            return;
+            contraseñaDesigual=true;
         }
-
-        var result = await AuthService.Register(registerModel);
-        if (result)
-        {
-            Navigation.NavigateTo("/login");
-        }
-        else
-        {
-            // Handle registration failure
-        }
+        Navigation.NavigateTo("/login");
     }
 }
 

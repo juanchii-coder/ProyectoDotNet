@@ -1,0 +1,70 @@
+@page "/expedientes/{login:bool}"
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<h3>expedientes</h3>
+
+@if (!login)
+{
+    Navigation.NavigateTo("/login");
+}
+else if (!hayExpedientes)
+{
+    <p>no hay expedeintes</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>caratula</th>
+                <th>fechaDeCreacion</th>
+                <th>UltimaModificacion</th>
+                <th>UsuarioUltimaModificacion</th>
+                <th>estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @if (puedeVer)
+                {
+                    <td>expediente id</td>
+                    <td>expediente caratula</td>
+                    <td>expediente fecha</td>
+                    <td>expediente modificacion</td>
+                    <td>usuario modificacion</td>
+                    <td>expediente estado</td>
+                    <td><button @onclick="VerTramites">Ver Expedientes Asociados</button></td>
+
+                    @if (puedeEditar)
+                    {
+                        <td>editar</td>
+                        @if (puedeEliminar)
+                        {
+                            <td>eliminar</td>
+                        }
+                    }
+                }
+                @if(!puedeVer){
+                    <p>no tienes los permisos suficientes</p>
+                }
+                </tr>
+            </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public bool login{get;set;}
+    private bool hayExpedientes=true;
+    private bool puedeVer = true;
+    private bool puedeEditar = true;
+    private bool puedeEliminar = true;
+    int id=11;
+    
+    void VerTramites(){
+        Navigation.NavigateTo($"/tramite/{id}");
+    }
+}
+
