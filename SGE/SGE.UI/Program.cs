@@ -1,4 +1,4 @@
-using HolaBlazor.Components;
+using SGE.UI.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
