@@ -1,6 +1,6 @@
-﻿namespace SGE.Aplicacion;
+﻿namespace SGE.Aplicacion.Servicios;
 
 public class EspecificacionCambioEstado
 {
-   
+
 }

@@ -1,6 +1,12 @@
-using SGE.Aplicacion;
+
+namespace SGE.UI;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Validadores;
+using SGE.Aplicacion.Servicios;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.CasosDeUso;
+using SGE.Aplicacion.Enumerativos;
 using SGE.Repositorios;
-using SGE.UI;
 public class Constructor
 {
   ITramiteRepositorio tramRepo;

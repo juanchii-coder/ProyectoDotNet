@@ -1,17 +1,22 @@
-﻿namespace SGE.Aplicacion;
-
+﻿namespace SGE.Aplicacion.CasosDeUso;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Exepciones;
+using SGE.Aplicacion.Enumerativos;
+using SGE.Aplicacion.Validadores;
+using SGE.Aplicacion.Servicios;
 public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioAutorizacion auto, TramiteValidador val, ServicioActualizacionEstado act)
 {
-  private const string ERROR_MESSAGE= "Error en modificacion del tramite -" ;
-     public void Ejecutar(Tramite tramite, int id, Permiso permiso)
+  private const string ERROR_MESSAGE = "Error en modificacion del tramite -";
+  public void Ejecutar(Tramite tramite, int id, Permiso permiso)
   {
-    Tramite x= repo.TramiteConsultaPorId(tramite.Id);
+    Tramite x = repo.TramiteConsultaPorId(tramite.Id);
     if (!auto.PoseeElPermiso(id, permiso))
     {
       throw new AutorizacionException(ERROR_MESSAGE + $"id{id}, Permiso={permiso}");
     }
 
-    if (x==null)
+    if (x == null)
     {
       throw new RepositorioException(ERROR_MESSAGE + "Tramite no Existe");
     }

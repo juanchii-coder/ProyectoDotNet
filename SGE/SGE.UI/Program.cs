@@ -1,6 +1,9 @@
+
 using SGE.UI.Components;
+using SGE.Repositorios;
 using SGE.Aplicacion.CasosDeUso;
 using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Servicios;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,17 +27,12 @@ builder.Services.AddTransient<CasoDeUsoExpedienteConsultaTodos>();
 builder.Services.AddTransient<CasoDeUsoExpedienteModificacion>();
 builder.Services.AddTransient<CasoDeUsoTramiteAlta>();
 builder.Services.AddTransient<CasoDeUsoTramiteBaja>();
-builder.Services.AddTransient<CasoDeUsoTramiteModificaion>();
+builder.Services.AddTransient<CasoDeUsoTramiteModificacion>();
 builder.Services.AddTransient<CasoDeUsoTramitePorEtiqueta>();
-builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpediente>();
-builder.Services.AddScoped<ITramiteRepositorio, Repositoriotramite>();
+builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpedienteTXT>();
+builder.Services.AddScoped<ITramiteRepositorio, RepositorioTramiteTXT>();
 builder.Services.AddScoped<IServicioAutorizacion, ServicioAutorizacionProvisorio>();
 
-using (var scope = app.Services.CreateScope())
-{
-    var constructorInstance = new Constructor();
-    constructorInstance.Build();
-}
 
 app.UseStaticFiles();
 app.UseAntiforgery();

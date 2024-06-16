@@ -1,5 +1,6 @@
-﻿namespace SGE.Aplicacion;
-
+﻿namespace SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Enumerativos;
 public interface ITramiteRepositorio
 {
     List<Tramite> ListarTramites();
