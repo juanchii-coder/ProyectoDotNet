@@ -1,0 +1,88 @@
+@page "/expedientes/{usuario:Usuario}"
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+@using global::SGE.Aplicacion
+@using global::SGE.Repositorios
+
+<h3>expedientes</h3>
+
+@if (usuario == null)
+{
+    Navigation.NavigateTo("/login");
+}
+else if (!hayExpedientes)
+{
+    <p>no hay expedeintes</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>caratula</th>
+                <th>fechaDeCreacion</th>
+                <th>UltimaModificacion</th>
+                <th>UsuarioUltimaModificacion</th>
+                <th>estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (Expediente expediente in expedientes)
+                    @if (puedeVer)
+                    {
+                        <td>@expediente.Id</td>
+                        <td>@expediente.Caratula</td>
+                        <td>@expediente.FechaCreacion</td>
+                        <td>@expediente.UltimaModificacion</td>
+                        <td>@expediente.IdUsuario</td>
+                        <td>@expediente.Estado</td>
+                        <td><button @onclick="VerTramites(@expediente.Id)">Ver Expedientes Asociados</button></td>
+
+                        @if (puedeEditar)
+                        {
+                            <td><button @onclick="Editar">Editar</button></td>
+                            <input @bind="@expediente.Caratula" placeholder="caratula" />
+
+                            @if (puedeEliminar)
+                            {
+                                <td><button>Eliminar</button></td>
+                            }
+                        }
+                    }
+                @if (!puedeVer)
+                {
+                    <p>no tienes los permisos suficientes</p>
+                }
+            </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public Usuario usuario { get; set; }
+    private bool hayExpedientes = true;
+    private bool puedeVer = true;
+    private bool puedeEditar = true;
+    private bool puedeEliminar = true;
+    private bool editar = false;
+    private CasoDeUsoExpedienteConsultaTodos expConsultaTodos;
+    private CasoDeUsoExpedienteModificacion expModificacion;
+    private List<Expediente> expedientes { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        expedientes = expConsultaTodos.Ejecutar();
+    }
+    void VerTramites(int id)
+    {
+        Navigation.NavigateTo($"/tramite/{id}");
+    }
+    void Editar()
+    {
+        editar = !editar;
+    }
+}
