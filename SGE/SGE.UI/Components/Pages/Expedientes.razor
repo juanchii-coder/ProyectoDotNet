@@ -1,10 +1,12 @@
-@page "/expedientes/{login:bool}"
+@page "/expedientes/{usuario:Usuario}"
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
+@using global::SGE.Aplicacion
+@using global::SGE.Repositorios
 
 <h3>expedientes</h3>
 
-@if (!login)
+@if (usuario == null)
 {
     Navigation.NavigateTo("/login");
 }
@@ -27,44 +29,60 @@ else
         </thead>
         <tbody>
             <tr>
-                @if (puedeVer)
-                {
-                    <td>expediente id</td>
-                    <td>expediente caratula</td>
-                    <td>expediente fecha</td>
-                    <td>expediente modificacion</td>
-                    <td>usuario modificacion</td>
-                    <td>expediente estado</td>
-                    <td><button @onclick="VerTramites">Ver Expedientes Asociados</button></td>
-
-                    @if (puedeEditar)
+                @foreach (Expediente expediente in expedientes)
+                    @if (puedeVer)
                     {
-                        <td>editar</td>
-                        @if (puedeEliminar)
+                        <td>@expediente.Id</td>
+                        <td>@expediente.Caratula</td>
+                        <td>@expediente.FechaCreacion</td>
+                        <td>@expediente.UltimaModificacion</td>
+                        <td>@expediente.IdUsuario</td>
+                        <td>@expediente.Estado</td>
+                        <td><button @onclick="VerTramites(@expediente.Id)">Ver Expedientes Asociados</button></td>
+
+                        @if (puedeEditar)
                         {
-                            <td>eliminar</td>
+                            <td><button @onclick="Editar">Editar</button></td>
+                            <input @bind="@expediente.Caratula" placeholder="caratula" />
+
+                            @if (puedeEliminar)
+                            {
+                                <td><button>Eliminar</button></td>
+                            }
                         }
                     }
-                }
-                @if(!puedeVer){
+                @if (!puedeVer)
+                {
                     <p>no tienes los permisos suficientes</p>
                 }
-                </tr>
-            </tbody>
+            </tr>
+        </tbody>
     </table>
 }
 
 @code {
     [Parameter]
-    public bool login{get;set;}
-    private bool hayExpedientes=true;
+    public Usuario usuario { get; set; }
+    private bool hayExpedientes = true;
     private bool puedeVer = true;
     private bool puedeEditar = true;
     private bool puedeEliminar = true;
-    int id=11;
-    
-    void VerTramites(){
+    private bool editar = false;
+    private CasoDeUsoExpedienteConsultaTodos expConsultaTodos;
+    private CasoDeUsoExpedienteModificacion expModificacion;
+    private List<Expediente> expedientes { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        expedientes = expConsultaTodos.Ejecutar();
+    }
+    void VerTramites(int id)
+    {
         Navigation.NavigateTo($"/tramite/{id}");
     }
+    void Editar()
+    {
+        editar = !editar;
+    }
 }
-

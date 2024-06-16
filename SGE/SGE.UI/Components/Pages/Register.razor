@@ -9,18 +9,21 @@
     <input @bind="usuario.Nombre" placeholder="First Name" /><br>
 </div>
 <div>
-    <input @bind="usuario.Apellido" placeholder="Last Name" /><br> 
+    <input @bind="usuario.Apellido" placeholder="Last Name" /><br>
 </div>
 <div>
-    <input @bind="usuario.Email" placeholder="Email" /><br>    
+    <input @bind="usuario.Email" placeholder="Email" /><br>
 </div>
 <div>
-    <input @bind="usuario.Contraseña" type="password" placeholder="Password" /><br>   
+    <input @bind="usuario.Contraseña" type="password" placeholder="Password" /><br>
 </div>
 
-@if(contraseñaDesigual){<p>la contraseña no es la misma</p>}
+@if (contraseñaDesigual)
+{
+    <p>la contraseña no es la misma</p>
+}
 <div>
-    <input @bind="confirmContraseña" type="password" placeholder="Confirm Password" /><br>  
+    <input @bind="confirmContraseña" type="password" placeholder="Confirm Password" /><br>
 </div>
 
 
@@ -30,14 +33,14 @@
 @code {
     private Usuario usuario = new Usuario();
     private string? confirmContraseña;
-    private bool contraseñaDesigual=false;
+    private bool contraseñaDesigual = false;
 
-    void Agregar(){
+    void Agregar()
+    {
         if (usuario.Contraseña != confirmContraseña)
         {
-            contraseñaDesigual=true;
+            contraseñaDesigual = true;
         }
         Navigation.NavigateTo("/login");
     }
 }
-
