@@ -51,7 +51,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
     }
   }
 
-  public Expediente ExpedienteConsultaPorId(int id)
+  public Expediente? ExpedienteConsultaPorId(int id)
   {
     List<Expediente> expediente = ListarExpediente();
     var index = expediente.FindIndex(e => e.Id == id);
@@ -61,7 +61,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
 
   }
 
-  public List<Expediente> ExpedienteConsultaTodos()
+  public List<Expediente>? ExpedienteConsultaTodos()
   {
     List<Expediente> expediente = ListarExpediente();
     return expediente;

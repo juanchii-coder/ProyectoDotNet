@@ -1,10 +1,11 @@
-﻿using System.Runtime.InteropServices;
+﻿namespace SGE.Aplicacion.CasosDeUso.Expediente;
+using System.Runtime.InteropServices;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Exepciones;
 using SGE.Aplicacion.Enumerativos;
 
-namespace SGE.Aplicacion.CasosDeUso;
+
 
 public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repo, IServicioAutorizacion auto, ITramiteRepositorio tramiteRepo)
 {

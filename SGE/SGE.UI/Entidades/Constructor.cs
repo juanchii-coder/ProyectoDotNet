@@ -4,27 +4,28 @@ using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Validadores;
 using SGE.Aplicacion.Servicios;
 using SGE.Aplicacion.Entidades;
-using SGE.Aplicacion.CasosDeUso;
+using SGE.Aplicacion.CasosDeUso.Tramite;
+using SGE.Aplicacion.CasosDeUso.Expediente;
 using SGE.Aplicacion.Enumerativos;
 using SGE.Repositorios;
 public class Constructor
 {
-  ITramiteRepositorio tramRepo;
-  IExpedienteRepositorio expRepo;
-  ExpedienteValidador expVal;
-  IServicioAutorizacion auto;
-  TramiteValidador val;
-  ServicioActualizacionEstado servActualizacion;
+  ITramiteRepositorio? tramRepo;
+  IExpedienteRepositorio? expRepo;
+  ExpedienteValidador? expVal;
+  IServicioAutorizacion? auto;
+  TramiteValidador? val;
+  ServicioActualizacionEstado? servActualizacion;
   int idUsuario1 = 1;
 
-  Expediente exp1;
-  Expediente exp2;
+  Expediente? exp1;
+  Expediente? exp2;
 
-  Tramite t1;
-  Tramite t2;
+  Tramite? t1;
+  Tramite? t2;
 
-  CasoDeUsoExpedienteAlta expCasoAlta;
-  CasoDeUsoTramiteAlta tramCasoAlta;
+  CasoDeUsoExpedienteAlta? expCasoAlta;
+  CasoDeUsoTramiteAlta? tramCasoAlta;
   public void Build()
   {
 
