@@ -1,0 +1,40 @@
+@page "/usuarios"
+
+@if (usuarios != null)
+{
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Permisos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        @foreach (Usuario usuario in usuarios)
+        {
+          if (usuario != null)
+          {
+            <td>@usuario.Id</td>
+            <td>@usuario.Nombre</td>
+            <td>@usuario.Apellido</td>
+            <td>@usuario.Email</td>
+            <td><button>Otorgar Permisos</button></td>
+          }
+        }
+      </tr>
+    </tbody>
+  </table>
+}
+@code {
+  private List<Usuario>? usuarios;
+  protected override async Task OnInitializedAsync()
+  {
+    //cambiar idUsuario a int y hacer una busqueda por id en el repositorio de usuarios para obtener los permisos
+    //cambiar los permisos dependiendo de que es lo que pueda hacer el usuario
+    //usuario=(caso de uso consulta usuarios que pidieron permisos)
+  }
+}

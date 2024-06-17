@@ -1,17 +1,18 @@
 @namespace SGE.UI.Components
-@page "/expedientes/{usuario:Usuario}"
-@using SGE.Aplicacion.CasosDeUso
+@using SGE.Aplicacion.CasosDeUso.Expediente
 @using SGE.Aplicacion.Entidades
+@using SGE.UI
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 @inject CasoDeUsoExpedienteAlta expAlta
 @inject CasoDeUsoExpedienteBaja expBaja
 @inject CasoDeUsoExpedienteConsultaTodos expConsultaTodos
 @inject CasoDeUsoExpedienteModificacion expModificacion
+@page "/expedientes/{usuario}"
 
 <h3>expedientes</h3>
 
-@if (usuario == null)
+@if (!string.IsNullOrEmpty(idUsuario))
 {
     Navigation.NavigateTo("/login");
 }
@@ -39,39 +40,43 @@ else
                 {
                     @foreach (Expediente? expediente in expedientes)
                     {
-                        <td>@expediente.Id</td>
-                        <td>@expediente.Caratula</td>
-                        <td>@expediente.FechaCreacion</td>
-                        <td>@expediente.UltimaModificacion</td>
-                        <td>@expediente.IdUsuario</td>
-                        <td>@expediente.Estado</td>
-                        <td><button @onclick="()=>VerTramite(expediente)">Ver Expedientes Asociados</button></td>
-                        <td>
-                            @if (puedeEditar)
-                            {
-                                <button @onclick="EditarOk">Editar</button>
-                                <input @bind="@expediente.Caratula" placeholder="caratula" />
-
-                                @if (puedeEliminar)
+                        if (expediente != null)
+                        {
+                            <td>@expediente.Id</td>
+                            <td>@expediente.Caratula</td>
+                            <td>@expediente.FechaCreacion</td>
+                            <td>@expediente.UltimaModificacion</td>
+                            <td>@expediente.IdUsuario</td>
+                            <td>@expediente.Estado</td>
+                            <td><button @onclick="()=>VerTramites(expediente)">Ver Expedientes Asociados</button></td>
+                            <td>
+                                @if (puedeEditar)
                                 {
-                                    <button>Eliminar</button>
+                                    <button @onclick="EditarOk">Editar</button>
+                                    <input @bind="@expediente.Caratula" placeholder="caratula" />
+
+                                    @if (puedeEliminar)
+                                    {
+                                        <button>Eliminar</button>
+                                    }
                                 }
-                            }
-                        </td>
+                            </td>
+                        }
                     }
                 }
-                @if (!puedeVer)
-                {
-                    <p>no tienes los permisos suficientes</p>
-                }
+
             </tr>
         </tbody>
     </table>
+    @if (!puedeVer)
+    {
+        <p>no tienes los permisos suficientes</p>
+    }
 }
 
 @code {
     [Parameter]
-    public Usuario? usuario { get; set; }
+    public string? idUsuario { get; set; }
     private bool hayExpedientes = true;
     private bool puedeVer = true;
     private bool puedeEditar = true;
@@ -82,6 +87,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        //cambiar idUsuario a int y hacer una busqueda por id en el repositorio de usuarios para obtener los permisos
+        //cambiar los permisos dependiendo de que es lo que pueda hacer el usuario
         expedientes = expConsultaTodos.Ejecutar();
     }
     private void VerTramites(Expediente expe)

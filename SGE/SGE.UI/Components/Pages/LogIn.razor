@@ -31,13 +31,14 @@
 
     void IniciarSesion()
     {
+        bool admin = false;
         if (!string.IsNullOrWhiteSpace(usuario.Contraseña) && !string.IsNullOrWhiteSpace(usuario.Email))
         {
 
             //logica de autorizacion de usuario
             // si existe
             login = true;
-
+            usuario.Id = 23.ToString();
             //si existe usuario sea igual al usuario encontrado con las mismas
         }
         else
@@ -48,10 +49,17 @@
             //si se quiere registrar
             //Navigation.NavigateTo("/register");
         }
-
         if (login)
         {
-            Navigation.NavigateTo($"/expedientes/{usuario}");
+            if (admin)
+            {
+                Navigation.NavigateTo($"/adminpanel/{usuario.Id}");
+            }
+            else
+            {
+                Navigation.NavigateTo($"/expedientes/{(string?)usuario.Id}");
+            }
+
         }
         else
         {
