@@ -1,3 +1,4 @@
+@namespace SGE.UI.Components
 @page "/login"
 @using System.ComponentModel.DataAnnotations
 @inject NavigationManager Navigation
@@ -13,7 +14,7 @@
     <div>
         <input @bind="@usuario.Contraseña" type="password" placeholder="Password" /><br>
     </div>
-    <button @onclick="Submit">iniciar Sesion</button>
+    <button @onclick="IniciarSesion">iniciar Sesion</button>
     <button @onclick="NoContraseña">perdi la contraseña</button>
     <button @onclick="Registro">registrarse</button>
 </div>
@@ -28,13 +29,26 @@
     bool login = false;
     private Usuario usuario = new Usuario();
 
-    void Submit()
+    void IniciarSesion()
     {
         if (!string.IsNullOrWhiteSpace(usuario.Contraseña) && !string.IsNullOrWhiteSpace(usuario.Email))
         {
-            login = true;
+
             //logica de autorizacion de usuario
+            // si existe
+            login = true;
+
+            //si existe usuario sea igual al usuario encontrado con las mismas
         }
+        else
+        {
+            //si no exite el usuario
+            //implementar un pop up de error con la opcion de querer registrarse
+            error = true;
+            //si se quiere registrar
+            //Navigation.NavigateTo("/register");
+        }
+
         if (login)
         {
             Navigation.NavigateTo($"/expedientes/{usuario}");
@@ -46,6 +60,7 @@
     }
     void NoContraseña()
     {
+        //pop up con el mensaje de contactarse con un administrador
         Navigation.NavigateTo("/contraseña");
     }
     void Registro()

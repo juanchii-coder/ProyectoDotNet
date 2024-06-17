@@ -1,4 +1,4 @@
-﻿namespace SGE.Aplicacion.CasosDeUso;
+﻿namespace SGE.Aplicacion.CasosDeUso.Expediente;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Exepciones;
