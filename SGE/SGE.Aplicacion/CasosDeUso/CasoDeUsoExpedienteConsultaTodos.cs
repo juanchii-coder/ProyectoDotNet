@@ -1,8 +1,10 @@
-﻿namespace SGE.Aplicacion;
-
+﻿namespace SGE.Aplicacion.CasosDeUso;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Exepciones;
 public class CasoDeUsoExpedienteConsultaTodos(IExpedienteRepositorio repo)
 {
-   private const string ERROR_MESSAGE="Error en la Consulta - ";
+  private const string ERROR_MESSAGE = "Error en la Consulta - ";
   public List<Expediente> Ejecutar()
   {
     List<Expediente> expedientes = repo.ExpedienteConsultaTodos();
@@ -12,7 +14,7 @@ public class CasoDeUsoExpedienteConsultaTodos(IExpedienteRepositorio repo)
     }
     else
     {
-      throw new RepositorioException(ERROR_MESSAGE+"No se Cargo Ningun Expediente");
+      throw new RepositorioException(ERROR_MESSAGE + "No se Cargo Ningun Expediente");
     }
   }
 }

@@ -1,15 +1,19 @@
 ﻿using System.Runtime.InteropServices;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Exepciones;
+using SGE.Aplicacion.Enumerativos;
 
-namespace SGE.Aplicacion;
+namespace SGE.Aplicacion.CasosDeUso;
 
 public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repo, IServicioAutorizacion auto, ITramiteRepositorio tramiteRepo)
 {
-   private const string ERROR_MESSAGE="Error en la Baja - ";
+  private const string ERROR_MESSAGE = "Error en la Baja - ";
   public void Ejecutar(int idExpediente, int idUsuario, Permiso permiso)
   {
     if (!auto.PoseeElPermiso(idUsuario, permiso))
     {
-      throw new AutorizacionException(ERROR_MESSAGE+ $"id usuario={idUsuario} debe ser igual a 1, Permiso={permiso}");
+      throw new AutorizacionException(ERROR_MESSAGE + $"id usuario={idUsuario} debe ser igual a 1, Permiso={permiso}");
     }
     Expediente x = repo.ExpedienteConsultaPorId(idExpediente);
     if ((x != null) && (x.Estado != EstadoExpediente.Finalizado))
@@ -26,7 +30,7 @@ public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repo, IServicioAutor
     }
     else
     {
-      throw new RepositorioException(ERROR_MESSAGE+ $"no existe el expediente {idExpediente}");
+      throw new RepositorioException(ERROR_MESSAGE + $"no existe el expediente {idExpediente}");
     }
   }
 }

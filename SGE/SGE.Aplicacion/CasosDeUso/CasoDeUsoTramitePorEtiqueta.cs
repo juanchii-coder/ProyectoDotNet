@@ -1,6 +1,9 @@
-﻿namespace SGE.Aplicacion;
-
-public class CasoDeUsoTramitePorEtiqueta(ITramiteRepositorio repo){
+﻿namespace SGE.Aplicacion.CasosDeUso;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Enumerativos;
+public class CasoDeUsoTramitePorEtiqueta(ITramiteRepositorio repo)
+{
   public List<Tramite> Ejecutar(EtiquetaTramite etiqueta)
   {
     return repo.TramitesPorEtiqueta(etiqueta);

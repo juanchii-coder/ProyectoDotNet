@@ -1,0 +1,55 @@
+@page "/login"
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+
+<div>
+    <h3>Login</h3>
+
+    <div>
+        <input @bind="@usuario.Email" placeholder="Email" /><br>
+    </div>
+    <div>
+        <input @bind="@usuario.Contraseña" type="password" placeholder="Password" /><br>
+    </div>
+    <button @onclick="Submit">iniciar Sesion</button>
+    <button @onclick="NoContraseña">perdi la contraseña</button>
+    <button @onclick="Registro">registrarse</button>
+</div>
+
+@if (error)
+{
+    <p>error</p>
+}
+
+@code {
+    bool error = false;
+    bool login = false;
+    private Usuario usuario = new Usuario();
+
+    void Submit()
+    {
+        if (!string.IsNullOrWhiteSpace(usuario.Contraseña) && !string.IsNullOrWhiteSpace(usuario.Email))
+        {
+            login = true;
+            //logica de autorizacion de usuario
+        }
+        if (login)
+        {
+            Navigation.NavigateTo($"/expedientes/{usuario}");
+        }
+        else
+        {
+            Navigation.NavigateTo("/register");
+        }
+    }
+    void NoContraseña()
+    {
+        Navigation.NavigateTo("/contraseña");
+    }
+    void Registro()
+    {
+        Navigation.NavigateTo("/register");
+    }
+}

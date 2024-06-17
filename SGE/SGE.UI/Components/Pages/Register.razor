@@ -1,0 +1,46 @@
+@page "/register"
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<h3>Register</h3>
+
+<div>
+
+    <input @bind="usuario.Nombre" placeholder="First Name" /><br>
+</div>
+<div>
+    <input @bind="usuario.Apellido" placeholder="Last Name" /><br>
+</div>
+<div>
+    <input @bind="usuario.Email" placeholder="Email" /><br>
+</div>
+<div>
+    <input @bind="usuario.Contraseña" type="password" placeholder="Password" /><br>
+</div>
+
+@if (contraseñaDesigual)
+{
+    <p>la contraseña no es la misma</p>
+}
+<div>
+    <input @bind="confirmContraseña" type="password" placeholder="Confirm Password" /><br>
+</div>
+
+
+<button @onclick="Agregar">Register</button>
+
+
+@code {
+    private Usuario usuario = new Usuario();
+    private string? confirmContraseña;
+    private bool contraseñaDesigual = false;
+
+    void Agregar()
+    {
+        if (usuario.Contraseña != confirmContraseña)
+        {
+            contraseñaDesigual = true;
+        }
+        Navigation.NavigateTo("/login");
+    }
+}

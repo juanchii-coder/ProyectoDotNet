@@ -1,4 +1,6 @@
-﻿using SGE.Aplicacion;
+﻿using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Enumerativos;
 
 namespace SGE.Repositorios;
 
@@ -53,7 +55,7 @@ public class RepositorioExpedienteTXT : IExpedienteRepositorio
   {
     List<Expediente> expediente = ListarExpediente();
     var index = expediente.FindIndex(e => e.Id == id);
-    if(index < 0)
+    if (index < 0)
       return null;
     return expediente[index];
 

@@ -1,4 +1,7 @@
 ﻿using SGE.Aplicacion;
+using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Enumerativos;
 
 namespace SGE.Repositorios;
 
@@ -116,12 +119,12 @@ public class RepositorioTramiteTXT : ITramiteRepositorio
     return ListarTramites();
   }
 
-    public Tramite TramiteConsultaPorId(int id)
-    {
-      List<Tramite> tramite = ListarTramites();
-      var index = tramite.FindIndex(t => t.Id == id);
-      if(index < 0)
-        return null;
-      return tramite[index];
-    }
+  public Tramite TramiteConsultaPorId(int id)
+  {
+    List<Tramite> tramite = ListarTramites();
+    var index = tramite.FindIndex(t => t.Id == id);
+    if (index < 0)
+      return null;
+    return tramite[index];
+  }
 }
