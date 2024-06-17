@@ -1,4 +1,5 @@
-﻿namespace SGE.Aplicacion;
+﻿namespace SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Enumerativos;
 
 public class Tramite
 {

@@ -1,0 +1,86 @@
+@namespace SGE.UI.Components
+@page "/login"
+@using System.ComponentModel.DataAnnotations
+@using SGE.UI
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+
+<div>
+    <h3>Login</h3>
+
+    <div>
+        <input @bind="@usuario.Email" placeholder="Email" /><br>
+    </div>
+    <div>
+        <input @bind="@usuario.Contraseña" type="password" placeholder="Password" /><br>
+    </div>
+    <button @onclick="IniciarSesion">iniciar Sesion</button>
+    <button @onclick="NoContraseña">perdi la contraseña</button>
+    <button @onclick="Registro">registrarse</button>
+</div>
+
+
+<PopUpError @ref=dialogo Mensaje="Usuario o contraseña no son validas" />
+
+
+@code {
+    
+    bool login = false;
+    private Usuario usuario = new Usuario();
+    PopUpError dialogo = null!;
+    private void ConfirmarReseteo()
+    {
+        dialogo.Mostrar();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+        Constructor c=new Constructor();
+        c.Build();
+
+    }
+    void IniciarSesion()
+    {
+        bool admin = false;
+        if (!string.IsNullOrWhiteSpace(usuario.Contraseña) && !string.IsNullOrWhiteSpace(usuario.Email))
+        {
+
+            //logica de autorizacion de usuario
+            // si existe
+            login = true;
+            usuario.Id = 23.ToString();
+            //si existe usuario sea igual al usuario encontrado con las mismas
+        }
+        else
+        {
+            //si no exite el usuario
+            //implementar un pop up de error con la opcion de querer registrarse
+            dialogo.Mostrar();
+            //si se quiere registrar
+            //popUp con el texto de error
+            //Navigation.NavigateTo("/register");
+        }
+        if (login)
+        {
+            if (admin)
+            {
+                Navigation.NavigateTo($"/adminpanel/{usuario.Id}");
+            }
+            else
+            {
+                Navigation.NavigateTo($"/expedientes/{usuario.Id}");
+            }
+
+        }
+    }
+    void NoContraseña()
+    {
+        //pop up con el mensaje de contactarse con un administrador
+        Navigation.NavigateTo("/contraseña");
+    }
+    void Registro()
+    {
+        Navigation.NavigateTo("/register");
+    }
+}
