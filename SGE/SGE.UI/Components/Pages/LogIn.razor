@@ -1,6 +1,7 @@
 @namespace SGE.UI.Components
 @page "/login"
 @using System.ComponentModel.DataAnnotations
+@using SGE.UI
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 
@@ -19,16 +20,26 @@
     <button @onclick="Registro">registrarse</button>
 </div>
 
-@if (error)
-{
-    <p>error</p>
-}
+
+<PopUpError @ref=dialogo Mensaje="Usuario o contraseña no son validas" />
+
 
 @code {
-    bool error = false;
+    
     bool login = false;
     private Usuario usuario = new Usuario();
+    PopUpError dialogo = null!;
+    private void ConfirmarReseteo()
+    {
+        dialogo.Mostrar();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+        Constructor c=new Constructor();
+        c.Build();
 
+    }
     void IniciarSesion()
     {
         bool admin = false;
@@ -45,8 +56,9 @@
         {
             //si no exite el usuario
             //implementar un pop up de error con la opcion de querer registrarse
-            error = true;
+            dialogo.Mostrar();
             //si se quiere registrar
+            //popUp con el texto de error
             //Navigation.NavigateTo("/register");
         }
         if (login)
@@ -57,13 +69,9 @@
             }
             else
             {
-                Navigation.NavigateTo($"/expedientes/{(string?)usuario.Id}");
+                Navigation.NavigateTo($"/expedientes/{usuario.Id}");
             }
 
-        }
-        else
-        {
-            Navigation.NavigateTo("/register");
         }
     }
     void NoContraseña()

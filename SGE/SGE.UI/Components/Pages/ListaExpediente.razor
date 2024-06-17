@@ -1,0 +1,79 @@
+﻿@namespace SGE.UI.Components
+@using SGE.Aplicacion.CasosDeUso.Expediente
+@using SGE.Aplicacion.Entidades
+@using SGE.UI
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+@inject CasoDeUsoExpedienteAlta expAlta
+@inject CasoDeUsoExpedienteBaja expBaja
+@inject CasoDeUsoExpedienteConsultaTodos expConsultaTodos
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Carátula</th>
+            <th>Fecha de Creación</th>
+            <th>Última Modificación</th>
+            <th>Usuario Última Modificación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if ((puedeVer) && (Expe != null))
+        {
+            @foreach (Expediente? expediente in Expe)
+            {
+                <tr>
+                    if (expediente != null)
+                    {
+                    <td>@expediente.Id</td>
+                    <td>@expediente.Caratula</td>
+                    <td>@expediente.FechaCreacion</td>
+                    <td>@expediente.UltimaModificacion</td>
+                    <td>@expediente.IdUsuario</td>
+                    <td>@expediente.Estado</td>
+                    <td><button @onclick="()=>VerTramites(expediente)">Ver Expedientes Asociados</button></td>
+                    <td>
+                        @if (puedeEditar)
+                        {
+                            <button @onclick="EditarOk">Editar</button>
+                            <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Exp=@expediente User=idUsuario />
+                            @if (puedeEliminar)
+                            {
+                                <button>Eliminar</button>
+                            }
+                        }
+                    </td>
+                    }
+                </tr>
+            }
+        }
+
+
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public List<Expediente>? Expe { get; set; }
+    [Parameter]
+    public string User{ get; set; }
+    private bool puedeVer = true;
+    private bool puedeEditar = true;
+    private bool puedeEliminar = true;
+    PopUpEditar popUpEditar = null!;
+
+    private void VerTramites(Expediente expe)
+    {
+        //buscar si existen tramites
+        //si no hay tramites asociados hacer un popUp de un msj "no hay tramites asociados al expediente con id x"
+        Navigation.NavigateTo($"/tramite/{expe.Id}");
+    }
+    private void EditarOk()
+    {
+        popUpEditar.Mostrar();
+    }
+}

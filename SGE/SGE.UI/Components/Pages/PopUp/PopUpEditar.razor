@@ -1,0 +1,42 @@
+﻿@namespace SGE.UI.Components
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@inject CasoDeUsoExpedienteModificacion expModificacion
+
+@if (visible)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <button class="btn-cerrar" @onclick="Cerrar">X</button>
+            <h4>@Mensaje : @Exp.Id</h4>
+            <input @bind=@Exp.Caratula placeholder="Cartula"/>
+            <p>desea modificar </p>
+            <button class="btn btn-primary" @onclick="Editar">Editar</button>
+        </div>
+    </div>
+}
+@code {
+    private bool visible = false;
+    [Parameter]
+    public string Mensaje { get; set; } = "";
+    [Parameter]
+    public Expediente Exp { get; set; }
+    [Parameter]
+    public string? User{ get; set; }
+
+
+    public void Mostrar() 
+    {
+        visible = true;
+        StateHasChanged();
+    }
+    void Cerrar()
+    {
+        visible = false;
+    }
+    void Editar()
+    {
+        //expModificacion.Ejecutar(Exp,User);
+        visible = false;
+    }
+}

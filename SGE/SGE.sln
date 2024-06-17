@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGE.Aplicacion", "SGE.Aplicacion\SGE.Aplicacion.csproj", "{862791C1-E082-4DD5-90FD-2D6450F25990}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGE.Aplicacion", "SGE.Aplicacion\SGE.Aplicacion.csproj", "{862791C1-E082-4DD5-90FD-2D6450F25990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGE.Repositorios", "SGE.Repositorios\SGE.Repositorios.csproj", "{0837C2B2-2D90-45E3-B646-D94288B0C927}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGE.Repositorios", "SGE.Repositorios\SGE.Repositorios.csproj", "{0837C2B2-2D90-45E3-B646-D94288B0C927}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGE.UI", "SGE.UI\SGE.UI.csproj", "{0507B315-4058-4A24-AD4E-AC150B81DFE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SGE.UI", "SGE.UI\SGE.UI.csproj", "{0507B315-4058-4A24-AD4E-AC150B81DFE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
