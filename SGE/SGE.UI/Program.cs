@@ -1,7 +1,8 @@
 
 using SGE.UI.Components;
 using SGE.Repositorios;
-using SGE.Aplicacion.CasosDeUso;
+using SGE.Aplicacion.CasosDeUso.Expediente;
+using SGE.Aplicacion.CasosDeUso.Tramite;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Servicios;
 
