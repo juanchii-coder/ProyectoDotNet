@@ -8,66 +8,24 @@
 @inject CasoDeUsoExpedienteBaja expBaja
 @inject CasoDeUsoExpedienteConsultaTodos expConsultaTodos
 @inject CasoDeUsoExpedienteModificacion expModificacion
-@page "/expedientes/{usuario}"
+@page "/expedientes/{idUsuario}"
 
 <h3>expedientes</h3>
 
-@if (!string.IsNullOrEmpty(idUsuario))
+@if (string.IsNullOrEmpty(idUsuario))
 {
     Navigation.NavigateTo("/login");
 }
 else if (!hayExpedientes)
 {
-    <p>no hay expedeintes</p>
+    <p>Cargando....</p>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Carátula</th>
-                <th>Fecha de Creación</th>
-                <th>Última Modificación</th>
-                <th>Usuario Última Modificación</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                @if (puedeVer)
-                {
-                    @foreach (Expediente? expediente in expedientes)
-                    {
-                        if (expediente != null)
-                        {
-                            <td>@expediente.Id</td>
-                            <td>@expediente.Caratula</td>
-                            <td>@expediente.FechaCreacion</td>
-                            <td>@expediente.UltimaModificacion</td>
-                            <td>@expediente.IdUsuario</td>
-                            <td>@expediente.Estado</td>
-                            <td><button @onclick="()=>VerTramites(expediente)">Ver Expedientes Asociados</button></td>
-                            <td>
-                                @if (puedeEditar)
-                                {
-                                    <button @onclick="EditarOk">Editar</button>
-                                    <input @bind="@expediente.Caratula" placeholder="caratula" />
-
-                                    @if (puedeEliminar)
-                                    {
-                                        <button>Eliminar</button>
-                                    }
-                                }
-                            </td>
-                        }
-                    }
-                }
-
-            </tr>
-        </tbody>
-    </table>
+    <input @bind=@idExpediente placeholder="buscar por id" />
+    <button @onclick="BuscarPorId"/>
+    <PopUpBuscarExpediente idExp=@idExpediente User=@idUsuario/>
+    <ListaExpediente Expe=@expedientes User=@idUsuario/>
     @if (!puedeVer)
     {
         <p>no tienes los permisos suficientes</p>
@@ -79,14 +37,15 @@ else
     public string? idUsuario { get; set; }
     private bool hayExpedientes = true;
     private bool puedeVer = true;
-    private bool puedeEditar = true;
-    private bool puedeEliminar = true;
-    private bool editarOk = false;
+    private int idExpediente;
     private List<Expediente>? expedientes { get; set; }
+    PopUpEditar popUpEditar = null!;
+    PopUpBuscarExpediente popUpBuscar = null!;
 
 
     protected override async Task OnInitializedAsync()
     {
+        await Task.Delay(500);
         //cambiar idUsuario a int y hacer una busqueda por id en el repositorio de usuarios para obtener los permisos
         //cambiar los permisos dependiendo de que es lo que pueda hacer el usuario
         expedientes = expConsultaTodos.Ejecutar();
@@ -99,6 +58,10 @@ else
     }
     private void EditarOk()
     {
-        editarOk = !editarOk;
+        popUpEditar.Mostrar();
+    }
+    private void BuscarPorId()
+    {
+        popUpBuscarExpediente.Mostrar();
     }
 }

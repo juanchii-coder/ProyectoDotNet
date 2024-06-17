@@ -1,0 +1,78 @@
+﻿@namespace SGE.UI.Components
+@rendermode InteractiveServer
+@using SGE:Aplicacion.Entidades
+@inject NavigationManager Navigation
+@inject CasoDeUsoExpedienteConsultaPorId expConsulId
+
+@if (visible)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <button class="btn-cerrar" @onclick="Cerrar">X</button>
+            <h4>@idExp</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Carátula</th>
+                        <th>Fecha de Creación</th>
+                        <th>Última Modificación</th>
+                        <th>Usuario Última Modificación</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        if (expediente != null)
+                        {
+                            <td>@expediente.Id</td>
+                            <td>@expediente.Caratula</td>
+                            <td>@expediente.FechaCreacion</td>
+                            <td>@expediente.UltimaModificacion</td>
+                            <td>@expediente.IdUsuario</td>
+                            <td>@expediente.Estado</td>
+                            <td><button @onclick="()=>VerTramites(expediente)">Ver Expedientes Asociados</button></td>
+                            <td>
+                            @if (puedeEditar)
+                            {
+                                <button @onclick="EditarOk">Editar</button>
+                                <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Exp=@expediente User=idUsuario />
+                                @if (puedeEliminar)
+                                {
+                                    <button>Eliminar</button>
+                                }
+                            }
+                        </td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+@code {
+    private bool visible = false;
+    [Parameter]
+    public int idExp { get; set; }
+    [Parameter]
+    public string? User { get; set; }
+    private Expediente expediente
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+        expediente= expConsulId.Ejecutar(idExp);
+
+    }
+
+    public void Mostrar()
+    {
+        visible = true;
+        StateHasChanged();
+    }
+    void Cerrar()
+    {
+        visible = false;
+    }
+}
