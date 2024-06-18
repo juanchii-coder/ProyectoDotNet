@@ -2,16 +2,15 @@
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Exepciones;
-using SGE.Aplicacion.Enumerativos;
 using SGE.Aplicacion.Validadores;
-public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repo, IServicioAutorizacion auto, ExpedienteValidador valo)
+public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repo, IServicioPermiso auto, ExpedienteValidador valo)
 {
 
   private const string ERROR_MESSAGE = "Error en la Modificacion - ";
-  public void Ejecutar(Expediente expediente, int idUsuario, Permiso permiso)
+  public void Ejecutar(Expediente expediente, int idUsuario, string permiso)
   {
-    Expediente x = repo.ExpedienteConsultaPorId(expediente.Id);
-    if (!auto.PoseeElPermiso(idUsuario, permiso))
+    Expediente? x = repo.ExpedienteConsultaPorId(expediente.Id);
+    if (!auto.UsuarioTienePermiso(idUsuario, permiso))
     {
       throw new AutorizacionException(ERROR_MESSAGE + $"id usuario={idUsuario} debe ser igual a 1, Permiso={permiso}");
     }

@@ -1,18 +1,11 @@
-﻿using System.Collections.Generic;
-using SGE.Entidades;
-using SGE.Repositorios;
+﻿using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Interfaces;
+
 
 namespace SGE.Servicios
 {
-    public class ServicioPermiso : IServicioPermiso
+    public class ServicioPermiso(IPermisosRepositorio permisoRepo) : IServicioPermiso
     {
-        private readonly IPermisosRepositorio permisoRepo;
-
-        public ServicioPermiso(IPermisosRepositorio permisosRepositorio)
-        {
-            permisoRepo = permisosRepositorio;
-        }
-
         public void AsignarPermisoUsuario(int usuarioId, string permisoNombre)
         {
             permisoRepo.AsignarPermisoUsuario(usuarioId, permisoNombre);

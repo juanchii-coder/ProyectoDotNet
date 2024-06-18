@@ -28,7 +28,6 @@ builder.Services.AddTransient<CasoDeUsoTramiteModificacion>();
 builder.Services.AddTransient<CasoDeUsoTramitePorEtiqueta>();
 builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpedienteTXT>();
 builder.Services.AddScoped<ITramiteRepositorio, RepositorioTramiteTXT>();
-builder.Services.AddScoped<IServicioAutorizacion, ServicioAutorizacionProvisorio>();
 
 var app = builder.Build();
 

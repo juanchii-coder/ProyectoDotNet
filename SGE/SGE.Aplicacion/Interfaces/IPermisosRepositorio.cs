@@ -1,7 +1,5 @@
-using System.Collections.Generic;
-using SGE.Entidades;
-
-namespace SGE.Repositorios
+using SGE.Aplicacion.Entidades;
+namespace SGE.Aplicacion.Interfaces
 {
     public interface IPermisosRepositorio
     {
@@ -13,5 +11,7 @@ namespace SGE.Repositorios
         void ModificarPermiso(Permiso permiso);
         void BorrarPermiso(string permisoNombre);
         List<int> UsuariosConPermiso(string permisoNombre);
+        List<Permiso> ObtenerTodosLosPermisos();
+        Permiso? ObtenerPermisoPorNombre(string nombre);
     }
 }
