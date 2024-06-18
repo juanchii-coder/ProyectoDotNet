@@ -1,120 +1,62 @@
-﻿using SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Enumerativos;
 
 namespace SGE.Repositorios;
 
-public class RepositorioExpedienteTXT : IExpedienteRepositorio
+public class RepositorioExpediente : IExpedienteRepositorio
 {
-  readonly string _nombreArch = "expedientes.txt";
-  public void ExpedienteAlta(Expediente expediente, int idUsuario)
+  private readonly GestionExpedienteContext _db = new GestionExpedienteContext();
+  public void ExpedienteAlta(Expediente expediente)
   {
-    int nuevoId = ObtenerUltimoId();
-    expediente.Id = nuevoId;
     expediente.FechaCreacion = DateTime.Now;
     expediente.UltimaModificacion = DateTime.Now;
-    expediente.IdUsuario = idUsuario;
-
-    using var sw = new StreamWriter(_nombreArch, true);
-    sw.WriteLine(expediente.Id);
-    sw.WriteLine(expediente.Caratula);
-    sw.WriteLine(expediente.FechaCreacion);
-    sw.WriteLine(expediente.UltimaModificacion);
-    sw.WriteLine(expediente.IdUsuario);
-    sw.WriteLine(expediente.Estado);
+    _db.Add(expediente);
+    _db.SaveChanges();
   }
 
   public void ExpedienteBaja(int id)
   {
-    var expediente = ListarExpediente();
-    var expedienteEliminar = expediente.Find(p => p.Id == id);
-    if (expedienteEliminar != null)
+    var expedienteAEliminar = ExpedienteConsultaPorId(id);
+    if (expedienteAEliminar != null)
     {
-      expediente.Remove(expedienteEliminar);
-
-      ReescribirArchivo(expediente);
+      db.Remove(expedienteAEliminar);
+      db.SaveChanges();
     }
-  }
 
-  public void ExpedienteModificacion(int id, string caratula, EstadoExpediente estado, int idUsuario)
-  {
-    var expediente = ListarExpediente();
-    var index = expediente.FindIndex(e => e.Id == id);
-    if (index >= 0)
+    public void ExpedienteModificacion(int id, Expediente expediente)
     {
-      expediente[index].Caratula = caratula;
-      expediente[index].IdUsuario = idUsuario;
-      expediente[index].UltimaModificacion = DateTime.Now;
-      expediente[index].Estado = estado;
+      var expedienteModificar = ExpedienteConsultaPorId(id);
+      if (tramiteModificar != null)
+      {
 
-      ReescribirArchivo(expediente);
+        _db.Update();
+        _db.SaveChanges();
+        Console.WriteLine("Expediente modificado");
+      }
+
     }
-  }
 
-  public Expediente? ExpedienteConsultaPorId(int id)
-  {
-    List<Expediente> expediente = ListarExpediente();
-    var index = expediente.FindIndex(e => e.Id == id);
-    if (index < 0)
-      return null;
-    return expediente[index];
 
-  }
 
-  public List<Expediente>? ExpedienteConsultaTodos()
-  {
-    List<Expediente> expediente = ListarExpediente();
-    return expediente;
-  }
-
-  private List<Expediente> ListarExpediente()
-  {
-    var resultado = new List<Expediente>();
-    using var sr = new StreamReader(_nombreArch);
-    while (!sr.EndOfStream)
+    public Expediente? ExpedienteConsultaPorId(int id)
     {
-      var expediente = new Expediente();
-      expediente.Id = int.Parse(sr.ReadLine() ?? "");
-      expediente.Caratula = sr.ReadLine() ?? "";
-      expediente.FechaCreacion = DateTime.Parse(sr.ReadLine() ?? "");
-      expediente.UltimaModificacion = DateTime.Parse(sr.ReadLine() ?? "");
-      expediente.IdUsuario = int.Parse(sr.ReadLine() ?? "");
-      expediente.Estado = (EstadoExpediente)Enum.Parse(typeof(EstadoExpediente), (sr.ReadLine() ?? ""));
-      resultado.Add(expediente);
+      return _db.Expedientes.Where(e => e.Id == id).SingleOrDefault();
     }
-    return resultado;
-  }
 
-  private int ObtenerUltimoId()
-  {
-    if (!File.Exists(_nombreArch))
-      return 0; // Si el archivo no existe, comenzamos desde 0
-
-    int ultimoId = 0;
-    using var sr = new StreamReader(_nombreArch);
-    while (!sr.EndOfStream)
+    public List<Expediente>? ExpedienteConsultaTodos()
     {
-      ultimoId = int.Parse(sr.ReadLine() ?? "0");
-      sr.ReadLine();
-      sr.ReadLine();
-      sr.ReadLine();
-      sr.ReadLine();
-      sr.ReadLine();
+      return ListarExpediente();
     }
-    return ultimoId + 1;
+
+    private List<Expediente> ListarExpediente()
+    {
+
+      var query = _db.Expedientes.ToList();
+      return query;
+    }
+
+
   }
 
-  private void ReescribirArchivo(List<Expediente> expediente)
-  {
-    using var sw = new StreamWriter(_nombreArch, false);
-    foreach (var e in expediente)
-    {
-      sw.WriteLine(e.Id);
-      sw.WriteLine(e.Caratula);
-      sw.WriteLine(e.FechaCreacion);
-      sw.WriteLine(e.UltimaModificacion);
-      sw.WriteLine(e.IdUsuario);
-      sw.WriteLine(e.Estado);
-    }
-  }
 }
