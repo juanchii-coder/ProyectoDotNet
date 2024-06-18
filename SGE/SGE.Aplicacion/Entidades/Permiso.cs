@@ -1,6 +1,7 @@
-public class Permission
+namespace SGE.Aplicacion.Entidades;
+public class Permiso
 {
     public int Id { get; set; }
-    public string Nombre { get; set; }
-    public ICollection<Usuario> Ususuarios { get; set; } = new List<Usuario>();
+    public string? Nombre { get; set; }
+    public ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
 }

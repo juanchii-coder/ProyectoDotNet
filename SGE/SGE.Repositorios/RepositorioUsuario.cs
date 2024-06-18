@@ -1,4 +1,5 @@
-using SGE.Aplicacion;
+using SGE.Aplicacion.Entidades;
+using SGE.Repositorios.Configuracion;
 
 public class RepositorioUsuario : IUsuarioRepositorio
 {

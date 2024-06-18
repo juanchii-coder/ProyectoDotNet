@@ -1,20 +1,16 @@
-using SGE.Entidades;
-using SGE;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Interfaces;
+using SGE.Repositorios.Configuracion;
 
-namespace SGE.Repositorios
+namespace SGE.Repositorios;
 
-public class PermisosRepositorio
+public class PermisosRepositorio : IPermisosRepositorio
 {
-    private readonly PermisoDbContext  contexto;
-
-     public PermisoRepository(PermissionDbContext contexto)
-        {
-           contexto = context;
-        }
+    private readonly GestionExpedienteContext contexto = new GestionExpedienteContext();
      public void AsignarPermisoUsuario(int usuarioId, string permisoNombre)
         {
-            var usuario = contexto.GetUsuario(usuarioId);
-            var permiso = contexto.Permisos.FirstOrDefault(p => p.nombre == permisoNombre);
+            var usuario = contexto.Usuarios.FirstOrDefault(u => u.Id == usuarioId);
+            var permiso = contexto.Permisos.FirstOrDefault(p => p.Nombre == permisoNombre);
 
             if (usuario != null && permiso != null)
             {
@@ -25,7 +21,7 @@ public class PermisosRepositorio
     
     public void RemoverPermisoUsuario(int usuarioId, string permisoNombre)
         {
-            var usuario = contexto.GetUsuario(usuarioId);
+            var usuario = contexto.Usuarios.FirstOrDefault(u => u.Id == usuarioId);
 
             if (usuario != null)
             {
@@ -60,7 +56,7 @@ public class PermisosRepositorio
     
     public void BorrarPermiso(string permisoNombre)
         {
-             var permiso = contexto.Permisos.FirstOrDefault(p => p.nombre == permisoNombre);
+             var permiso = contexto.Permisos.FirstOrDefault(p => p.Nombre == permisoNombre);
     
              if (permiso != null)
                 {
@@ -75,4 +71,14 @@ public class PermisosRepositorio
                            .Select(u => u.Id)
                            .ToList();
         }
+
+    public List<Permiso> ObtenerTodosLosPermisos()
+    {
+        return contexto.Permisos.ToList();
+    }
+
+    public Permiso? ObtenerPermisoPorNombre(string nombre)
+    {
+        return contexto.Permisos.FirstOrDefault(p => p.Nombre == nombre);
+    }
 }

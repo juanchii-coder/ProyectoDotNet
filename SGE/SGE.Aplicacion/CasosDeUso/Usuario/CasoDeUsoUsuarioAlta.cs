@@ -1,18 +1,23 @@
-using SGE.Aplicacion;
+using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Interfaces;
 
-public class CasoDeUsoUsuarioAlta(IUsuarioRepositorio repositorio):CasoDeUsoUsuario(repositorio) {
-    private static bool hayAlguno = false;
+public class CasoDeUsoUsuarioAlta(IUsuarioRepositorio repositorio, IPermisosRepositorio repoPermiso):CasoDeUsoUsuario(repositorio) {
 
     public void Ejecutar(Usuario usuario) {
-        
-        if(!hayAlguno) {
-            List<Usuario> listaUsuarios= Repositorio.ObtenerTodosLosUsuarios();
-            usuario.Permisos = new List<Permiso> {Permiso.TramiteLectura, Permiso.TramiteModificacion, Permiso.TramiteAlta,
-            Permiso.TramiteBaja, Permiso.ExpedienteLectura, Permiso.ExpedienteAlta, Permiso.ExpedienteBaja, Permiso.ExpedienteModificacion};
-            hayAlguno = true;
+        List<Usuario> usuarios = Repositorio.ObtenerTodosLosUsuarios();
+        List<Permiso> permisos = new List<Permiso>();
+
+        //Otorgo permisos de Admin segun si hay usuarios en la base de datos o no
+        if(!(usuarios.Count() == 0)) {
+            permisos = repoPermiso.ObtenerTodosLosPermisos();
         } else {
-            usuario.Permisos = new List<Permiso> {Permiso.TramiteLectura, Permiso.ExpedienteLectura};
+            Permiso? tramiteLectura = repoPermiso.ObtenerPermisoPorNombre("TRAMITE_LECTURA");
+            Permiso? expedienteLectura = repoPermiso.ObtenerPermisoPorNombre("EXPEDIENTE_LECTURA");
+            if(tramiteLectura != null) permisos.Add(tramiteLectura);
+            if(expedienteLectura != null) permisos.Add(expedienteLectura);
         }
+
+        usuario.Permisos = permisos;
         Repositorio.UsuarioAlta(usuario);
     }
 }

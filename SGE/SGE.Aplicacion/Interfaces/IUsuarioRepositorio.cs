@@ -1,4 +1,5 @@
-using SGE.Aplicacion;
+namespace SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
 public interface IUsuarioRepositorio {
     Usuario? ObtenerUsuarioPorId(int idUsuario);
     List<Usuario> ObtenerTodosLosUsuarios();

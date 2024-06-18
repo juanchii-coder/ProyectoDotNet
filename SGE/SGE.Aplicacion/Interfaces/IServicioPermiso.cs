@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using SGE.Entidades;
+﻿namespace SGE.Aplicacion.Interfaces;
+using SGE.Aplicacion.Entidades;
 
-namespace SGE.Servicios
-{
-    public interface IServicioPermisos
+
+    public interface IServicioPermiso
     {
         void AsignarPermisoUsuario(int usuarioId, string permisoNombre);
         void RemoverPermisoUsuario(int usuarioId, string permisoNombre);
@@ -14,4 +13,3 @@ namespace SGE.Servicios
         void BorrarPermiso(string permisoNombre);
         List<int> UsuariosConPermiso(string permisoNombre);
     }
-}
