@@ -5,7 +5,7 @@ using SGE.Aplicacion.Exepciones;
 using SGE.Aplicacion.Enumerativos;
 using SGE.Aplicacion.Validadores;
 using SGE.Aplicacion.Servicios;
-public class CasoDeUsoTramiteAlta(ITramiteRepositorio repo, IServicioPermiso servicioPermiso, TramiteValidador val, ServicioActualizacionEstado act)
+public class CasoDeUsoTramiteAlta(ITramiteRepositorio repo, IServicioPermiso servicioPermiso, IValidacionServicio val, ServicioActualizacionEstado act)
 {
   private const string ERROR_MESSAGE = "Error en alta de tramite - ";
   public void Ejecutar(Tramite tramite, int id, string permiso)
@@ -14,7 +14,7 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repo, IServicioPermiso ser
     {
       throw new AutorizacionException(ERROR_MESSAGE + $"id{id}, Permiso={permiso}");
     }
-    if (!val.EsTramiteValido(id, tramite))
+    if (!val.Validartramite(id, tramite))
     {
       throw new ValidacionException(ERROR_MESSAGE + $" id | Contenido={tramite.Contenido} no valido");
     }
