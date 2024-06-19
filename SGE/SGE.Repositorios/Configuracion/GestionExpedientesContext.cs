@@ -13,4 +13,14 @@ public class GestionExpedienteContext : DbContext {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         optionsBuilder.UseSqlite("data source=GestionExpedientes.sqlite");
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Usuario>()
+            .HasMany(u => u.Permisos)
+            .WithMany(p => p.Usuarios)
+            .UsingEntity(j => j.ToTable("UsuarioPermissions"));
+    }
 }

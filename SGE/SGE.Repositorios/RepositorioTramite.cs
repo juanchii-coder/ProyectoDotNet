@@ -1,7 +1,7 @@
-using SGE.Aplicacion;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Enumerativos;
+using SGE.Repositorios.Configuracion;
 
 namespace SGE.Repositorios;
 
@@ -14,11 +14,9 @@ public class RepositorioTramite : ITramiteRepositorio
     return _db.Tramites.ToList();
   }
 
-
-
-  public void TramiteAlta(Tramite tramite)
+  public void TramiteAlta(Tramite tramite, int idUsuario)
   {
-
+    tramite.IdUsuarioUltimaModificacion = idUsuario;
     tramite.FechaCreacion = DateTime.Now;
     tramite.UltimaModificacion = DateTime.Now;
     tramite.Etiqueta = EtiquetaTramite.EscritoPresentado;
@@ -27,21 +25,29 @@ public class RepositorioTramite : ITramiteRepositorio
     Console.WriteLine("Usuario dado de alta");
 
   }
-  public void TramiteBaja(int id)
+
+    public void TramiteBaja(int id)
   {
 
     var tramiteAEliminar = TramiteConsultaPorId(id);
     if (tramiteAEliminar != null)
     {
-      db.Remove(tramiteAEliminar);
-      db.SaveChanges();
+      _db.Remove(tramiteAEliminar);
+      _db.SaveChanges();
     }
   }
-  public void TramiteModificacion(int id, Tramite tramite)
+
+    public Tramite? TramiteConsultaPorId(int id)
+    {
+        return _db.Tramites.Where(t => t.Id == id).SingleOrDefault();
+    }
+
+    public void TramiteModificacion(int id, Tramite tramite, int idUsuario)
   {
     var tramiteModificar = TramiteConsultaPorId(id);
     if (tramiteModificar != null)
     {
+      tramiteModificar.IdUsuarioUltimaModificacion = idUsuario;
       tramiteModificar.Contenido = tramite.Contenido;
       tramiteModificar.UltimaModificacion = DateTime.Now;
       tramiteModificar.Etiqueta = tramite.Etiqueta;
@@ -51,17 +57,10 @@ public class RepositorioTramite : ITramiteRepositorio
     }
 
   }
-}
 
-public List<Tramite> TramitesPorEtiqueta(EtiquetaTramite etiqueta)
-{
-  var tramitesEtiqueta = _db.Tramites.Where(t => t.Etiqueta == etiqueta).ToList();
-  return tramitesEtiqueta;
-}
-
-
-
-public Tramite TramiteConsultaPorId(int id)
-{
-  return _db.Tramites.Where(t => t.Id == id).SingleOrDefault();
+    public List<Tramite> TramitesPorEtiqueta(EtiquetaTramite etiqueta)
+    {
+        var tramitesEtiqueta = _db.Tramites.Where(t => t.Etiqueta == etiqueta).ToList();
+        return tramitesEtiqueta;
+    }
 }

@@ -7,7 +7,7 @@ public class CasoDeUsoTramiteBaja(ITramiteRepositorio repo, IServicioPermiso aut
   private const string ERROR_MESSAGE = "Error en baja del tramite - ";
   public void Ejecutar(int idTramite, int idUsuario, string permiso)
   {
-    Tramite x = repo.TramiteConsultaPorId(idTramite);
+    Tramite? x = repo.TramiteConsultaPorId(idTramite);
     if (!auto.UsuarioTienePermiso(idUsuario, permiso))
     {
       throw new AutorizacionException(ERROR_MESSAGE + $"id{idUsuario}, Permiso={permiso}");

@@ -1,14 +1,15 @@
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
-using SGE.Aplicacion.Enumerativos;
+using SGE.Repositorios.Configuracion;
 
 namespace SGE.Repositorios;
 
 public class RepositorioExpediente : IExpedienteRepositorio
 {
   private readonly GestionExpedienteContext _db = new GestionExpedienteContext();
-  public void ExpedienteAlta(Expediente expediente)
+  public void ExpedienteAlta(Expediente expediente, int idUsuario)
   {
+    expediente.IdUsuario = idUsuario;
     expediente.FechaCreacion = DateTime.Now;
     expediente.UltimaModificacion = DateTime.Now;
     _db.Add(expediente);
@@ -20,24 +21,25 @@ public class RepositorioExpediente : IExpedienteRepositorio
     var expedienteAEliminar = ExpedienteConsultaPorId(id);
     if (expedienteAEliminar != null)
     {
-      db.Remove(expedienteAEliminar);
-      db.SaveChanges();
+      _db.Remove(expedienteAEliminar);
+      _db.SaveChanges();
     }
+  }
 
-    public void ExpedienteModificacion(int id, Expediente expediente)
+    public void ExpedienteModificacion(int id, Expediente expediente, int idUsuario)
     {
       var expedienteModificar = ExpedienteConsultaPorId(id);
-      if (tramiteModificar != null)
+      if (expedienteModificar != null)
       {
-
-        _db.Update();
+        expediente.IdUsuario = idUsuario;
+        expedienteModificar.Caratula = expediente.Caratula;
+        expedienteModificar.UltimaModificacion = DateTime.Now;
+        _db.Update(expedienteModificar);
         _db.SaveChanges();
         Console.WriteLine("Expediente modificado");
       }
 
     }
-
-
 
     public Expediente? ExpedienteConsultaPorId(int id)
     {
@@ -59,4 +61,4 @@ public class RepositorioExpediente : IExpedienteRepositorio
 
   }
 
-}
+

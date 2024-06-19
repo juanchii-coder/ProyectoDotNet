@@ -22,6 +22,6 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repo, IServi
     {
       throw new RepositorioException(ERROR_MESSAGE + "Expediente no Existe");
     }
-    repo.ExpedienteModificacion(expediente.Id, expediente.Caratula, expediente.Estado, idUsuario);
+    repo.ExpedienteModificacion(expediente.Id, expediente, idUsuario);
   }
 }

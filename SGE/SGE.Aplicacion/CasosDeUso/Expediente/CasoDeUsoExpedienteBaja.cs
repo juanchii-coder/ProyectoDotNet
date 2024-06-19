@@ -19,7 +19,7 @@ public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repo, IServicioPermi
     if ((x != null) && (x.Estado != EstadoExpediente.Finalizado))
     {
       repo.ExpedienteBaja(idExpediente);
-      List<Tramite> tramites = tramiteRepo.TramiteConsultaTodos();
+      List<Tramite> tramites = tramiteRepo.ListarTramites();
       foreach (Tramite tramite in tramites)
       {
         if (tramite.ExpedienteId == idExpediente)

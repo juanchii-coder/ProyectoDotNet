@@ -9,7 +9,7 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioPer
   private const string ERROR_MESSAGE = "Error en modificacion del tramite -";
   public void Ejecutar(Tramite tramite, int id, string permiso)
   {
-    Tramite x = repo.TramiteConsultaPorId(tramite.Id);
+    Tramite? x = repo.TramiteConsultaPorId(tramite.Id);
     if (!auto.UsuarioTienePermiso(id, permiso))
     {
       throw new AutorizacionException(ERROR_MESSAGE + $"id{id}, Permiso={permiso}");
@@ -24,6 +24,6 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioPer
       throw new ValidacionException(ERROR_MESSAGE + $"id={id} | Contenido={tramite.Contenido} no valido");
     }
     act.ActualizarEstado(tramite.ExpedienteId, id);
-    repo.TramiteModificacion(tramite.Id, tramite.Contenido, tramite.Etiqueta, id);
+    repo.TramiteModificacion(tramite.Id, tramite, id);
   }
 }

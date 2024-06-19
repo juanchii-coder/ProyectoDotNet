@@ -23,6 +23,6 @@ public class ServicioActualizacionEstado(ITramiteRepositorio repoTramite, IExped
                 expediente.Estado = EstadoExpediente.Finalizado;
                 break;
         }
-        repoExpediente.ExpedienteModificacion(idExpediente, expediente.Caratula, expediente.Estado, idUsuario);
+        repoExpediente.ExpedienteModificacion(idExpediente, expediente, idUsuario);
     }
 }
