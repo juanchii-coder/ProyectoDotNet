@@ -6,12 +6,12 @@ using SGE.Aplicacion.Enumerativos;
 
 
 
-public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repo, IServicioPermiso auto, ITramiteRepositorio tramiteRepo)
+public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repo, IServicioPermiso perm, ITramiteRepositorio tramiteRepo)
 {
   private const string ERROR_MESSAGE = "Error en la Baja - ";
   public void Ejecutar(int idExpediente, int idUsuario, string permiso)
   {
-    if (!auto.UsuarioTienePermiso(idUsuario, permiso))
+    if (!perm.UsuarioTienePermiso(idUsuario, permiso))
     {
       throw new AutorizacionException(ERROR_MESSAGE + $"id usuario={idUsuario} debe ser igual a 1, Permiso={permiso}");
     }

@@ -4,7 +4,7 @@ using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Exepciones;
 using SGE.Aplicacion.Validadores;
 using SGE.Aplicacion.Servicios;
-public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioPermiso auto, TramiteValidador val, ServicioActualizacionEstado act)
+public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioPermiso auto, IValidacionServicio val, ServicioActualizacionEstado act)
 {
   private const string ERROR_MESSAGE = "Error en modificacion del tramite -";
   public void Ejecutar(Tramite tramite, int id, string permiso)
@@ -19,7 +19,7 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioPer
     {
       throw new RepositorioException(ERROR_MESSAGE + "Tramite no Existe");
     }
-    if (!val.EsTramiteValido(id, tramite))
+    if (!val.ValidarTramite(id, tramite))
     {
       throw new ValidacionException(ERROR_MESSAGE + $"id={id} | Contenido={tramite.Contenido} no valido");
     }

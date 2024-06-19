@@ -5,16 +5,16 @@ using SGE.Aplicacion.Exepciones;
 using SGE.Aplicacion.Enumerativos;
 using SGE.Aplicacion.Validadores;
 
-public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IServicioPermiso auto, ExpedienteValidador val)
+public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IServicioPermiso perm, IServicioExpedienteValidador val)
 {
   private const string ERROR_MESSAGE = "Error en la Alta - ";
   public void Ejecutar(Expediente expediente, int idUsuario, string permiso)
   {
-    if (!auto.UsuarioTienePermiso(idUsuario, permiso))
+    if (!perm.UsuarioTienePermiso(idUsuario, permiso))
     {
       throw new AutorizacionException(ERROR_MESSAGE + $"id usuario={idUsuario} debe ser igual a 1, Permiso={permiso}");
     }
-    if (!val.EsExpedienteValido(idUsuario, expediente))
+    if (!val.ValidarExpediente(idUsuario, expediente))
     {
       throw new ValidacionException(ERROR_MESSAGE + $"El Expediente no es Valido");
     }
