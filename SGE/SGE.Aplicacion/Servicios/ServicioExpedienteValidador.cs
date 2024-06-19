@@ -14,7 +14,7 @@ public class ServicioExpedienteValidador : IServicioExpedienteValidador
     public bool ValidarExpediente(int idUsuario, Expediente expediente)
     {    
     var usuario = contexto.Usuarios.Any(u => u.Id == idUsuario);
-    return usuario && !string.IsNullOrEmpty(expediente.Caratula);;
+    return usuario && !string.IsNullOrEmpty(expediente.Caratula);
     }
     
 }
