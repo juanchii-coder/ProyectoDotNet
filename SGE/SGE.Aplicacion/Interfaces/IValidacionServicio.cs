@@ -1,6 +1,6 @@
 namespace SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
-public interface IValidationService
+public interface IServicioValidacion
 {
     bool ValidarLogin(string email, string password)
     bool ValidarUsuario(Usuario usuario);
