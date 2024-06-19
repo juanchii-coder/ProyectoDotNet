@@ -1,6 +1,7 @@
 @namespace SGE.UI.Components
 @page "/register"
 @inject NavigationManager Navigation
+@inject CasoDeUsoUsuarioAlta UsuarioAlta
 @rendermode InteractiveServer
 
 <h3>Register</h3>
@@ -19,7 +20,7 @@
 </div>
 
 <div>
-    <input @bind="usuario.Contraseña" type="password" placeholder="Password" /><br>
+    <input @bind="usuario.Contrasenia" type="password" placeholder="Password" /><br>
 </div>
 
 @if (contraseñaDesigual)
@@ -42,10 +43,12 @@
 
     void Agregar()
     {
-        if (usuario.Contraseña != confirmContraseña)
+        if (usuario.Contrasenia != confirmContraseña)
         {
             contraseñaDesigual = true;
         }
+        //verificar si los campos son validos
+        UsuarioAlta.Ejecutar(usuario);
         Navigation.NavigateTo("/login");
     }
 }

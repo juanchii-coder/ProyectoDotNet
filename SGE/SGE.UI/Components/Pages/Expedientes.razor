@@ -8,11 +8,11 @@
 @inject CasoDeUsoExpedienteBaja expBaja
 @inject CasoDeUsoExpedienteConsultaTodos expConsultaTodos
 @inject CasoDeUsoExpedienteModificacion expModificacion
-@page "/expedientes/{idUsuario}"
+@page "/expedientes/{usuario}"
 
 <h3>expedientes</h3>
 
-@if (string.IsNullOrEmpty(idUsuario))
+@if (usuario==null)
 {
     Navigation.NavigateTo("/login");
 }
@@ -24,8 +24,8 @@ else
 {
     <input @bind=@idExpediente placeholder="buscar por id" />
     <button @onclick="BuscarPorId"/>
-    <PopUpBuscarExpediente idExp=@idExpediente User=@idUsuario/>
-    <ListaExpediente Expe=@expedientes User=@idUsuario/>
+    <PopUpBuscarExpediente idExp=@idExpediente User=@usuario/>
+    <ListaExpediente Expe=@expedientes User=@usuario/>
     @if (!puedeVer)
     {
         <p>no tienes los permisos suficientes</p>
@@ -34,7 +34,7 @@ else
 
 @code {
     [Parameter]
-    public string? idUsuario { get; set; }
+    public Usuario? usuario { get; set; }
     private bool hayExpedientes = true;
     private bool puedeVer = true;
     private int idExpediente;
@@ -62,6 +62,6 @@ else
     }
     private void BuscarPorId()
     {
-        popUpBuscarExpediente.Mostrar();
+        popUpBuscar.Mostrar();
     }
 }

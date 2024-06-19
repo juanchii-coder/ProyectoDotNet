@@ -2,6 +2,7 @@
 @page "/login"
 @using System.ComponentModel.DataAnnotations
 @using SGE.UI
+@using SGE.Aplicacion.Entidades
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 
@@ -13,7 +14,7 @@
         <input @bind="@usuario.Email" placeholder="Email" /><br>
     </div>
     <div>
-        <input @bind="@usuario.Contraseña" type="password" placeholder="Password" /><br>
+        <input @bind="@usuario.Contrasenia" type="password" placeholder="Password" /><br>
     </div>
     <button @onclick="IniciarSesion">iniciar Sesion</button>
     <button @onclick="NoContraseña">perdi la contraseña</button>
@@ -25,7 +26,7 @@
 
 
 @code {
-    
+
     bool login = false;
     private Usuario usuario = new Usuario();
     PopUpError dialogo = null!;
@@ -43,14 +44,13 @@
     void IniciarSesion()
     {
         bool admin = false;
-        if (!string.IsNullOrWhiteSpace(usuario.Contraseña) && !string.IsNullOrWhiteSpace(usuario.Email))
+        if (!string.IsNullOrWhiteSpace(usuario.Contrasenia) && !string.IsNullOrWhiteSpace(usuario.Email))
         {
 
             //logica de autorizacion de usuario
-            // si existe
-            login = true;
-            usuario.Id = 23.ToString();
+            // caso de uso login usuario
             //si existe usuario sea igual al usuario encontrado con las mismas
+            login = true;
         }
         else
         {
@@ -65,7 +65,7 @@
         {
             if (admin)
             {
-                Navigation.NavigateTo($"/adminpanel/{usuario.Id}");
+                Navigation.NavigateTo($"/adminpanel/{usuario}");
             }
             else
             {

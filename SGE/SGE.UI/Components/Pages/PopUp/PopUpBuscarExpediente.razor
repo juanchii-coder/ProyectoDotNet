@@ -56,8 +56,8 @@
     [Parameter]
     public int idExp { get; set; }
     [Parameter]
-    public string? User { get; set; }
-    private Expediente expediente
+    public Usuario? User { get; set; }
+    private Expediente expediente;
 
     protected override async Task OnInitializedAsync()
     {
