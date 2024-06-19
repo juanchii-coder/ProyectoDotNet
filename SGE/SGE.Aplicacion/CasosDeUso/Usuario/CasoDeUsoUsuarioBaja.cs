@@ -1,3 +1,4 @@
+namespace SGE.Aplicacion.CasosDeUso.Usuario;
 using SGE.Aplicacion.Interfaces;
 public class CasoDeUsoUsuarioBaja(IUsuarioRepositorio repositorio):CasoDeUsoUsuario(repositorio) {
     public void Ejecutar(int idUsuario) {

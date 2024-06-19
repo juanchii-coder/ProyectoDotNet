@@ -1,3 +1,4 @@
+namespace SGE.Aplicacion.CasosDeUso.Usuario;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Exepciones;
