@@ -1,0 +1,27 @@
+﻿@namespace SGE.UI.Components
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+
+@if (visible)
+{
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <button class="btn-cerrar" @onclick="Cerrar">X</button>
+            <h4>@Mensaje</h4>
+        </div>
+    </div>
+}
+@code {
+    private bool visible = false;
+    [Parameter]
+    public string Mensaje { get; set; } = "";
+    public void Mostrar()
+    {
+        visible = true;
+        StateHasChanged();
+    }
+    void Cerrar()
+    {
+        visible = false;
+    }
+}

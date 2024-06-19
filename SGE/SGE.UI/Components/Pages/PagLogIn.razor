@@ -4,6 +4,7 @@
 @using SGE.UI
 @using SGE.Aplicacion.Entidades
 @inject NavigationManager Navigation
+@inject EstadoDeUsuario EstadoDeUsuario
 @rendermode InteractiveServer
 
 
@@ -22,14 +23,14 @@
 </div>
 
 
-<PopUpError @ref=dialogo Mensaje="Usuario o contraseña no son validas" />
+<PopUpErrorMensaje @ref=dialogo Mensaje="Usuario o contraseña no son validas" />
 
 
 @code {
 
     bool login = false;
     private Usuario usuario = new Usuario();
-    PopUpError dialogo = null!;
+    PopUpErrorMensaje dialogo = null!;
     private void ConfirmarReseteo()
     {
         dialogo.Mostrar();
@@ -37,8 +38,6 @@
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(500);
-        Constructor c=new Constructor();
-        c.Build();
 
     }
     void IniciarSesion()
@@ -50,6 +49,7 @@
             //logica de autorizacion de usuario
             // caso de uso login usuario
             //si existe usuario sea igual al usuario encontrado con las mismas
+            EstadoDeUsuario.SetLoggedIn(true);
             login = true;
         }
         else

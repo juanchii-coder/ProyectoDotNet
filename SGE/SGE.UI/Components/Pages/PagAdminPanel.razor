@@ -7,17 +7,17 @@
 <p>tabla con lista de usuarios con botones al lado de cada uno dependiendo de que permisos pidio</p>
 @if (verUsuarios)
 {
-  <Usuarios />
+  <PagUsuarios usuario=@usuario/>
 }
 <button @onclick="ToggleExpediente">ver expedientes</button>
 @if (verExpedientes)
 {
-  <Expedientes @idUsuario=@usuario/>
+  <PagExpedientes usuario=@usuario/>
 }
 
 @code {
   [Parameter]
-  public string? usuario { get; set; }
+  public Usuario? usuario { get; set; }
   private bool verUsuarios = false;
   private bool verExpedientes = false;
   void ToggleExpediente()

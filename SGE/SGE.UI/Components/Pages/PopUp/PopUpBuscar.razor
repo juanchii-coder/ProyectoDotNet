@@ -1,0 +1,155 @@
+﻿@namespace SGE.UI.Components
+@rendermode InteractiveServer
+@using SGE:Aplicacion.Entidades
+@inject NavigationManager Navigation
+@inject CasoDeUsoExpedienteConsultaPorId expConsulId
+@inject CasoDeUsoTramiteConsultaPorId tramConsultaId
+@inject ServicioPermiso servicioPermiso
+
+@if (visible)
+{
+    if(esExpediente){
+        <div class="dialogo-contenedor">
+            <div class="dialogo-contenido">
+                <button class="btn-cerrar" @onclick="Cerrar">X</button>
+                <h4>@id</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Carátula</th>
+                            <th>Fecha de Creación</th>
+                            <th>Última Modificación</th>
+                            <th>Usuario Última Modificación</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            if (expediente != null)
+                            {
+                                <td>@expediente.Id</td>
+                                <td>@expediente.Caratula</td>
+                                <td>@expediente.FechaCreacion</td>
+                                <td>@expediente.UltimaModificacion</td>
+                                <td>@expediente.IdUsuario</td>
+                                <td>@expediente.Estado</td>
+                                <td><button @onclick="()=>VerTramites(expediente)">Ver Expedientes Asociados</button></td>
+                                <td>
+                                @if (puedeEditarExpediente)
+                                {
+                                    <button @onclick="EditarOk">Editar</button>
+                                    <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Exp=@expediente User=idUsuario />
+                                    @if (puedeEliminarExpediente)
+                                    {
+                                        <button>Eliminar</button>
+                                    }
+                                }
+                            </td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Id de Expediente</th>
+                    <th>Contenido</th>
+                    <th>Fecha de Creación</th>
+                    <th>Última Modificación</th>
+                    <th>Usuario Última Modificación</th>
+                    <th>Etiqueta</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @if (tramite != null)
+                    {
+                        <td>@tramite.Id</td>
+                        <td>@tramite.ExpedienteId</td>
+                        <td>@tramite.Contenido</td>
+                        <td>@tramite.FechaCreacion</td>
+                        <td>@tramite.UltimaModificacion</td>
+                        <td>@tramite.IdUsuarioUltimaModificacion</td>
+                        <td>@tramite.Etiqueta</td>
+                        <td>
+                            @if (puedeEditarTramite)
+                            {
+                                <button @onclick="EditarOk">Editar</button>
+                                <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@tramite User=idUsuario />
+                                @if (puedeEliminarExpediente)
+                                {
+                                    <button>Eliminar</button>
+                                }
+                            }
+                        </td>
+                    }
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    }
+}
+@code {
+    private bool visible = false;
+    [Parameter]
+    public int id { get; set; }
+    [Parameter]
+    public Usuario? usuario { get; set; }
+    [Parameter]
+    public bool esExpediente{ get; set; }
+    private bool puedeEditarTramite;
+    private bool puedeEliminarTramite;
+    private bool puedeEditarExpediente;
+    private bool puedeEliminarExpediente;
+    private Expediente? expediente;
+    private Tramite? tramite;
+    PopUpEditar popUpEditar = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+        if (usuario != null)
+        {
+            List<Permiso> permisos = servicioPermiso.PermisosDeUsuario(usuario.Id);
+            if(esExpediente){
+                expediente = expConsulId.Ejecutar(id, usuario.Id);
+            }
+            else
+            {
+                tramite = tramConsultaId.Ejecutar(id);
+            }
+
+        }
+        //asignar puedeEditar y puedeEliminar
+    }
+
+    public void Mostrar()
+    {
+        visible = true;
+        StateHasChanged();
+    }
+    void Cerrar()
+    {
+        visible = false;
+    }
+    void EditarOk()
+    {
+        popUpEditar.Mostrar();
+    }
+    void VerTramites(Expediente expediente)
+    {
+        //mandar id de expediente
+        Navigation.NavigateTo($"/tramites/{usuario}");
+    }
+}

@@ -1,28 +1,57 @@
 ﻿@namespace SGE.UI.Components
 @rendermode InteractiveServer
+@using SGE.Aplicacion.Enumerativos
 @inject NavigationManager Navigation
 @inject CasoDeUsoExpedienteModificacion expModificacion
+@inject CasoDeUsoTramiteModificacion tramModificacion
 
 @if (visible)
 {
-    <div class="dialogo-contenedor">
-        <div class="dialogo-contenido">
-            <button class="btn-cerrar" @onclick="Cerrar">X</button>
-            <h4>@Mensaje : @Exp.Id</h4>
-            <input @bind=@Exp.Caratula placeholder="Cartula"/>
-            <p>desea modificar </p>
-            <button class="btn btn-primary" @onclick="Editar">Editar</button>
+    if(EditExpediente ==true ){
+        Expediente Exp = (Expediente)Edit;
+        <div class="dialogo-contenedor">
+            <div class="dialogo-contenido">
+                <button class="btn-cerrar" @onclick="Cerrar">X</button>
+                <h4>@Mensaje : @Exp.Id</h4>
+                <input @bind=@Exp.Caratula placeholder="Cartula"/>
+                <p>desea modificar </p>
+                <button class="btn btn-primary" @onclick="EditarExpediente">Editar</button>
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        Tramite? Tram = (Tramite?)Edit;
+        <div class="dialogo-contenedor">
+            <div class="dialogo-contenido">
+                <button class="btn-cerrar" @onclick="Cerrar">X</button>
+                <h4>@Mensaje : @Tram.Id</h4>
+                <input @bind=@Tram.Contenido placeholder="Contenido" />
+                <select @bind=@Tram.Etiqueta placeholder="Etiqueta">
+                    <option value="EtiquetaTramite.EscritoPresentado">Escrito Presentado </option>
+                    <option value="EtiquetaTramite.PaseAEstudio">Pase A Estudio</option>
+                    <option value="EtiquetaTramite.Despacho">Despacho</option>
+                    <option value="EtiquetaTramite.Resolucion">Resolucion</option>
+                    <option value="EtiquetaTramite.Notificacion">Notificacion</option>
+                    <option value="EtiquetaTramite.PaseAlArchivo"></option>
+                </select>
+                <p>desea modificar </p>
+                <button class="btn btn-primary" @onclick="EditarTramite">Editar</button>
+            </div>
+        </div>
+        
+    }
 }
 @code {
     private bool visible = false;
     [Parameter]
     public string Mensaje { get; set; } = "";
     [Parameter]
-    public Expediente Exp { get; set; }
+    public object? Edit { get; set; }
     [Parameter]
     public string? User{ get; set; }
+    [Parameter]
+    public bool EditExpediente{ get; set; }
 
 
     public void Mostrar() 
@@ -34,9 +63,14 @@
     {
         visible = false;
     }
-    void Editar()
+    void EditarExpediente()
     {
         //expModificacion.Ejecutar(Exp,User);
+        visible = false;
+    }
+    void EditarTramite()
+    {
+
         visible = false;
     }
 }

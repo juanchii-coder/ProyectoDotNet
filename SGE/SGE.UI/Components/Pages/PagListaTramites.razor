@@ -1,0 +1,69 @@
+﻿@namespace SGE.UI.Components
+@using SGE.Aplicacion.CasosDeUso.Expediente
+@using SGE.Aplicacion.Entidades
+@using SGE.UI
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+@inject CasoDeUsoExpedienteAlta expAlta
+@inject CasoDeUsoExpedienteBaja expBaja
+@inject CasoDeUsoExpedienteConsultaTodos expConsultaTodos
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Id de Expediente</th>
+            <th>Contenido</th>
+            <th>Fecha de Creación</th>
+            <th>Última Modificación</th>
+            <th>Usuario Última Modificación</th>
+            <th>Etiqueta</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Tramite? tramite in tramites)
+        {
+            <tr>
+                @if (tramite != null)
+                {
+                    <td>@tramite.Id</td>
+                    <td>@tramite.ExpedienteId</td>
+                    <td>@tramite.Contenido</td>
+                    <td>@tramite.FechaCreacion</td>
+                    <td>@tramite.UltimaModificacion</td>
+                    <td>@tramite.IdUsuarioUltimaModificacion</td>
+                    <td>@tramite.Etiqueta</td>
+                    <td>
+                        @if (puedeEditar)
+                        {
+                            <button @onclick="EditarOk">Editar</button>
+                            <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@tramite User=idUsuario />
+                            @if (puedeEliminar)
+                            {
+                                <button>Eliminar</button>
+                            }
+                        }
+                    </td>
+                }
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public List<Tramite>? tramites { get; set; }
+    [Parameter]
+    public Usuario? usuario { get; set; }
+    private bool puedeEditar = true;
+    private bool puedeEliminar = true;
+    PopUpEditar popUpEditar = null!;
+
+    private void EditarOk()
+    {
+        popUpEditar.Mostrar();
+    }
+}

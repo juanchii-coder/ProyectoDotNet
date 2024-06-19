@@ -23,32 +23,34 @@
     <input @bind="usuario.Contrasenia" type="password" placeholder="Password" /><br>
 </div>
 
-@if (contraseñaDesigual)
-{
-    <p>la contraseña no es la misma</p>
-}
-
 <div>
-    <input @bind="confirmContraseña" type="password" placeholder="Confirm Password" /><br>
+    <input @bind="confirmContrasenia" type="password" placeholder="Confirm Password" /><br>
 </div>
 
-
 <button @onclick="Agregar">Register</button>
+
+@if (contraseniaDesigual)
+{
+	<PopUpErrorMensaje Mensaje="las contraseñas no son iguales" />
+}
 
 
 @code {
     private Usuario usuario = new Usuario();
-    private string? confirmContraseña;
-    private bool contraseñaDesigual = false;
+    private string? confirmContrasenia;
+    private bool contraseniaDesigual = false;
 
     void Agregar()
     {
-        if (usuario.Contrasenia != confirmContraseña)
+        if (usuario.Contrasenia != confirmContrasenia)
         {
-            contraseñaDesigual = true;
+            contraseniaDesigual = true;
         }
-        //verificar si los campos son validos
-        UsuarioAlta.Ejecutar(usuario);
-        Navigation.NavigateTo("/login");
+        else
+        {
+            //verificar si los campos son validos
+            UsuarioAlta.Ejecutar(usuario);
+            Navigation.NavigateTo("/login");
+        }
     }
 }

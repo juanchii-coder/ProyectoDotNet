@@ -3,11 +3,8 @@
 @using SGE.Aplicacion.Entidades
 @using SGE.UI
 @inject NavigationManager Navigation
-@rendermode InteractiveServer
-@inject CasoDeUsoExpedienteAlta expAlta
-@inject CasoDeUsoExpedienteBaja expBaja
 @inject CasoDeUsoExpedienteConsultaTodos expConsultaTodos
-@inject CasoDeUsoExpedienteModificacion expModificacion
+@rendermode InteractiveServer
 @page "/expedientes/{usuario}"
 
 <h3>expedientes</h3>
@@ -25,7 +22,7 @@ else
     <input @bind=@idExpediente placeholder="buscar por id" />
     <button @onclick="BuscarPorId"/>
     <PopUpBuscarExpediente idExp=@idExpediente User=@usuario/>
-    <ListaExpediente Expe=@expedientes User=@usuario/>
+    <PagListaExpediente Expe=@expedientes User=@usuario/>
     @if (!puedeVer)
     {
         <p>no tienes los permisos suficientes</p>
@@ -40,7 +37,7 @@ else
     private int idExpediente;
     private List<Expediente>? expedientes { get; set; }
     PopUpEditar popUpEditar = null!;
-    PopUpBuscarExpediente popUpBuscar = null!;
+    PopUpBuscar popUpBuscar = null!;
 
 
     protected override async Task OnInitializedAsync()
@@ -49,12 +46,6 @@ else
         //cambiar idUsuario a int y hacer una busqueda por id en el repositorio de usuarios para obtener los permisos
         //cambiar los permisos dependiendo de que es lo que pueda hacer el usuario
         expedientes = expConsultaTodos.Ejecutar();
-    }
-    private void VerTramites(Expediente expe)
-    {
-        //buscar si existen tramites
-        //si no hay tramites asociados hacer un popUp de un msj "no hay tramites asociados al expediente con id x"
-        Navigation.NavigateTo($"/tramite/{expe.Id}");
     }
     private void EditarOk()
     {

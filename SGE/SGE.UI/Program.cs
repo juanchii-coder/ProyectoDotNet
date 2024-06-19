@@ -1,11 +1,13 @@
 
 using SGE.UI.Components;
+using SGE.UI.Entidades;
 using SGE.Repositorios;
 using SGE.Aplicacion.CasosDeUso.Expediente;
 using SGE.Aplicacion.CasosDeUso.Tramite;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Servicios;
 using SGE.Aplicacion.Validadores;
+using SGE.Aplicacion.CasosDeUso.Usuario;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,9 +28,21 @@ builder.Services.AddTransient<CasoDeUsoTramiteAlta>();
 builder.Services.AddTransient<CasoDeUsoTramiteBaja>();
 builder.Services.AddTransient<CasoDeUsoTramiteModificacion>();
 builder.Services.AddTransient<CasoDeUsoTramitePorEtiqueta>();
+builder.Services.AddTransient<CasoDeUsoTramiteConsultaPorId>();
 builder.Services.AddTransient<CasoDeUsoListarTramites>();
+builder.Services.AddTransient<CasoDeUsoLogin>();
+builder.Services.AddTransient<CasoDeUsoObtenerTodosLosUsuarios>();
+builder.Services.AddTransient<CasoDeUsoObtenerUsuarioPorId>();
+builder.Services.AddTransient<CasoDeUsoOtorgarPermisos>();
+builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
+builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
+builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
+builder.Services.AddScoped<IServicioPermiso, ServicioPermiso>();
 builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpediente>();
+builder.Services.AddScoped<IUsuarioRepositorio, RepositorioUsuario>();
+builder.Services.AddScoped<IPermisosRepositorio, PermisosRepositorio>();
 builder.Services.AddScoped<ITramiteRepositorio, RepositorioTramite>();
+builder.Services.AddTransient<EstadoDeUsuario>();
 
 var app = builder.Build();
 

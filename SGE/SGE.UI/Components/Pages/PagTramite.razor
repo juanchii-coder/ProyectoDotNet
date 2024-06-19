@@ -1,0 +1,41 @@
+@namespace SGE.UI.Components
+@inject NavigationManager Navigation
+@inject CasoDeUsoListarTramites listarTramites
+@page "/tramite/{usuario,id}"
+
+@if (usuario == null)
+{
+    Navigation.NavigateTo("/login");
+}
+else if (tramites==null)
+{
+    <p>Cargando....</p>
+}
+else
+{
+    <input @bind=@idTramite placeholder="buscar por id" />
+    <button @onclick="BuscarPorId" />
+	<PopUpBuscar @ref=popUpBuscar idBuscar =@idTramite User=@usuario esExpediente=@false />
+    <PagListaTramites tramites=@tramites User=@usuario />
+}
+
+<PagListaTramites usuario=@usuario tramites=@tramites/>
+@code {
+	[Parameter]
+	public int id { get; set; }
+	[Parameter]
+	public Usuario? usuario{ get; set; }
+	private List<Tramite>? tramites;
+	private int idTramite;
+	PopUpBuscar? popUpBuscar=null!;
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Delay(500);
+		tramites = listarTramites.Ejecutar();
+
+	}
+	private void BuscarPorId()
+	{
+		popUpBuscar.Mostrar();
+	}
+}

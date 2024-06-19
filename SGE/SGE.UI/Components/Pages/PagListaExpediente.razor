@@ -21,35 +21,30 @@
         </tr>
     </thead>
     <tbody>
-
-        @if ((puedeVer) && (Expe != null))
+        @foreach (Expediente? expediente in Expe)
         {
-            @foreach (Expediente? expediente in Expe)
-            {
-                <tr>
-                    if (expediente != null)
-                    {
+            <tr>
+                @if (expediente != null)
+                {
                     <td>@expediente.Id</td>
                     <td>@expediente.Caratula</td>
                     <td>@expediente.FechaCreacion</td>
                     <td>@expediente.UltimaModificacion</td>
                     <td>@expediente.IdUsuario</td>
                     <td>@expediente.Estado</td>
-                    <td><button @onclick="()=>VerTramites(expediente)">Ver Expedientes Asociados</button></td>
                     <td>
-                        @if (puedeEditar)
+                    @if (puedeEditar)
+                    {
+                        <button @onclick="EditarOk">Editar</button>
+                        <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@expediente User=idUsuario />
+                        @if (puedeEliminar)
                         {
-                            <button @onclick="EditarOk">Editar</button>
-                            <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Exp=@expediente User=idUsuario />
-                            @if (puedeEliminar)
-                            {
-                                <button>Eliminar</button>
-                            }
+                            <button>Eliminar</button>
                         }
-                    </td>
                     }
-                </tr>
-            }
+                    </td>
+                }
+            </tr>
         }
 
 
@@ -66,12 +61,6 @@
     private bool puedeEliminar = true;
     PopUpEditar popUpEditar = null!;
 
-    private void VerTramites(Expediente expe)
-    {
-        //buscar si existen tramites
-        //si no hay tramites asociados hacer un popUp de un msj "no hay tramites asociados al expediente con id x"
-        Navigation.NavigateTo($"/tramite/{expe.Id}");
-    }
     private void EditarOk()
     {
         popUpEditar.Mostrar();

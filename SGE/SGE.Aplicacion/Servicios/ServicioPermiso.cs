@@ -1,10 +1,7 @@
-﻿using SGE.Aplicacion.Entidades;
+﻿namespace SGE.Aplicacion.Servicios;
+using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Interfaces;
-
-
-namespace SGE.Servicios
-{
-    public class ServicioPermiso(IPermisosRepositorio permisoRepo) : IServicioPermiso
+ public class ServicioPermiso(IPermisosRepositorio permisoRepo) : IServicioPermiso
     {
         public void AsignarPermisoUsuario(int usuarioId, string permisoNombre)
         {
@@ -46,4 +43,3 @@ namespace SGE.Servicios
             return permisoRepo.UsuariosConPermiso(permisoNombre);
         }
     }
-}
