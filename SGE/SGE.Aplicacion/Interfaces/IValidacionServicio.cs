@@ -4,6 +4,6 @@ public interface IValidationService
 {
     bool ValidarLogin(string email, string password)
     bool ValidarUsuario(Usuario usuario);
-    bool ValidarExpediente(int idExpediente);
-    bool ValidarTramite(int idTramite);
+    bool ValidarExpediente(int idUsuario, Expediente expediente);
+    bool ValidarTramite(int idusuario, Tramite tramite);
 }
