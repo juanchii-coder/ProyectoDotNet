@@ -19,7 +19,7 @@ builder.Services.AddRazorComponents()
 //agrego servicios y validadores al contenedor
 InicializadorPermisos a = new InicializadorPermisos();
 a.Inicializar();
-builder.Services.AddTransient<GestionExpedienteContext>();
+builder.Services.AddScoped<GestionExpedienteContext>();
 builder.Services.AddTransient<ServicioActualizacionEstado>();
 builder.Services.AddTransient<CasoDeUsoExpedienteAlta>();
 builder.Services.AddTransient<CasoDeUsoExpedienteBaja>();
@@ -39,6 +39,7 @@ builder.Services.AddTransient<CasoDeUsoOtorgarPermisos>();
 builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
 builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
+builder.Services.AddScoped<IServicioCodificacion, ServicioCodificacion>();
 builder.Services.AddScoped<IServicioTramiteValidador, ServicioTramiteValidador>();
 builder.Services.AddScoped<IServicioExpedienteValidador, ServicioExpedienteValidador>();
 builder.Services.AddScoped<IServicioUsuarioValidador, ServicioUsuarioValidador>();

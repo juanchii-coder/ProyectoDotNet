@@ -10,6 +10,7 @@ public class CasoDeUsoLogin(IUsuarioRepositorio repositorio,IServicioAutentifica
         {
             throw new AutorizacionException(ERROR_MESSAGE+"Credenciales Incorrectas");
         }
-        return Repositorio.ObtenerUsuarioPorEmail(usuario.Email);
+        Usuario usuarioLogeado = Repositorio.ObtenerUsuarioPorEmail(usuario.Email)!;
+        return usuarioLogeado;
     }
 }
