@@ -8,21 +8,9 @@ public class ServicioActualizacionEstado(ITramiteRepositorio repoTramite, IExped
     {
         var ultimoTramite = repoTramite.ListarTramites().Where(t => t.ExpedienteId == idExpediente).ToList().Last();
         var expediente = repoExpediente.ExpedienteConsultaPorId(idExpediente);
-        switch (ultimoTramite.Etiqueta)
-        {
-            case EtiquetaTramite.Resolucion:
-                expediente.Estado = EstadoExpediente.ConResolucion;
-                break;
-            case EtiquetaTramite.PaseAEstudio:
-                expediente.Estado = EstadoExpediente.ParaResolver;
-                break;
-            case EtiquetaTramite.Notificacion:
-                expediente.Estado = EstadoExpediente.EnNotificacion;
-                break;
-            case EtiquetaTramite.PaseAlArchivo:
-                expediente.Estado = EstadoExpediente.Finalizado;
-                break;
+        if(expediente != null) {
+            EspecificacionCambioEstado.CambiarEstado(expediente, ultimoTramite);
+            repoExpediente.ExpedienteModificacion(idExpediente, expediente, idUsuario);
         }
-        repoExpediente.ExpedienteModificacion(idExpediente, expediente, idUsuario);
     }
 }

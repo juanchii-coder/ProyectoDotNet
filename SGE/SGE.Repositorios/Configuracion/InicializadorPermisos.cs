@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SGE.Aplicacion.Entidades;
 
 namespace SGE.Repositorios.Configuracion;
@@ -19,5 +20,10 @@ public class InicializadorPermisos {
             context.Add(new Permiso(){Nombre = "TRAMITE_LECTURA"});
             context.SaveChanges();
         }
+        using var connection = context.Database.GetDbConnection();//GetDbConnection();
+        connection.Open();
+        using var command = connection.CreateCommand();
+        command.CommandText = "PRAGMA journal_mode=DELETE;";
+        command.ExecuteNonQuery();
     }
 }
