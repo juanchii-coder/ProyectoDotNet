@@ -14,18 +14,28 @@
 {
   <PagExpedientes usuario=@usuario/>
 }
+<button @onclick="ToggleTramites">ver expedientes</button>
+@if (verExpedientes)
+{
+    <PagTramite usuario=@usuario />
+}
 
 @code {
-  [Parameter]
-  public Usuario? usuario { get; set; }
-  private bool verUsuarios = false;
-  private bool verExpedientes = false;
-  void ToggleExpediente()
-  {
-    verExpedientes = !verExpedientes;
-  }
-  void ToggleUsuario()
-  {
-    verUsuarios = !verUsuarios;
-  }
+    [Parameter]
+    public Usuario? usuario { get; set; }
+    private bool verUsuarios = false;
+    private bool verExpedientes = false;
+    private bool verTramites = false;
+    void ToggleExpediente()
+    {
+        verExpedientes = !verExpedientes;
+    }
+    void ToggleUsuario()
+    {
+        verUsuarios = !verUsuarios;
+    }
+    void ToggleTramites()
+    {
+        verTramites = !verTramites;
+    }
 }

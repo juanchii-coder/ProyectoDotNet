@@ -9,14 +9,17 @@
 }
 else if (tramites==null)
 {
-    <p>Cargando....</p>
+	<p>Cargando....</p>
 }
 else
 {
-    <input @bind=@idTramite placeholder="buscar por id" />
-    <button @onclick="BuscarPorId" />
-	<PopUpBuscar @ref=popUpBuscar idBuscar =@idTramite User=@usuario esExpediente=@false />
-    <PagListaTramites tramites=@tramites User=@usuario />
+	if (puedeVer)
+	{
+		<input @bind=@idTramite placeholder="buscar por id" />
+		<button @onclick="BuscarPorId" />
+		<PopUpBuscar @ref=popUpBuscar idBuscar =@idTramite User=@usuario esExpediente=@false />
+		<PagListaTramites tramites=@tramites User=@usuario />
+	}
 }
 
 <PagListaTramites usuario=@usuario tramites=@tramites/>
@@ -25,12 +28,14 @@ else
 	public int id { get; set; }
 	[Parameter]
 	public Usuario? usuario{ get; set; }
+	private bool puedeVer = false;
 	private List<Tramite>? tramites;
 	private int idTramite;
 	PopUpBuscar? popUpBuscar=null!;
 	protected override async Task OnInitializedAsync()
 	{
 		await Task.Delay(500);
+		puedeVer = usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_LECTURA"));
 		tramites = listarTramites.Ejecutar();
 
 	}

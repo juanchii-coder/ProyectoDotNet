@@ -43,7 +43,7 @@
                                     <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Exp=@expediente User=idUsuario />
                                     @if (puedeEliminarExpediente)
                                     {
-                                        <button>Eliminar</button>
+                                        //PopUp verificar(si o no)
                                     }
                                 }
                             </td>
@@ -129,9 +129,13 @@
             {
                 tramite = tramConsultaId.Ejecutar(id);
             }
+            //buscar permisos (puede eliminar o editar expedientes)
 
+            puedeEliminarExpediente = usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_BAJA"));
+            puedeEditarExpediente = usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_MODIFICACION"));
+            puedeEliminarTramite = usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_BAJA"));
+            puedeEditarTramite = usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_MODIFICACION"));
         }
-        //asignar puedeEditar y puedeEliminar
     }
 
     public void Mostrar()

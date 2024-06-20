@@ -61,7 +61,11 @@
     private bool puedeEditar = true;
     private bool puedeEliminar = true;
     PopUpEditar popUpEditar = null!;
-
+    protected override async Task OnInitializedAsync()
+    {
+        puedeEliminar = usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_BAJA"));
+        puedeEditar = usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_MODIFICACION"));
+    }
     private void EditarOk()
     {
         popUpEditar.Mostrar();

@@ -17,6 +17,7 @@
             <th>Última Modificación</th>
             <th>Usuario Última Modificación</th>
             <th>Estado</th>
+            <th>Tramites</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -32,6 +33,7 @@
                     <td>@expediente.UltimaModificacion</td>
                     <td>@expediente.IdUsuario</td>
                     <td>@expediente.Estado</td>
+                    <td><button>ver tramites relacionados</button></td>
                     <td>
                     @if (puedeEditar)
                     {
@@ -59,7 +61,10 @@
     private bool puedeEditar = true;
     private bool puedeEliminar = true;
     PopUpEditar popUpEditar = null!;
-
+    protected override async Task OnInitializedAsync(){
+        puedeEliminar = usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_BAJA"));
+        puedeEditar = usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_MODIFICACION"));
+    }
     private void EditarOk()
     {
         popUpEditar.Mostrar();

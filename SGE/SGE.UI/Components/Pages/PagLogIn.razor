@@ -24,18 +24,15 @@
 </div>
 
 
-<PopUpErrorMensaje @ref=dialogo Mensaje="Usuario o contraseña no son validas" />
-
+<PopUpErrorLogin @ref=dialogo Mensaje="Usuario o contraseña no son validas" />
+<PopUpErrorMensaje @ref=dialogo2 Mensaje="contacta con un admin"/>
 
 @code {
 
-    bool login = false;
     private Usuario usuario = new Usuario();
-    PopUpErrorMensaje dialogo = null!;
-    private void ConfirmarReseteo()
-    {
-        dialogo.Mostrar();
-    }
+    PopUpErrorLogin dialogo = null!;
+    PopUpErrorMensaje dialogo2 = null!;
+
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(500);
@@ -43,7 +40,6 @@
     }
     void IniciarSesion()
     {
-        bool admin = false;
         if (!string.IsNullOrWhiteSpace(usuario.Contrasenia) && !string.IsNullOrWhiteSpace(usuario.Email))
         {
 
@@ -55,7 +51,6 @@
                 EstadoDeUsuario.SetAdmin(true);
             }
             EstadoDeUsuario.SetLoggedIn(true);
-            login = true;
         }
         else
         {
@@ -66,9 +61,9 @@
             //popUp con el texto de error
             //Navigation.NavigateTo("/register");
         }
-        if (login)
+        if (EstadoDeUsuario.IsLoggedIn)
         {
-            if (admin)
+            if (EstadoDeUsuario.EsAdmin)
             {
                 Navigation.NavigateTo($"/adminpanel/{usuario}");
             }
@@ -81,8 +76,7 @@
     }
     void NoContraseña()
     {
-        //pop up con el mensaje de contactarse con un administrador
-        Navigation.NavigateTo("/contraseña");
+        dialogo2.Mostrar();
     }
     void Registro()
     {

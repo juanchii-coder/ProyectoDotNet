@@ -22,7 +22,7 @@ else
     {
         <input @bind=@idExpediente placeholder="buscar por id" />
         <button @onclick="BuscarPorId"/>
-        <PopUpBuscar id=@idExpediente usuario=@usuario/>
+        <PopUpBuscar id=@idExpediente usuario=@usuario esExpediente=true />
         <PagListaExpediente Expe=@expedientes User=@usuario/>
     }
 }
@@ -31,7 +31,7 @@ else
     [Parameter]
     public Usuario? usuario { get; set; }
     private bool hayExpedientes = true;
-    private bool puedeVer = true;
+    private bool puedeVer = false;
     private int idExpediente;
     private List<Expediente>? expedientes { get; set; }
     PopUpEditar popUpEditar = null!;
@@ -41,8 +41,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(500);
-        //cambiar idUsuario a int y hacer una busqueda por id en el repositorio de usuarios para obtener los permisos
-        //cambiar los permisos dependiendo de que es lo que pueda hacer el usuario
+        puedeVer= usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_LECTURA"));
         expedientes = expConsultaTodos.Ejecutar();
     }
     private void EditarOk()
