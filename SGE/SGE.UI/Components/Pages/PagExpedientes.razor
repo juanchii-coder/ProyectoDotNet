@@ -10,16 +10,25 @@
 @page "/expedientes"
 
 <h3>expedientes</h3>
-
+<PopUpCrear CrearExpediente=true />
 @if (!hayExpedientes)
 {
-    <p>Cargando....</p>
+    if (puedeVer)
+    {
+        <button @onclick="Crear">crear Expediente</button>
+    }
+    else
+    {
+        <p>No tienes permiso para ver expedientes.</p>
+    }
 }
 else
-{   @if (puedeVer)
+{   
+@if (puedeVer)
     {
         <input @bind=@idExpediente placeholder="buscar por id" />
         <button @onclick="BuscarPorId"/>
+        <button @onclick="Crear">crear Expediente</button>
         <PopUpBuscar id=@idExpediente esExpediente=true />
         <PagListaExpediente Expe=@expedientes/>
     }
@@ -36,6 +45,7 @@ else
     private List<Expediente>? expedientes { get; set; }
     PopUpEditar popUpEditar = null!;
     PopUpBuscar popUpBuscar = null!;
+    PopUpCrear popUpCrear = null!;
 
 
     protected override async Task OnInitializedAsync()
@@ -47,7 +57,11 @@ else
             expedientes = expConsultaTodos.Ejecutar();
             hayExpedientes = expedientes != null && expedientes.Count > 0;
         }
-        
+
+    }
+    private void Crear()
+    {
+        popUpCrear.Mostrar();
     }
     private void EditarOk()
     {
