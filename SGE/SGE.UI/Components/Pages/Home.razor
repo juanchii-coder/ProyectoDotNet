@@ -3,11 +3,16 @@
 @rendermode InteractiveServer
 @page "/"
 
+
+
+
 <PageTitle>gestion de Expedientes</PageTitle>
 <h1>bienvenidos a la gestion de expedientes</h1>
 <h4>inicie sesion para poder utilizar la pagina</h4>
-<button @onclick="Login">Iniciar Sesion</button>
+<button @onclick="Prueba">Iniciar Sesion</button>
 <button @onclick="Register">Registrarse</button>
+<PopConfirmacion @ref=pop Mensaje="¿Está seguro que irse a la concha de su madre?" OnConfirmado="CasoDeUso" />
+
 @code{
 	private void Login()
 	{
@@ -17,5 +22,18 @@
 	{
 		Navigate.NavigateTo("/register");
 	}
+
+	PopConfirmacion pop = null! ;
+
+	private void Prueba()
+	{
+		pop.Mostrar();
+	}
+
+	private void CasoDeUso ()
+	{
+
+	}
+
 }
 

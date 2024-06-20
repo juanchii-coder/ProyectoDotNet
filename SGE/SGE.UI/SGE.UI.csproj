@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SGE.Aplicacion\SGE.Aplicacion.csproj" />
-    <ProjectReference Include="..\SGE.Repositorios\SGE.Repositorios.csproj" />
+    <ProjectReference Include="..\SGE.Repositorios\SGE.Repositorios.csproj" />    
   </ItemGroup>
 
   <PropertyGroup>
