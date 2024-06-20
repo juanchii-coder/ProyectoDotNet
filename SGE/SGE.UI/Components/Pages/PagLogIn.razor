@@ -48,6 +48,7 @@
             try{
                 usuarioLogueado = Login.Ejecutar(usuario);
             }catch(AutorizacionException a) {
+                dialogoErrorLogin.Mensaje = a.Message;
                 dialogoErrorLogin.Mostrar();
             }
             
@@ -81,4 +82,4 @@
         Navigation.NavigateTo("/register");
     }
 }
-    using SGE.Aplicacion.Exepciones;
+

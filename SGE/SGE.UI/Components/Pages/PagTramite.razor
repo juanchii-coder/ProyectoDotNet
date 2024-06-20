@@ -8,7 +8,7 @@
 {
     Navigation.NavigateTo("/login");
 }
-else if (tramites==null)
+else if (tramites == null||tramites.Count() == 0)
 {
 	<p>Cargando....</p>
 }
@@ -25,7 +25,7 @@ else
 
 @code {
 	[Parameter]
-	public int id { get; set; } = -1;
+	public int id { get; set; }
 	private bool puedeVer = false;
 	private List<Tramite>? tramites;
 	private int idTramite;
@@ -33,7 +33,7 @@ else
 	protected override async Task OnInitializedAsync()
 	{
 		await Task.Delay(500);
-		puedeVer = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_LECTURA"));
+		puedeVer = EstadoDeUsuario.usuario!.Permisos.Any(p => p.Nombre!.Equals("TRAMITE_LECTURA"));
 		if (id == -1)
 		{
 			tramites = listarTramites.Ejecutar();
