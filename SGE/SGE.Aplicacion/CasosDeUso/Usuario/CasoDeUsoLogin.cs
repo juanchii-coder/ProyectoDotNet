@@ -1,13 +1,15 @@
 namespace SGE.Aplicacion.CasosDeUso.Usuario;
 using SGE.Aplicacion.Entidades;
+using SGE.Aplicacion.Exepciones;
 using SGE.Aplicacion.Interfaces;
 
-public class CasoDeUsoLogin(IUsuarioRepositorio repositorio) : CasoDeUsoUsuario(repositorio) {
-    public bool Ejecutar(Usuario usuario) {
-        /*
-            Autenticar Usuario
-            return servicioAutenticacion(usuario.Email, usuario.Contrasenia);
-        */
-        return true;
+public class CasoDeUsoLogin(IUsuarioRepositorio repositorio,IServicioAutentificador autentificador ) : CasoDeUsoUsuario(repositorio) {
+    private const string ERROR_MESSAGE = "Error en login - ";
+    public Usuario? Ejecutar(Usuario usuario) {
+        if(!autentificador.ValidarLogin(usuario.Email, usuario.Contrasenia))
+        {
+            throw new AutorizacionException(ERROR_MESSAGE+"Credenciales Incorrectas");
+        }
+        return Repositorio.ObtenerUsuarioPorEmail(usuario.Email);
     }
 }

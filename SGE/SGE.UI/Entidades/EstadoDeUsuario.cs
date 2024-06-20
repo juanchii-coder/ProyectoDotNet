@@ -11,8 +11,13 @@ public class EstadoDeUsuario
 		IsLoggedIn = loggedIn;
 		NotifyStateChanged();
 	}
+    public void SetAdmin(bool admin)
+    {
+        EsAdmin = admin;
+        NotifyStateChanged();
+    }
 
-	private void NotifyStateChanged() => OnChange?.Invoke();
+    private void NotifyStateChanged() => OnChange?.Invoke();
 
 }
 }

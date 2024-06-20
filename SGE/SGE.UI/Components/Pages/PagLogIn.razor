@@ -5,6 +5,7 @@
 @using SGE.Aplicacion.Entidades
 @inject NavigationManager Navigation
 @inject EstadoDeUsuario EstadoDeUsuario
+@inject CasoDeUsoLogin Login
 @rendermode InteractiveServer
 
 
@@ -48,7 +49,11 @@
 
             //logica de autorizacion de usuario
             // caso de uso login usuario
-            //si existe usuario sea igual al usuario encontrado con las mismas
+            usuario=Login.Ejecutar(usuario);
+            if (usuario.Permisos.Any(p=>p.Nombre.Equals("OBTENER_LISTA_USUARIOS")))
+            {
+                EstadoDeUsuario.SetAdmin(true);
+            }
             EstadoDeUsuario.SetLoggedIn(true);
             login = true;
         }
@@ -69,7 +74,7 @@
             }
             else
             {
-                Navigation.NavigateTo($"/expedientes/{usuario.Id}");
+                Navigation.NavigateTo($"/expedientes/{usuario}");
             }
 
         }

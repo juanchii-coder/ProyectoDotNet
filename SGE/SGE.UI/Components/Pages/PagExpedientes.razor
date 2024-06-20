@@ -18,14 +18,12 @@ else if (!hayExpedientes)
     <p>Cargando....</p>
 }
 else
-{
-    <input @bind=@idExpediente placeholder="buscar por id" />
-    <button @onclick="BuscarPorId"/>
-    <PopUpBuscar id=@idExpediente usuario=@usuario/>
-    <PagListaExpediente Expe=@expedientes User=@usuario/>
-    @if (!puedeVer)
+{   @if (puedeVer)
     {
-        <p>no tienes los permisos suficientes</p>
+        <input @bind=@idExpediente placeholder="buscar por id" />
+        <button @onclick="BuscarPorId"/>
+        <PopUpBuscar id=@idExpediente usuario=@usuario/>
+        <PagListaExpediente Expe=@expedientes User=@usuario/>
     }
 }
 

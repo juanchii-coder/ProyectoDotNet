@@ -17,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 //agrego servicios y validadores al contenedor
+InicializadorPermisos a = new InicializadorPermisos();
+a.Inicializar();
 builder.Services.AddTransient<GestionExpedienteContext>();
 builder.Services.AddTransient<ServicioActualizacionEstado>();
 builder.Services.AddTransient<CasoDeUsoExpedienteAlta>();
@@ -37,7 +39,7 @@ builder.Services.AddTransient<CasoDeUsoOtorgarPermisos>();
 builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
 builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
-builder.Services.AddScoped<IServicioTramiteValidador,ServicioTramiteValidador>();
+builder.Services.AddScoped<IServicioTramiteValidador, ServicioTramiteValidador>();
 builder.Services.AddScoped<IServicioExpedienteValidador, ServicioExpedienteValidador>();
 builder.Services.AddScoped<IServicioUsuarioValidador, ServicioUsuarioValidador>();
 builder.Services.AddScoped<IServicioAutentificador, ServicioAutentificador>();
