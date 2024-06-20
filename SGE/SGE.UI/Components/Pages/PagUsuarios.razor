@@ -5,42 +5,53 @@
 
 @if (EstadoDeUsuario.EsAdmin)
 {
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Email</th>
-        <th>Permisos</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        @foreach (Usuario usuario in usuarios)
-        {
-          if (usuario != null)
-          {
-            <td>@usuario.Id</td>
-            <td>@usuario.Nombre</td>
-            <td>@usuario.Apellido</td>
-            <td>@usuario.Email</td>
-            <td><button>Otorgar Permisos</button></td>
-          }
-        }
-      </tr>
-    </tbody>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Permisos</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (usuarios != null)
+            {
+                @foreach (Usuario usuario in usuarios)
+                {
+                    <tr>
+                        <td>@usuario.Id</td>
+                        <td>@usuario.Nombre</td>
+                        <td>@usuario.Apellido</td>
+                        <td>@usuario.Email</td>
+                        <td><button>Otorgar Permisos</button></td>
+                    </tr>
+                }
+            }
+        </tbody>
     </table>
 }
 else
 {
-    //mensaje de error no tiene permisos suficientes
+    <p>No tiene permisos suficientes para acceder a esta página.</p>
 }
+
 @code {
-    private List<Usuario>? usuarios;
+    private List<Usuario> usuarios;
+
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(500);
-        usuarios = usuarioTodos.Ejecutar(EstadoDeUsuario.usuario.Id);
-  }
+
+        if (EstadoDeUsuario.usuario != null)
+        {
+            usuarios = usuarioTodos.Ejecutar(EstadoDeUsuario.usuario.Id);
+        }
+        else
+        {
+            // Manejo de caso donde EstadoDeUsuario.usuario es null
+            usuarios = new List<Usuario>(); // Opcionalmente puedes inicializarla como una lista vacía o manejar otro tipo de mensaje/error
+        }
+    }
 }

@@ -17,6 +17,13 @@ public class EstadoDeUsuario
         EsAdmin = admin;
         NotifyStateChanged();
     }
+    public void CerrarSesion()
+    {
+        IsLoggedIn = false;
+        EsAdmin = false;
+        usuario = null;
+        NotifyStateChanged();
+    }
 
     private void NotifyStateChanged() => OnChange?.Invoke();
 
