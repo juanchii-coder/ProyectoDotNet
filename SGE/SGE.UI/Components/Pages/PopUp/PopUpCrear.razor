@@ -4,18 +4,18 @@
 @inject NavigationManager Navigation
 @inject CasoDeUsoExpedienteAlta expAlta
 @inject CasoDeUsoTramiteAlta tramAlta
-@inject EstadoUsuario User
+@inject EstadoDeUsuario User
 
 @if (visible)
 {
     if(AltaExpediente ==true ){
-        Expediente Exp = (Expediente)Crear;
+        exp = (Expediente)Crear;
         <div class="dialogo-contenedor">
             <div class="dialogo-contenido">
                 <button class="btn-cerrar" @onclick="Cerrar">X</button>
                 <h4>@Mensaje : Ingrese la caratula del nuevo expediente</h4>
                 <label for="Caratula">Cartula:</label>
-                <input @bind=@Exp.Caratula placeholder="Caratula"/>
+                <input @bind=@exp.Caratula placeholder="Caratula"/>
                 <p>Confirmar creacion </p>            
                 <button class="btn btn-aceptar" @onclick="CrearExpediente">Aceptar</button>
             </div>
@@ -23,7 +23,7 @@
     }
     else
     {
-       Tramite tram = (Tramite)Crear;
+       tram = (Tramite)Crear;
         <div class="dialogo-contenedor">
             <div class="dialogo-contenido">
                 <button class="btn-cerrar" @onclick="Cerrar">X</button>
@@ -44,7 +44,9 @@
     [Parameter]
     public object? Crear { get; set; }    
     [Parameter]
-    public bool CrearExpediente{ get; set; }
+    public bool AltaExpediente { get; set; }
+    private Expediente exp;
+    private Tramite tram;
 
 
     public void Mostrar() 
@@ -58,12 +60,12 @@
     }
     void CrearExpediente()
     {
-        expAlta.Ejecutar(exp,User.Id,"EXPEDIENTE_ALTA")
+        expAlta.Ejecutar(exp, User.usuario.Id, "EXPEDIENTE_ALTA");
         visible = false;
     }
     void CrearTramite()
     {
-        CrearTramite.Ejecutar(tram,User.Id,"TRAMITE_ALTA")
+        tramAlta.Ejecutar(tram, User.usuario.Id, "TRAMITE_ALTA");
         visible = false;
     }
 }
