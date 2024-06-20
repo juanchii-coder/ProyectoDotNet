@@ -1,5 +1,6 @@
 @namespace SGE.UI.Components
 @page "/adminpanel/{usuario}"
+@inject EstadoDeUsuario EstadoDeUsuario
 @rendermode InteractiveServer
 
 <p>aca seria sonde el admin otorga permisos a los usuarios</p>
@@ -7,22 +8,20 @@
 <p>tabla con lista de usuarios con botones al lado de cada uno dependiendo de que permisos pidio</p>
 @if (verUsuarios)
 {
-  <PagUsuarios usuario=@usuario/>
+  <PagUsuarios/>
 }
 <button @onclick="ToggleExpediente">ver expedientes</button>
 @if (verExpedientes)
 {
-  <PagExpedientes usuario=@usuario/>
+  <PagExpedientes/>
 }
 <button @onclick="ToggleTramites">ver expedientes</button>
 @if (verExpedientes)
 {
-    <PagTramite usuario=@usuario />
+    <PagTramite/>
 }
 
 @code {
-    [Parameter]
-    public Usuario? usuario { get; set; }
     private bool verUsuarios = false;
     private bool verExpedientes = false;
     private bool verTramites = false;

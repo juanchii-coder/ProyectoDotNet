@@ -2,18 +2,16 @@
 @using SGE.Aplicacion.CasosDeUso.Expediente
 @using SGE.Aplicacion.Entidades
 @using SGE.UI
+@using SGE.UI.Entidades
 @inject NavigationManager Navigation
+@inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoExpedienteConsultaTodos expConsultaTodos
 @rendermode InteractiveServer
-@page "/expedientes/{usuario}"
+@page "/expedientes"
 
 <h3>expedientes</h3>
 
-@if (usuario==null)
-{
-    Navigation.NavigateTo("/login");
-}
-else if (!hayExpedientes)
+@if (!hayExpedientes)
 {
     <p>Cargando....</p>
 }
@@ -22,15 +20,17 @@ else
     {
         <input @bind=@idExpediente placeholder="buscar por id" />
         <button @onclick="BuscarPorId"/>
-        <PopUpBuscar id=@idExpediente usuario=@usuario esExpediente=true />
-        <PagListaExpediente Expe=@expedientes User=@usuario/>
+        <PopUpBuscar id=@idExpediente esExpediente=true />
+        <PagListaExpediente Expe=@expedientes/>
+    }
+    else
+    {
+        <p>No tienes permiso para ver expedientes.</p>
     }
 }
 
 @code {
-    [Parameter]
-    public Usuario? usuario { get; set; }
-    private bool hayExpedientes = true;
+    private bool hayExpedientes;
     private bool puedeVer = false;
     private int idExpediente;
     private List<Expediente>? expedientes { get; set; }
@@ -40,9 +40,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(500);
-        puedeVer= usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_LECTURA"));
-        expedientes = expConsultaTodos.Ejecutar();
+        await Task.Delay(2000);
+        puedeVer= EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_LECTURA"));
+        if (puedeVer)
+        {
+            expedientes = expConsultaTodos.Ejecutar();
+            hayExpedientes = expedientes != null && expedientes.Count > 0;
+        }
+        
     }
     private void EditarOk()
     {

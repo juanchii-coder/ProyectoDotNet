@@ -1,7 +1,7 @@
 @namespace SGE.UI.Components
 @page "/login"
 @using System.ComponentModel.DataAnnotations
-@using SGE.UI
+@using SGE.UI.Entidades
 @using SGE.Aplicacion.Entidades
 @inject NavigationManager Navigation
 @inject EstadoDeUsuario EstadoDeUsuario
@@ -24,59 +24,53 @@
 </div>
 
 
-<PopUpErrorLogin @ref=dialogo Mensaje="Usuario o contraseña no son validas" />
-<PopUpErrorMensaje @ref=dialogo2 Mensaje="contacta con un admin"/>
+<PopUpErrorLogin @ref=dialogoErrorLogin Mensaje="Usuario o contraseña no son validas" />
+<PopUpErrorMensaje @ref=dialogoError Mensaje="contacta con un admin"/>
 
 @code {
 
     private Usuario usuario = new Usuario();
-    PopUpErrorLogin dialogo = null!;
-    PopUpErrorMensaje dialogo2 = null!;
+    PopUpErrorLogin dialogoErrorLogin = null!;
+    PopUpErrorMensaje dialogoError = null!;
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(500);
+        await Task.Delay(2000);
 
     }
     void IniciarSesion()
     {
         if (!string.IsNullOrWhiteSpace(usuario.Contrasenia) && !string.IsNullOrWhiteSpace(usuario.Email))
         {
+            var usuarioLogueado = Login.Ejecutar(usuario);
+            if (usuarioLogueado != null)
+            {
+                EstadoDeUsuario.usuario = usuarioLogueado;
+                EstadoDeUsuario.SetLoggedIn(true);
 
-            //logica de autorizacion de usuario
-            // caso de uso login usuario
-            usuario=Login.Ejecutar(usuario);
-            if (usuario.Permisos.Any(p=>p.Nombre.Equals("OBTENER_LISTA_USUARIOS")))
-            {
-                EstadoDeUsuario.SetAdmin(true);
-            }
-            EstadoDeUsuario.SetLoggedIn(true);
-        }
-        else
-        {
-            //si no exite el usuario
-            //implementar un pop up de error con la opcion de querer registrarse
-            dialogo.Mostrar();
-            //si se quiere registrar
-            //popUp con el texto de error
-            //Navigation.NavigateTo("/register");
-        }
-        if (EstadoDeUsuario.IsLoggedIn)
-        {
-            if (EstadoDeUsuario.EsAdmin)
-            {
-                Navigation.NavigateTo($"/adminpanel/{usuario}");
+                if (usuarioLogueado.Permisos.Any(p => p.Nombre.Equals("OBTENER_LISTA_USUARIOS")))
+                {
+                    EstadoDeUsuario.SetAdmin(true);
+                    Navigation.NavigateTo("/adminpanel");
+                }
+                else
+                {
+                    Navigation.NavigateTo("/expedientes");
+                }
             }
             else
             {
-                Navigation.NavigateTo($"/expedientes/{usuario}");
+                dialogoErrorLogin.Mostrar();
             }
-
+        }
+        else
+        {
+            dialogoErrorLogin.Mostrar();
         }
     }
     void NoContraseña()
     {
-        dialogo2.Mostrar();
+        dialogoError.Mostrar();
     }
     void Registro()
     {

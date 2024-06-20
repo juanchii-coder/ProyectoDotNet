@@ -4,6 +4,7 @@
 @inject NavigationManager Navigation
 @inject CasoDeUsoExpedienteConsultaPorId expConsulId
 @inject CasoDeUsoTramiteConsultaPorId tramConsultaId
+@inject EstadoDeUsuario EstadoDeUsuario
 @inject ServicioPermiso servicioPermiso
 
 @if (visible)
@@ -40,7 +41,7 @@
                                 @if (puedeEditarExpediente)
                                 {
                                     <button @onclick="EditarOk">Editar</button>
-                                    <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Exp=@expediente User=idUsuario />
+                                    <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@expediente EditExpediente=true />
                                     @if (puedeEliminarExpediente)
                                     {
                                         //PopUp verificar(si o no)
@@ -84,7 +85,7 @@
                             @if (puedeEditarTramite)
                             {
                                 <button @onclick="EditarOk">Editar</button>
-                                <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@tramite User=idUsuario />
+                                <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@tramite EditExpediente=false />
                                 @if (puedeEliminarExpediente)
                                 {
                                     <button>Eliminar</button>
@@ -105,8 +106,6 @@
     [Parameter]
     public int id { get; set; }
     [Parameter]
-    public Usuario? usuario { get; set; }
-    [Parameter]
     public bool esExpediente{ get; set; }
     private bool puedeEditarTramite;
     private bool puedeEliminarTramite;
@@ -119,11 +118,11 @@
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(500);
-        if (usuario != null)
+        if (EstadoDeUsuario.usuario != null)
         {
-            List<Permiso> permisos = servicioPermiso.PermisosDeUsuario(usuario.Id);
+            List<Permiso> permisos = servicioPermiso.PermisosDeUsuario(EstadoDeUsuario.usuario.Id);
             if(esExpediente){
-                expediente = expConsulId.Ejecutar(id, usuario.Id);
+                expediente = expConsulId.Ejecutar(id, EstadoDeUsuario.usuario.Id);
             }
             else
             {
@@ -131,10 +130,10 @@
             }
             //buscar permisos (puede eliminar o editar expedientes)
 
-            puedeEliminarExpediente = usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_BAJA"));
-            puedeEditarExpediente = usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_MODIFICACION"));
-            puedeEliminarTramite = usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_BAJA"));
-            puedeEditarTramite = usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_MODIFICACION"));
+            puedeEliminarExpediente = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_BAJA"));
+            puedeEditarExpediente = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_MODIFICACION"));
+            puedeEliminarTramite = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_BAJA"));
+            puedeEditarTramite = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_MODIFICACION"));
         }
     }
 
@@ -154,6 +153,6 @@
     void VerTramites(Expediente expediente)
     {
         //mandar id de expediente
-        Navigation.NavigateTo($"/tramites/{usuario}");
+        Navigation.NavigateTo($"/tramites/{expediente.Id}");
     }
 }

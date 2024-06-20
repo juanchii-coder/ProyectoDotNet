@@ -39,6 +39,7 @@ builder.Services.AddTransient<CasoDeUsoOtorgarPermisos>();
 builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
 builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
+builder.Services.AddSingleton<EstadoDeUsuario>();
 builder.Services.AddScoped<IServicioCodificacion, ServicioCodificacion>();
 builder.Services.AddScoped<IServicioTramiteValidador, ServicioTramiteValidador>();
 builder.Services.AddScoped<IServicioExpedienteValidador, ServicioExpedienteValidador>();
@@ -49,7 +50,6 @@ builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpediente>();
 builder.Services.AddScoped<IUsuarioRepositorio, RepositorioUsuario>();
 builder.Services.AddScoped<IPermisosRepositorio, PermisosRepositorio>();
 builder.Services.AddScoped<ITramiteRepositorio, RepositorioTramite>();
-builder.Services.AddTransient<EstadoDeUsuario>();
 
 var app = builder.Build();
 

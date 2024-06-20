@@ -6,6 +6,7 @@
 @rendermode InteractiveServer
 @inject CasoDeUsoExpedienteAlta expAlta
 @inject CasoDeUsoExpedienteBaja expBaja
+@inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoExpedienteConsultaTodos expConsultaTodos
 
 <table class="table">
@@ -38,7 +39,7 @@
                     @if (puedeEditar)
                     {
                         <button @onclick="EditarOk">Editar</button>
-                        <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@expediente User=idUsuario />
+                        <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@expediente />
                         @if (puedeEliminar)
                         {
                             <button>Eliminar</button>
@@ -56,14 +57,12 @@
 @code {
     [Parameter]
     public List<Expediente>? Expe { get; set; }
-    [Parameter]
-    public Usuario? usuario{ get; set; }
     private bool puedeEditar = true;
     private bool puedeEliminar = true;
     PopUpEditar popUpEditar = null!;
     protected override async Task OnInitializedAsync(){
-        puedeEliminar = usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_BAJA"));
-        puedeEditar = usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_MODIFICACION"));
+        puedeEliminar = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_BAJA"));
+        puedeEditar = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_MODIFICACION"));
     }
     private void EditarOk()
     {
