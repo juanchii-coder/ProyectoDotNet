@@ -1,8 +1,9 @@
 @namespace SGE.UI.Components
 @inject CasoDeUsoObtenerTodosLosUsuarios usuarioTodos
+@inject EstadoDeUsuario EstadoDeUsuario
 @page "/usuarios"
 
-@if (usuarios != null)
+@if (EstadoDeUsuario.EsAdmin)
 {
   <table class="table">
     <thead>
@@ -29,18 +30,17 @@
         }
       </tr>
     </tbody>
-  </table>
+    </table>
+}
+else
+{
+    //mensaje de error no tiene permisos suficientes
 }
 @code {
-    [Parameter]
-    public Usuario? usuario{ get; set; }
     private List<Usuario>? usuarios;
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(500);
-        usuarios = usuarioTodos.Ejecutar(usuario.Id);
-        //cambiar idUsuario a int y hacer una busqueda por id en el repositorio de usuarios para obtener los permisos
-    //cambiar los permisos dependiendo de que es lo que pueda hacer el usuario
-    //usuario=(caso de uso consulta usuarios que pidieron permisos)
+        usuarios = usuarioTodos.Ejecutar(EstadoDeUsuario.usuario.Id);
   }
 }

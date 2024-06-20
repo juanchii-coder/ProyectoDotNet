@@ -3,6 +3,7 @@
 @using SGE.Aplicacion.Enumerativos
 @inject NavigationManager Navigation
 @inject CasoDeUsoExpedienteModificacion expModificacion
+@inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoTramiteModificacion tramModificacion
 
 @if (visible)
@@ -49,8 +50,6 @@
     [Parameter]
     public object? Edit { get; set; }
     [Parameter]
-    public string? User{ get; set; }
-    [Parameter]
     public bool EditExpediente{ get; set; }
 
 
@@ -65,12 +64,14 @@
     }
     void EditarExpediente()
     {
-        //expModificacion.Ejecutar(Exp,User);
+        expModificacion.Ejecutar((Expediente)Edit,EstadoDeUsuario.usuario.Id,"EXPEDIENTE_MODIFICACION");
+        //popUpConfirmar
         visible = false;
     }
     void EditarTramite()
     {
-
+        tramModificacion.Ejecutar((Tramite)Edit, EstadoDeUsuario.usuario.Id, "TRAMITE_MODIFICACION");
+        //popUpConfirmar
         visible = false;
     }
 }

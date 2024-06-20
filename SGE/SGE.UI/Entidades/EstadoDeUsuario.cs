@@ -1,9 +1,10 @@
-﻿namespace SGE.UI.Entidades
-{
+﻿namespace SGE.UI.Entidades;
+using SGE.Aplicacion.Entidades;
 public class EstadoDeUsuario
 {
 	public bool IsLoggedIn { get; set; } = false;
 	public bool EsAdmin { get; set; } = false;
+	public Usuario? usuario { get; set;}
 	public event Action? OnChange;
 
 	public void SetLoggedIn(bool loggedIn)
@@ -20,4 +21,4 @@ public class EstadoDeUsuario
     private void NotifyStateChanged() => OnChange?.Invoke();
 
 }
-}
+

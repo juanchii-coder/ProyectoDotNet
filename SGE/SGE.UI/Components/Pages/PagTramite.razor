@@ -1,9 +1,10 @@
 @namespace SGE.UI.Components
 @inject NavigationManager Navigation
+@inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoListarTramites listarTramites
-@page "/tramite/{usuario,id}"
+@page "/tramite/{id}"
 
-@if (usuario == null)
+@if (!EstadoDeUsuario.IsLoggedIn)
 {
     Navigation.NavigateTo("/login");
 }
@@ -17,17 +18,16 @@ else
 	{
 		<input @bind=@idTramite placeholder="buscar por id" />
 		<button @onclick="BuscarPorId" />
-		<PopUpBuscar @ref=popUpBuscar idBuscar =@idTramite User=@usuario esExpediente=@false />
-		<PagListaTramites tramites=@tramites User=@usuario />
+		<PopUpBuscar @ref=popUpBuscar id=@idTramite esExpediente=@false />
+		<PagListaTramites tramites=@tramites />
 	}
 }
 
-<PagListaTramites usuario=@usuario tramites=@tramites/>
+<PagListaTramites tramites=@tramites/>
+
 @code {
 	[Parameter]
-	public int id { get; set; }
-	[Parameter]
-	public Usuario? usuario{ get; set; }
+	public int id { get; set; } = -1;
 	private bool puedeVer = false;
 	private List<Tramite>? tramites;
 	private int idTramite;
@@ -35,8 +35,15 @@ else
 	protected override async Task OnInitializedAsync()
 	{
 		await Task.Delay(500);
-		puedeVer = usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_LECTURA"));
-		tramites = listarTramites.Ejecutar();
+		puedeVer = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_LECTURA"));
+		if (id == -1)
+		{
+			tramites = listarTramites.Ejecutar();
+		}
+		else
+		{
+			tramites = listarTramites.Ejecutar().Where(t => t.ExpedienteId==id).ToList();
+		}
 
 	}
 	private void BuscarPorId()
