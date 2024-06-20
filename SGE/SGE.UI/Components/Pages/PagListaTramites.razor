@@ -8,51 +8,55 @@
 @inject CasoDeUsoExpedienteBaja expBaja
 @inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoExpedienteConsultaTodos expConsultaTodos
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Id de Expediente</th>
-            <th>Contenido</th>
-            <th>Fecha de Creación</th>
-            <th>Última Modificación</th>
-            <th>Usuario Última Modificación</th>
-            <th>Etiqueta</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Tramite? tramite in tramites)
-        {
+@if (tramites == null)
+{
+    <p>no hay tramites cargados</p>
+}else{
+    <table class="table">
+        <thead>
             <tr>
-                @if (tramite != null)
-                {
-                    <td>@tramite.Id</td>
-                    <td>@tramite.ExpedienteId</td>
-                    <td>@tramite.Contenido</td>
-                    <td>@tramite.FechaCreacion</td>
-                    <td>@tramite.UltimaModificacion</td>
-                    <td>@tramite.IdUsuarioUltimaModificacion</td>
-                    <td>@tramite.Etiqueta</td>
-                    <td>
-                        @if (puedeEditar)
-                        {
-                            <button @onclick="EditarOk">Editar</button>
-                            <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@tramite/>
-                            @if (puedeEliminar)
-                            {
-                                <button>Eliminar</button>
-                            }
-                        }
-                    </td>
-                }
+                <th>ID</th>
+                <th>Id de Expediente</th>
+                <th>Contenido</th>
+                <th>Fecha de Creación</th>
+                <th>Última Modificación</th>
+                <th>Usuario Última Modificación</th>
+                <th>Etiqueta</th>
+                <th>Acciones</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (Tramite? tramite in tramites)
+            {
+                <tr>
+                    @if (tramite != null)
+                    {
+                        <td>@tramite.Id</td>
+                        <td>@tramite.ExpedienteId</td>
+                        <td>@tramite.Contenido</td>
+                        <td>@tramite.FechaCreacion</td>
+                        <td>@tramite.UltimaModificacion</td>
+                        <td>@tramite.IdUsuarioUltimaModificacion</td>
+                        <td>@tramite.Etiqueta</td>
+                        <td>
+                            @if (puedeEditar)
+                            {
+                                <button @onclick="EditarOk">Editar</button>
+                                <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@tramite/>
+                                @if (puedeEliminar)
+                                {
+                                    <button>Eliminar</button>
+                                }
+                            }
+                        </td>
+                    }
+                </tr>
+            }
 
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+}
 
 @code {
     [Parameter]

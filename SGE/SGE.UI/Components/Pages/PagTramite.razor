@@ -2,7 +2,7 @@
 @inject NavigationManager Navigation
 @inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoListarTramites listarTramites
-@page "/tramite/{id}"
+@page "/tramite/{id:int}"
 
 @if (!EstadoDeUsuario.IsLoggedIn)
 {
@@ -16,14 +16,12 @@ else
 {
 	if (puedeVer)
 	{
-		<input @bind=@idTramite placeholder="buscar por id" />
-		<button @onclick="BuscarPorId" />
-		<PopUpBuscar @ref=popUpBuscar id=@idTramite esExpediente=@false />
-		<PagListaTramites tramites=@tramites />
+		<input @bind="idTramite" placeholder="buscar por id" />
+		<button @onclick="BuscarPorId">Buscar</button>
+		<PopUpBuscar @ref="popUpBuscar" id="@idTramite" esExpediente="false" />
+		<PagListaTramites tramites="@tramites" />
 	}
 }
-
-<PagListaTramites tramites=@tramites/>
 
 @code {
 	[Parameter]
@@ -31,7 +29,7 @@ else
 	private bool puedeVer = false;
 	private List<Tramite>? tramites;
 	private int idTramite;
-	PopUpBuscar? popUpBuscar=null!;
+	PopUpBuscar? popUpBuscar;
 	protected override async Task OnInitializedAsync()
 	{
 		await Task.Delay(500);
@@ -44,10 +42,10 @@ else
 		{
 			tramites = listarTramites.Ejecutar().Where(t => t.ExpedienteId==id).ToList();
 		}
-
+		popUpBuscar = new PopUpBuscar();
 	}
 	private void BuscarPorId()
 	{
-		popUpBuscar.Mostrar();
+		popUpBuscar?.Mostrar();
 	}
 }
