@@ -50,7 +50,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(2000);
+        await Task.Delay(500);
         puedeVer= EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_LECTURA"));
         if (puedeVer)
         {

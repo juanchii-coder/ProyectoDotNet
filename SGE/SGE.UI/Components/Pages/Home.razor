@@ -1,7 +1,21 @@
 ﻿@namespace SGE.UI.Components
+@inject NavigationManager Navigate
+@rendermode InteractiveServer
 @page "/"
 
 <PageTitle>gestion de Expedientes</PageTitle>
 <h1>bienvenidos a la gestion de expedientes</h1>
 <h4>inicie sesion para poder utilizar la pagina</h4>
+<button @onclick="Login">Iniciar Sesion</button>
+<button @onclick="Register">Registrarse</button>
+@code{
+	private void Login()
+	{
+		Navigate.NavigateTo("/login");
+	}
+	private void Register()
+	{
+		Navigate.NavigateTo("/register");
+	}
+}
 

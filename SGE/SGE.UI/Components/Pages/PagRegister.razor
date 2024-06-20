@@ -40,6 +40,12 @@
     private string? confirmContrasenia;
     private bool contraseniaDesigual = false;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+
+    }
+
     void Agregar()
     {
         if (usuario.Contrasenia != confirmContrasenia)
