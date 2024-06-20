@@ -34,7 +34,7 @@
                     <td>@expediente.UltimaModificacion</td>
                     <td>@expediente.IdUsuario</td>
                     <td>@expediente.Estado</td>
-                    <td><button>ver tramites relacionados</button></td>
+                    <td><button @onclick="()=>VerTramites(expediente)">ver tramites relacionados</button></td>
                     <td>
                     @if (puedeEditar)
                     {
@@ -67,5 +67,9 @@
     private void EditarOk()
     {
         popUpEditar.Mostrar();
+    }
+    private void VerTramites(Expediente expediente)
+    {
+        Navigation.NavigateTo($"/tramites/{expediente.Id}");
     }
 }
