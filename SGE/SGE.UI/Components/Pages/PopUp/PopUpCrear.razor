@@ -1,0 +1,69 @@
+@namespace SGE.UI.Components
+@rendermode InteractiveServer
+@using SGE.Aplicacion.Enumerativos
+@inject NavigationManager Navigation
+@inject CasoDeUsoExpedienteAlta expAlta
+@inject CasoDeUsoTramiteAlta tramAlta
+@inject EstadoUsuario User
+
+@if (visible)
+{
+    if(AltaExpediente ==true ){
+        Expediente Exp = (Expediente)Crear;
+        <div class="dialogo-contenedor">
+            <div class="dialogo-contenido">
+                <button class="btn-cerrar" @onclick="Cerrar">X</button>
+                <h4>@Mensaje : Ingrese la caratula del nuevo expediente</h4>
+                <label for="Caratula">Cartula:</label>
+                <input @bind=@Exp.Caratula placeholder="Caratula"/>
+                <p>Confirmar creacion </p>            
+                <button class="btn btn-aceptar" @onclick="CrearExpediente">Aceptar</button>
+            </div>
+        </div>
+    }
+    else
+    {
+       Tramite tram = (Tramite)Crear;
+        <div class="dialogo-contenedor">
+            <div class="dialogo-contenido">
+                <button class="btn-cerrar" @onclick="Cerrar">X</button>
+                <h4>@Mensaje : Ingrese el contenido del nuevo tramite</h4>
+                <label for="Contenido">Contenido:</label>
+                <input @bind=@tram.Contenido placeholder="Contenido"/>
+                <p>Confirmar creacion </p>            
+                <button class="btn btn-aceptar" @onclick="CrearTramite">Aceptar</button>
+            </div>
+        </div>
+        
+    }
+}
+@code {
+    private bool visible = false;
+    [Parameter]
+    public string Mensaje { get; set; } = "";
+    [Parameter]
+    public object? Crear { get; set; }    
+    [Parameter]
+    public bool CrearExpediente{ get; set; }
+
+
+    public void Mostrar() 
+    {
+        visible = true;
+        StateHasChanged();
+    }
+    void Cerrar()
+    {
+        visible = false;
+    }
+    void CrearExpediente()
+    {
+        expAlta.Ejecutar(exp,User.Id,"EXPEDIENTE_ALTA")
+        visible = false;
+    }
+    void CrearTramite()
+    {
+        CrearTramite.Ejecutar(tram,User.Id,"TRAMITE_ALTA")
+        visible = false;
+    }
+}
