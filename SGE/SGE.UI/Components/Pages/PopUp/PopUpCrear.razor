@@ -8,64 +8,63 @@
 
 @if (visible)
 {
-    if(AltaExpediente ==true ){
-        exp = (Expediente)Crear;
-        <div class="dialogo-contenedor">
-            <div class="dialogo-contenido">
-                <button class="btn-cerrar" @onclick="Cerrar">X</button>
-                <h4>@Mensaje : Ingrese la caratula del nuevo expediente</h4>
-                <label for="Caratula">Cartula:</label>
-                <input @bind=@exp.Caratula placeholder="Caratula"/>
-                <p>Confirmar creacion </p>            
+    <div class="dialogo-contenedor">
+        <div class="dialogo-contenido">
+            <button class="btn-cerrar" @onclick="Cerrar">X</button>
+            <h4>@Mensaje</h4>
+            @if (AltaExpediente)
+            {
+                <label for="Caratula">Carátula:</label>
+                <input @bind="@exp.Caratula" placeholder="Carátula" />
+                <p>Confirmar creación</p>
                 <button class="btn btn-aceptar" @onclick="CrearExpediente">Aceptar</button>
-            </div>
-        </div>
-    }
-    else
-    {
-       tram = (Tramite)Crear;
-        <div class="dialogo-contenedor">
-            <div class="dialogo-contenido">
-                <button class="btn-cerrar" @onclick="Cerrar">X</button>
-                <h4>@Mensaje : Ingrese el contenido del nuevo tramite</h4>
+            }
+            else
+            {
                 <label for="Contenido">Contenido:</label>
-                <input @bind=@tram.Contenido placeholder="Contenido"/>
-                <p>Confirmar creacion </p>            
+                <input @bind="@tram.Contenido" placeholder="Contenido" />
+                <p>Confirmar creación</p>
                 <button class="btn btn-aceptar" @onclick="CrearTramite">Aceptar</button>
-            </div>
+            }
         </div>
-        
-    }
+    </div>
 }
+
 @code {
     private bool visible = false;
     [Parameter]
     public string Mensaje { get; set; } = "";
     [Parameter]
-    public object? Crear { get; set; }    
+    public object? Crear { get; set; }
     [Parameter]
     public bool AltaExpediente { get; set; }
-    private Expediente exp;
-    private Tramite tram;
+    private Expediente exp = new Expediente(); // Inicialización de objeto Expediente
+    private Tramite tram = new Tramite(); // Inicialización de objeto Tramite
 
-
-    public void Mostrar() 
+    public void Mostrar()
     {
         visible = true;
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
+
     void Cerrar()
     {
         visible = false;
+        InvokeAsync(StateHasChanged);
     }
+
     void CrearExpediente()
     {
         expAlta.Ejecutar(exp, User.usuario.Id, "EXPEDIENTE_ALTA");
         visible = false;
+        InvokeAsync(StateHasChanged);
     }
+
     void CrearTramite()
     {
         tramAlta.Ejecutar(tram, User.usuario.Id, "TRAMITE_ALTA");
         visible = false;
+        InvokeAsync(StateHasChanged);
     }
 }
+
