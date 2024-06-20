@@ -8,7 +8,10 @@ using SGE.Repositorios.Configuracion;
 public class RepositorioTramite : ITramiteRepositorio
 {
 
-  private readonly GestionExpedienteContext _db = new GestionExpedienteContext();
+  private readonly GestionExpedienteContext _db;
+    public RepositorioTramite(GestionExpedienteContext context) {
+        _db = context;
+    }
   public List<Tramite> ListarTramites()
   {
     return _db.Tramites.ToList();

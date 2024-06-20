@@ -3,14 +3,23 @@ using SGE.Aplicacion.Entidades;
 using SGE.Repositorios.Configuracion;
 using SGE.Aplicacion.Interfaces;
 
-
 public class RepositorioUsuario : IUsuarioRepositorio
 {
-    private readonly GestionExpedienteContext _db =new GestionExpedienteContext();
+    private readonly GestionExpedienteContext _db;
+    public RepositorioUsuario(GestionExpedienteContext context) {
+        _db = context;
+    }
 
     public Usuario? ObtenerUsuarioPorId(int idUsuario)
     {
-        return _db.Usuarios.FirstOrDefault(u => u.Id == idUsuario);
+        Usuario? usuarioDb = _db.Usuarios.FirstOrDefault(u => u.Id == idUsuario);
+        if(usuarioDb != null) {
+            usuarioDb.Permisos = _db.Usuarios
+                           .Where(u => u.Id == idUsuario)
+                           .SelectMany(u => u.Permisos)
+                           .ToList();
+        }
+        return usuarioDb;
     }
 
     public List<Usuario> ObtenerTodosLosUsuarios()
@@ -64,6 +73,13 @@ public class RepositorioUsuario : IUsuarioRepositorio
     }
 
     public Usuario? ObtenerUsuarioPorEmail(string email) {
-        return _db.Usuarios.FirstOrDefault(u => u.Email == email);
+        Usuario? usuarioDb = _db.Usuarios.FirstOrDefault(u => u.Email == email);
+        if(usuarioDb != null) {
+            usuarioDb.Permisos = _db.Usuarios
+                           .Where(u => u.Email == email)
+                           .SelectMany(u => u.Permisos)
+                           .ToList();
+        }
+        return usuarioDb;
     }
 }

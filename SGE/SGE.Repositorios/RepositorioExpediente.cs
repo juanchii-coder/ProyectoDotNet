@@ -5,7 +5,10 @@ using SGE.Repositorios.Configuracion;
 
 public class RepositorioExpediente : IExpedienteRepositorio
 {
-  private readonly GestionExpedienteContext _db = new GestionExpedienteContext();
+  private readonly GestionExpedienteContext _db;
+    public RepositorioExpediente(GestionExpedienteContext context) {
+        _db = context;
+    }
   public void ExpedienteAlta(Expediente expediente, int idUsuario)
   {
     expediente.IdUsuario = idUsuario;
