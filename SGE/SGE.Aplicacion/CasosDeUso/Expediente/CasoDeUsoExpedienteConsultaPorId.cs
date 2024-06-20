@@ -2,8 +2,7 @@
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Exepciones;
-using SGE.Aplicacion.Validadores;
-public class CasoDeUsoExpedienteConsultaPorId(IExpedienteRepositorio repo, IValidacionServicio val)
+public class CasoDeUsoExpedienteConsultaPorId(IExpedienteRepositorio repo, IServicioExpedienteValidador val)
 {
   private const string ERROR_MESSAGE = "Error en la Consulta - ";
   public Expediente Ejecutar(int idExpediente, int idUsuario)

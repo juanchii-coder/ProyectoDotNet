@@ -2,9 +2,8 @@
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Exepciones;
-using SGE.Aplicacion.Validadores;
 using SGE.Aplicacion.Servicios;
-public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioPermiso auto, IValidacionServicio val, ServicioActualizacionEstado act)
+public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, IServicioPermiso auto, IServicioTramiteValidador val, ServicioActualizacionEstado act)
 {
   private const string ERROR_MESSAGE = "Error en modificacion del tramite -";
   public void Ejecutar(Tramite tramite, int id, string permiso)

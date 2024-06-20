@@ -1,7 +1,7 @@
-namespace SGE.Aplicacion.Servicios;
-using SGE.Aplicacion.Entidades;
+namespace SGE.Repositorios.Servicios;
 using SGE.Aplicacion.Interfaces;
 using System.Security.Cryptography;
+using SGE.Repositorios.Configuracion;
 using System.Text;
 
 public class ServicioAutentificador : IServicioAutentificador
@@ -16,7 +16,7 @@ public class ServicioAutentificador : IServicioAutentificador
     {
         using( var hsha256= SHA256.Create())
         {
-            var hash= sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            var hash= hsha256.ComputeHash(Encoding.UTF8.GetBytes(password));
 
              return Contrasenia == Convert.ToBase64String(hash);
         }

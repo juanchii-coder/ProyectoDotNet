@@ -1,8 +1,7 @@
+namespace SGE.Repositorios;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Repositorios.Configuracion;
-
-namespace SGE.Repositorios;
 
 public class RepositorioExpediente : IExpedienteRepositorio
 {

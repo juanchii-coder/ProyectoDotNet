@@ -1,9 +1,9 @@
+namespace SGE.Repositorios;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Enumerativos;
 using SGE.Repositorios.Configuracion;
 
-namespace SGE.Repositorios;
 
 public class RepositorioTramite : ITramiteRepositorio
 {

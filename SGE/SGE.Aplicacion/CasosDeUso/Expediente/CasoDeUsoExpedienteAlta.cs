@@ -3,7 +3,6 @@ using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Exepciones;
 using SGE.Aplicacion.Enumerativos;
-using SGE.Aplicacion.Validadores;
 
 public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IServicioPermiso perm, IServicioExpedienteValidador val)
 {

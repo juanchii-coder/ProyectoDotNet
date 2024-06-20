@@ -21,7 +21,7 @@ else
 {
     <input @bind=@idExpediente placeholder="buscar por id" />
     <button @onclick="BuscarPorId"/>
-    <PopUpBuscarExpediente idExp=@idExpediente User=@usuario/>
+    <PopUpBuscar id=@idExpediente usuario=@usuario/>
     <PagListaExpediente Expe=@expedientes User=@usuario/>
     @if (!puedeVer)
     {

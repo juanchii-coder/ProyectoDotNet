@@ -1,8 +1,7 @@
+namespace SGE.Repositorios;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Interfaces;
 using SGE.Repositorios.Configuracion;
-
-namespace SGE.Repositorios;
 
 public class PermisosRepositorio : IPermisosRepositorio
 {

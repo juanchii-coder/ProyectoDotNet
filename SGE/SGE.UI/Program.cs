@@ -6,8 +6,9 @@ using SGE.Aplicacion.CasosDeUso.Expediente;
 using SGE.Aplicacion.CasosDeUso.Tramite;
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Servicios;
-using SGE.Aplicacion.Validadores;
 using SGE.Aplicacion.CasosDeUso.Usuario;
+using SGE.Repositorios.Servicios;
+using SGE.Repositorios.Configuracion;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,8 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 //agrego servicios y validadores al contenedor
-builder.Services.AddTransient<ExpedienteValidador>();
-builder.Services.AddTransient<TramiteValidador>();
+builder.Services.AddTransient<GestionExpedienteContext>();
 builder.Services.AddTransient<ServicioActualizacionEstado>();
 builder.Services.AddTransient<CasoDeUsoExpedienteAlta>();
 builder.Services.AddTransient<CasoDeUsoExpedienteBaja>();
@@ -37,6 +37,10 @@ builder.Services.AddTransient<CasoDeUsoOtorgarPermisos>();
 builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
 builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
+builder.Services.AddScoped<IServicioTramiteValidador,ServicioTramiteValidador>();
+builder.Services.AddScoped<IServicioExpedienteValidador, ServicioExpedienteValidador>();
+builder.Services.AddScoped<IServicioUsuarioValidador, ServicioUsuarioValidador>();
+builder.Services.AddScoped<IServicioAutentificador, ServicioAutentificador>();
 builder.Services.AddScoped<IServicioPermiso, ServicioPermiso>();
 builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpediente>();
 builder.Services.AddScoped<IUsuarioRepositorio, RepositorioUsuario>();

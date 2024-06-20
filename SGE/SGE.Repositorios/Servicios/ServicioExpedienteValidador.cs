@@ -1,6 +1,7 @@
-namespace SGE.Aplicacion.Servicios;
+namespace SGE.Repositorios.Servicios;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Interfaces;
+using SGE.Repositorios.Configuracion;
 
 
 public class ServicioExpedienteValidador : IServicioExpedienteValidador

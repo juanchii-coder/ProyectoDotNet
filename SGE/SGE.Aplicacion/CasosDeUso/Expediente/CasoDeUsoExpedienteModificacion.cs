@@ -2,7 +2,6 @@
 using SGE.Aplicacion.Interfaces;
 using SGE.Aplicacion.Entidades;
 using SGE.Aplicacion.Exepciones;
-using SGE.Aplicacion.Validadores;
 public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repo, IServicioPermiso perm, IServicioExpedienteValidador val)
 {
 
@@ -12,7 +11,7 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repo, IServi
     Expediente? x = repo.ExpedienteConsultaPorId(expediente.Id);
     if (!perm.UsuarioTienePermiso(idUsuario, permiso))
     {
-      throw new permrizacionException(ERROR_MESSAGE + $"id usuario={idUsuario} debe ser igual a 1, Permiso={permiso}");
+      throw new AutorizacionException(ERROR_MESSAGE + $"id usuario={idUsuario} debe ser igual a 1, Permiso={permiso}");
     }
     if (!val.ValidarExpediente(idUsuario, expediente))
     {
