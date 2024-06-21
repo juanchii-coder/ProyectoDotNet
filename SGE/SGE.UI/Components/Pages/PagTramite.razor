@@ -12,52 +12,90 @@
 {
     Navigation.NavigateTo("/login");
 }
-<<<<<<< Updated upstream
-else if (tramites == null||tramites.Count() == 0)
-=======
-else if (tramites==null)
->>>>>>> Stashed changes
+
+@if (crearOk)
 {
-	<p>no hay tramites cargados</p>
-	<button @onclick="Crear">crear tramite</button>
+    <PagCrearTramite @bind-tramite="nuevoTramite" />
+    <button @onclick="GuardarNuevoTramite">Guardar trámite</button>
+    <button @onclick="CancelarCreacion">Cancelar</button>
 }
 else
 {
-	if (puedeVer)
-	{
-		<input @bind="@idTramite" placeholder="buscar por id" />
-		<button @onclick="()=>BuscarPorId(idTramite)">Buscar</button>
-		<button @onclick="Crear">crear tramite</button>
-		<PagListaTramites tramites="@tramites" />
-	}
+    @if (tramites == null || tramites.Count == 0)
+    {
+        <p>no hay trámites cargados</p>
+    }
+    else
+    {
+        @if (puedeVer)
+        {
+            <input @bind="@idTramite" placeholder="buscar por id" />
+            <button @onclick="()=>BuscarPorId(idTramite)">Buscar</button>
+        }
+        else
+        {
+            <p>no tienes permisos suficientes</p>
+        }
+
+        <PagListaTramites tramites="@tramites" />
+    }
+
+    <button @onclick="IniciarCreacion">Crear trámite</button>
 }
 
 @code {
-	[Parameter]
-	public int id { get; set; }
-	private bool puedeVer = false;
-	private List<Tramite>? tramites;
-	private int idTramite;
-	protected override async Task OnInitializedAsync()
-	{
-		await Task.Delay(500);
-		puedeVer = EstadoDeUsuario.usuario!.Permisos.Any(p => p.Nombre!.Equals("TRAMITE_LECTURA"));
-		if (id == -1)
-		{
-			tramites = listarTramites.Ejecutar();
-		}
-		else
-		{
-			tramites = listarTramites.Ejecutar().Where(t => t.ExpedienteId==id).ToList();
-		}
-	}
-	private void BuscarPorId(int id)
-	{
-		tramites = tramites.Where(e => e.Id == id).ToList();
-		StateHasChanged();
-	}
-	private void Crear()
-	{
-		Navigation.NavigateTo("/tramite/crear");
-	}
+    [Parameter]
+    public int id { get; set; }
+
+    private bool puedeVer = false;
+    private List<Tramite> tramites;
+    private int idTramite;
+    private bool crearOk = false;
+    private Tramite nuevoTramite = new Tramite(); // Nuevo trámite para la creación
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500); // Simular carga o inicialización asíncrona
+
+        puedeVer = EstadoDeUsuario.usuario!.Permisos.Any(p => p.Nombre!.Equals("TRAMITE_LECTURA"));
+
+        if (id == -1)
+        {
+            tramites = listarTramites.Ejecutar();
+        }
+        else
+        {
+            tramites = listarTramites.Ejecutar().Where(t => t.ExpedienteId == id).ToList();
+        }
+    }
+
+    private void BuscarPorId(int id)
+    {
+        tramites = tramites.Where(e => e.Id == id).ToList();
+    }
+
+    private void IniciarCreacion()
+    {
+        crearOk = true;
+    }
+
+    private void GuardarNuevoTramite()
+    {
+        // Lógica para guardar el nuevo trámite
+        // Por ejemplo, podrías llamar a un servicio para ejecutar el caso de uso de alta de trámite
+        // tramAlta.Ejecutar(nuevoTramite, EstadoDeUsuario.usuario.Id, "TRAMITE_ALTA");
+
+        // Después de guardar, puedes actualizar la lista de trámites o hacer cualquier otra acción necesaria
+        tramites = listarTramites.Ejecutar();
+
+        // Restablecer la bandera de creación
+        crearOk = false;
+    }
+
+    private void CancelarCreacion()
+    {
+        crearOk = false;
+        // También podrías restablecer el objeto nuevoTramite si es necesario
+        nuevoTramite = new Tramite();
+    }
 }

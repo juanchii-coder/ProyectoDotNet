@@ -14,7 +14,13 @@
     Navigation.NavigateTo("/login");
 }
 
-@if (expedientes==null)
+@if (crearOk)
+{
+    <PagCrearExpediente/>
+    <button @onclick="Crear">Cerrar</button>
+}
+
+@if (expedientes == null || expedientes.Count() == 0)
 {
         <p>no hay expedientes cargados</p>
         <button @onclick="Crear">crear Expediente</button>
@@ -29,12 +35,12 @@
         <p>No tienes permiso para ver expedientes.</p>
     }
 }
-
 @code {
     private bool hayExpedientes;
     private bool puedeVer = false;
     private int idExpediente;
     private List<Expediente>? expedientes { get; set; }
+    private bool crearOk=false;
 
 
     protected override async Task OnInitializedAsync()
@@ -49,7 +55,8 @@
     }
     private void Crear()
     {
-        Navigation.NavigateTo("/pagcrearexpediente");
+        crearOk = !crearOk;
+        //Navigation.NavigateTo("/pagcrearexpediente");
     }
 
     private void BuscarPorId(int id)
