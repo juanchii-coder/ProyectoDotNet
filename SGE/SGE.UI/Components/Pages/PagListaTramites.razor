@@ -2,6 +2,7 @@
 @using SGE.Aplicacion.CasosDeUso.Expediente
 @using SGE.Aplicacion.Entidades
 @using SGE.UI
+@using SGE.UI.Entidades
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 @inject CasoDeUsoExpedienteAlta expAlta
@@ -66,6 +67,7 @@
     PopUpEditar popUpEditar = null!;
     protected override async Task OnInitializedAsync()
     {
+        await Task.Delay(500);
         puedeEliminar = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_BAJA"));
         puedeEditar = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("TRAMITE_MODIFICACION"));
     }

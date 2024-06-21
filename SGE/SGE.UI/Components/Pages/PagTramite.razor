@@ -1,4 +1,7 @@
 @namespace SGE.UI.Components
+@using SGE.UI.Entidades
+@using SGE.Aplicacion.Entidades
+@using SGE.Aplicacion.CasosDeUso.Tramite
 @inject NavigationManager Navigation
 @inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoListarTramites listarTramites
@@ -10,7 +13,7 @@
 }
 else if (tramites == null||tramites.Count() == 0)
 {
-	<p>Cargando....</p>
+	<p>no hay tramites cargados</p>
 }
 else
 {

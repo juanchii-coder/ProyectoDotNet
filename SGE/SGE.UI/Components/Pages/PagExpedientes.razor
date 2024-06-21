@@ -57,6 +57,9 @@ else
             expedientes = expConsultaTodos.Ejecutar();
             hayExpedientes = expedientes != null && expedientes.Count > 0;
         }
+        popUpCrear = new PopUpCrear();
+        popUpEditar = new PopUpEditar();
+        popUpBuscar = new PopUpBuscar();
 
     }
     private void Crear()

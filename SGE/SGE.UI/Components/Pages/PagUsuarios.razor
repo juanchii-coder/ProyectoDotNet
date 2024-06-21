@@ -1,4 +1,6 @@
 @namespace SGE.UI.Components
+@using SGE.Aplicacion.Entidades
+@using SGE.UI.Entidades
 @inject CasoDeUsoObtenerTodosLosUsuarios usuarioTodos
 @inject EstadoDeUsuario EstadoDeUsuario
 @page "/usuarios"
@@ -34,7 +36,7 @@
 }
 else
 {
-    <p>No tiene permisos suficientes para acceder a esta página.</p>
+    <p>No tiene permisos suficientes para acceder a esta pï¿½gina.</p>
 }
 
 @code {
@@ -51,7 +53,7 @@ else
         else
         {
             // Manejo de caso donde EstadoDeUsuario.usuario es null
-            usuarios = new List<Usuario>(); // Opcionalmente puedes inicializarla como una lista vacía o manejar otro tipo de mensaje/error
+            usuarios = new List<Usuario>(); // Opcionalmente puedes inicializarla como una lista vacï¿½a o manejar otro tipo de mensaje/error
         }
     }
 }
