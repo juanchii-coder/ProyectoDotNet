@@ -43,7 +43,9 @@
                             @if (puedeEditar)
                             {
                                 <button @onclick="EditarOk">Editar</button>
-                                <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@tramite/>
+                                if(editarOk){
+                                    <PagEditarTramite tramite="@tramite"/>
+                                }
                                 @if (puedeEliminar)
                                 {
                                     <button>Eliminar</button>
@@ -64,7 +66,7 @@
     public List<Tramite>? tramites { get; set; }
     private bool puedeEditar = true;
     private bool puedeEliminar = true;
-    PopUpEditar popUpEditar = null!;
+    private bool editarOk = false;
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(500);
@@ -73,6 +75,6 @@
     }
     private void EditarOk()
     {
-        popUpEditar.Mostrar();
+        editarOk = !editarOk;
     }
 }

@@ -1,0 +1,33 @@
+﻿@namespace SGE.UI.Components
+@using SGE.Aplicacion.Entidades
+@using SGE.Aplicacion.CasosDeUso.Tramite
+@inject EstadoDeUsuario EstadoDeUsuario
+@inject CasoDeUsoTramiteAlta tramAlta
+
+<div>
+    <label for="ExpedienteId">Expediente ID:</label>
+    <input @bind="@tramite.ExpedienteId" placeholder="ID del expediente" />
+</div>
+<div>
+    <label for="Contenido">Contenido:</label>
+    <input @bind="@tramite.Contenido" placeholder="Contenido" />
+</div>
+
+<button class="btn btn-aceptar" @onclick="CrearTramite">Aceptar</button>
+
+@code {
+    [Parameter]
+    public Tramite tramite { get; set; } = new Tramite(); // Objeto trámite que se crea
+
+    [Parameter]
+    public EventCallback<Tramite> OnTramiteCreado { get; set; } // Evento para notificar cuando se crea un trámite
+
+    void CrearTramite()
+    {
+        // Aquí podrías validar los datos del trámite antes de guardarlo
+        tramAlta.Ejecutar(tramite, EstadoDeUsuario.usuario.Id, "TRAMITE_ALTA");
+
+        // Notificar al componente padre que se ha creado el trámite
+        OnTramiteCreado.InvokeAsync(tramite);
+    }
+}

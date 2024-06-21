@@ -1,4 +1,61 @@
 @namespace SGE.UI.Components
+@using SGE.Aplicacion.Entidades
+@using SGE.UI.Entidades
+@inject CasoDeUsoUsuarioModificacion usuarioModificacion
+@inject EstadoDeUsuario EstadoDeUsuario
+
 @page "/opciones"
-<p>aca seria el lugar donde se cambian los datos del usuario </p>
-<p>dar de baja a si mismo</p>
+
+<h3>Editar Usuario</h3>
+
+<div class="form-group">
+    <label for="Nombre">Nombre:</label>
+    <input id="Nombre" @bind-value="usuario.Nombre" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label for="Apellido">Apellido:</label>
+    <input id="Apellido" @bind-value="usuario.Apellido" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label for="Email">Email:</label>
+    <input id="Email" @bind-value="usuario.Email" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label for="ContraseniaActual">Contraseña Actual:</label>
+    <input id="ContraseniaActual" @bind-value="contraseniaActual" type="password" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label for="NuevaContrasenia">Nueva Contraseña:</label>
+    <input id="NuevaContrasenia" @bind-value="nuevaContrasenia" type="password" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label for="ConfirmarContrasenia">Confirmar Nueva Contraseña:</label>
+    <input id="ConfirmarContrasenia" @bind-value="confirmarContrasenia" type="password" class="form-control" />
+</div>
+
+<button class="btn btn-primary" @onclick="GuardarCambiosPersonales">Guardar Cambios Personales</button>
+
+@code {
+    private Usuario usuario;
+    private string contraseniaActual = "";
+    private string nuevaContrasenia = "";
+    private string confirmarContrasenia = "";
+
+    protected override void OnInitialized()
+    {
+        usuario = EstadoDeUsuario.usuario; // Clonamos el usuario para evitar modificar el estado original
+    }
+
+    private void GuardarCambiosPersonales()
+    {
+        if (nuevaContrasenia != confirmarContrasenia)
+        {
+            usuarioModificacion.Ejecutar(EstadoDeUsuario.usuario.Id, usuario);
+        }
+    }
+}

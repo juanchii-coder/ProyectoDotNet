@@ -40,7 +40,7 @@ else
 }
 
 @code {
-    private List<Usuario> usuarios;
+    private List<Usuario>? usuarios;
 
     protected override async Task OnInitializedAsync()
     {
@@ -53,7 +53,8 @@ else
         else
         {
             // Manejo de caso donde EstadoDeUsuario.usuario es null
-            usuarios = new List<Usuario>(); // Opcionalmente puedes inicializarla como una lista vac�a o manejar otro tipo de mensaje/error
+            usuarios = new List<Usuario>(); // Opcionalmente puedes inicializarla como una lista vac�a o manejar otro tipo de
+            //mensaje / error
         }
     }
 }

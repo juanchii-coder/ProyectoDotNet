@@ -40,7 +40,10 @@
                     @if (puedeEditar)
                     {
                         <button @onclick="EditarOk">Editar</button>
-                        <PopUpEditar @ref=popUpEditar Mensaje="desea editar expediente" Edit=@expediente />
+                            @if (editarOk)
+                            {
+                                <PagEditarExpediente expediente="@expediente"/>
+                            }
                         @if (puedeEliminar)
                         {
                             <button>Eliminar</button>
@@ -60,7 +63,7 @@
     public List<Expediente>? Expe { get; set; }
     private bool puedeEditar = true;
     private bool puedeEliminar = true;
-    PopUpEditar popUpEditar = null!;
+    private bool editarOk = false;
     protected override async Task OnInitializedAsync(){
         await Task.Delay(500);
         puedeEliminar = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_BAJA"));
@@ -68,7 +71,7 @@
     }
     private void EditarOk()
     {
-        popUpEditar.Mostrar();
+        editarOk = !editarOk;
     }
     private void VerTramites(Expediente expediente)
     {
