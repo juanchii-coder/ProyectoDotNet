@@ -11,7 +11,7 @@ public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, IServicioPermi
   {
     if (!perm.UsuarioTienePermiso(idUsuario, permiso))
     {
-      throw new AutorizacionException(ERROR_MESSAGE + $"id usuario={idUsuario} debe ser igual a 1, Permiso={permiso}");
+      throw new AutorizacionException(ERROR_MESSAGE + $"id usuario={idUsuario} no es valido, Permiso={permiso}");
     }
     if (!val.ValidarExpediente(idUsuario, expediente))
     {
