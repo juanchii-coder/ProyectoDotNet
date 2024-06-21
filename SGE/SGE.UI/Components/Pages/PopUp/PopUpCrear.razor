@@ -1,6 +1,11 @@
 @namespace SGE.UI.Components
 @rendermode InteractiveServer
 @using SGE.Aplicacion.Enumerativos
+@using SGE.Aplicacion.CasosDeUso.Expediente
+@using SGE.Aplicacion.CasosDeUso.Tramite
+@using SGE.Aplicacion.Entidades
+@using SGE.Aplicacion.CasosDeUso
+@using SGE.UI.Entidades
 @inject NavigationManager Navigation
 @inject CasoDeUsoExpedienteAlta expAlta
 @inject CasoDeUsoTramiteAlta tramAlta
@@ -14,16 +19,16 @@
             <h4>@Mensaje</h4>
             @if (AltaExpediente)
             {
-                <label for="Caratula">Carátula:</label>
-                <input @bind="@exp.Caratula" placeholder="Carátula" />
-                <p>Confirmar creación</p>
+                <label for="Caratula">Carï¿½tula:</label>
+                <input @bind="@exp.Caratula" placeholder="Carï¿½tula" />
+                <p>Confirmar creaciï¿½n</p>
                 <button class="btn btn-aceptar" @onclick="CrearExpediente">Aceptar</button>
             }
             else
             {
                 <label for="Contenido">Contenido:</label>
                 <input @bind="@tram.Contenido" placeholder="Contenido" />
-                <p>Confirmar creación</p>
+                <p>Confirmar creaciï¿½n</p>
                 <button class="btn btn-aceptar" @onclick="CrearTramite">Aceptar</button>
             }
         </div>
@@ -38,8 +43,8 @@
     public object? Crear { get; set; }
     [Parameter]
     public bool AltaExpediente { get; set; }
-    private Expediente exp = new Expediente(); // Inicialización de objeto Expediente
-    private Tramite tram = new Tramite(); // Inicialización de objeto Tramite
+    private Expediente exp = new Expediente(); // Inicializaciï¿½n de objeto Expediente
+    private Tramite tram = new Tramite(); // Inicializaciï¿½n de objeto Tramite
 
     public void Mostrar()
     {

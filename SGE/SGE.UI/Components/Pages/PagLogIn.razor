@@ -3,6 +3,8 @@
 @using System.ComponentModel.DataAnnotations
 @using SGE.UI.Entidades
 @using SGE.Aplicacion.Entidades
+@using SGE.Aplicacion.Exepciones
+@using SGE.Aplicacion.CasosDeUso.Usuario
 @inject NavigationManager Navigation
 @inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoLogin Login
@@ -35,6 +37,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+
         await Task.Delay(500);
 
     }
@@ -42,13 +45,20 @@
     {
         if (!string.IsNullOrWhiteSpace(usuario.Contrasenia) && !string.IsNullOrWhiteSpace(usuario.Email))
         {
-            var usuarioLogueado = Login.Ejecutar(usuario);
+            Usuario? usuarioLogueado = null;
+            try{
+                usuarioLogueado = Login.Ejecutar(usuario);
+            }catch(AutorizacionException a) {
+                dialogoErrorLogin.Mensaje = a.Message;
+                dialogoErrorLogin.Mostrar();
+            }
+            
             if (usuarioLogueado != null)
             {
                 EstadoDeUsuario.usuario = usuarioLogueado;
                 EstadoDeUsuario.SetLoggedIn(true);
 
-                if (usuarioLogueado.Permisos.Any(p => p.Nombre.Equals("OBTENER_LISTA_USUARIOS")))
+                if (usuarioLogueado.Permisos.Any(p => p.Nombre!.Equals("OBTENER_LISTA_USUARIOS")))
                 {
                     EstadoDeUsuario.SetAdmin(true);
                     Navigation.NavigateTo("/adminpanel");
@@ -57,10 +67,6 @@
                 {
                     Navigation.NavigateTo("/expedientes");
                 }
-            }
-            else
-            {
-                dialogoErrorLogin.Mostrar();
             }
         }
         else
@@ -77,3 +83,4 @@
         Navigation.NavigateTo("/register");
     }
 }
+

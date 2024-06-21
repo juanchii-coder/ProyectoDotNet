@@ -5,15 +5,15 @@ using System.Text;
 
 public class ServicioAutentificador : IServicioAutentificador
 {
-    private readonly GestionExpedienteContext contexto;
+    private readonly GestionExpedienteContext _contexto;
 
     public ServicioAutentificador(GestionExpedienteContext context)
     {
-        contexto = context;
+        _contexto = context;
     }
     public bool ValidarLogin(string email, string password)
     {
-        var usuario = contexto.Usuarios.SingleOrDefault(u => u.Email == email);
+        var usuario = _contexto.Usuarios.SingleOrDefault(u => u.Email == email);
         if (usuario != null)
         {
             ServicioCodificacion codificador = new ServicioCodificacion();
