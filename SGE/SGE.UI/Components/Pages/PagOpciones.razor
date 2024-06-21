@@ -2,6 +2,7 @@
 @using SGE.Aplicacion.Entidades
 @using SGE.UI.Entidades
 @inject CasoDeUsoUsuarioModificacion usuarioModificacion
+@inject CasoDeUsoUsuarioBaja usuarioBaja
 @inject EstadoDeUsuario EstadoDeUsuario
 
 @page "/opciones"
@@ -39,6 +40,7 @@
 </div>
 
 <button class="btn btn-primary" @onclick="GuardarCambiosPersonales">Guardar Cambios Personales</button>
+<button @onclick="UsuarioBaja">dar de baja el usuario</button>
 
 @code {
     private Usuario usuario;
@@ -57,5 +59,10 @@
         {
             usuarioModificacion.Ejecutar(EstadoDeUsuario.usuario.Id, usuario);
         }
+    }
+    private void UsuarioBaja()
+    {
+        usuarioBaja.Ejecutar(EstadoDeUsuario.usuario.Id);
+        EstadoDeUsuario.CerrarSesion();
     }
 }
