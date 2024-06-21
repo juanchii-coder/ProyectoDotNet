@@ -1,0 +1,20 @@
+﻿@namespace SGE.UI.Components
+@using SGE.Aplicacion.CasosDeUso.Tramite
+@using SGE.Aplicacion.Entidades
+@inject EstadoDeUsuario EstadoDeUsuario
+@inject CasoDeUsoTramiteModificacion tramModificacion
+@page "/tramite/editar/{tramite:Tramite}"
+
+<label for="Caratula">Carátula:</label>
+<input @bind="@tramite.Contenido" placeholder="Carátula" />
+<p>Confirmar creación</p>
+<button class="btn btn-aceptar" @onclick="CrearTramite">Aceptar</button>
+
+@code {
+	[Parameter]
+	public Tramite? tramite { get; set; }
+	void CrearTramite()
+	{
+		tramModificacion.Ejecutar(tramite, EstadoDeUsuario.usuario.Id, "TRAMITE_MODIFICACION");
+	}
+}

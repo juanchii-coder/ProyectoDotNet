@@ -9,31 +9,23 @@
 @rendermode InteractiveServer
 @page "/expedientes"
 
-<h3>expedientes</h3>
-<PopUpCrear AltaExpediente=true />
-@if (!hayExpedientes)
+@if (!EstadoDeUsuario.IsLoggedIn)
 {
-    if (puedeVer)
-    {
-        <button @onclick="Crear">crear Expediente</button>
-    }
-    else
-    {
-        <p>No tienes permiso para ver expedientes.</p>
-    }
+    Navigation.NavigateTo("/login");
 }
-else
-{   
-@if (puedeVer)
+
+@if (expedientes==null)
+{
+        <p>no hay expedientes cargados</p>
+        <button @onclick="Crear">crear Expediente</button>
+}else{   
+    @if (puedeVer)
     {
         <input @bind=@idExpediente placeholder="buscar por id" />
-        <button @onclick="BuscarPorId"/>
+        <button @onclick="()=>BuscarPorId(idExpediente)">Buscar</button>
         <button @onclick="Crear">crear Expediente</button>
-        <PopUpBuscar id=@idExpediente esExpediente=true />
         <PagListaExpediente Expe=@expedientes/>
-    }
-    else
-    {
+    }else{
         <p>No tienes permiso para ver expedientes.</p>
     }
 }
@@ -43,9 +35,6 @@ else
     private bool puedeVer = false;
     private int idExpediente;
     private List<Expediente>? expedientes { get; set; }
-    PopUpEditar popUpEditar = null!;
-    PopUpBuscar popUpBuscar = null!;
-    PopUpCrear popUpCrear = null!;
 
 
     protected override async Task OnInitializedAsync()
@@ -57,21 +46,15 @@ else
             expedientes = expConsultaTodos.Ejecutar();
             hayExpedientes = expedientes != null && expedientes.Count > 0;
         }
-        popUpCrear = new PopUpCrear();
-        popUpEditar = new PopUpEditar();
-        popUpBuscar = new PopUpBuscar();
-
     }
     private void Crear()
     {
-        popUpCrear.Mostrar();
+        Navigation.NavigateTo("/pagcrearexpediente");
     }
-    private void EditarOk()
+
+    private void BuscarPorId(int id)
     {
-        popUpEditar.Mostrar();
-    }
-    private void BuscarPorId()
-    {
-        popUpBuscar.Mostrar();
+        expedientes = expedientes.Where(e => e.Id == id).ToList();
+        StateHasChanged();
     }
 }

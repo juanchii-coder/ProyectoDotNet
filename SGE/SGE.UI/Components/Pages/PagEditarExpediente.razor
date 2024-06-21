@@ -1,0 +1,20 @@
+﻿@namespace SGE.UI.Components
+@using SGE.Aplicacion.CasosDeUso.Expediente
+@using SGE.Aplicacion.Entidades
+@inject EstadoDeUsuario EstadoDeUsuario
+@inject CasoDeUsoExpedienteModificacion expModificacion
+@page "/expediente/editar/{expediente:Expediente}"
+
+<label for="Caratula">Carátula:</label>
+<input @bind="@expediente.Caratula" placeholder="Carátula" />
+<p>Confirmar creación</p>
+<button class="btn btn-aceptar" @onclick="CrearExpediente">Aceptar</button>
+
+@code {
+	[Parameter]
+	public Expediente? expediente{ get; set;}
+	void CrearExpediente()
+	{
+		expModificacion.Ejecutar(expediente,EstadoDeUsuario.usuario.Id,"EXPEDIENTE_MODIFICACION");
+	}
+}

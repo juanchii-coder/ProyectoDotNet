@@ -5,23 +5,29 @@
 @inject NavigationManager Navigation
 @inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoListarTramites listarTramites
+@rendermode InteractiveServer
 @page "/tramite/{id:int}"
 
 @if (!EstadoDeUsuario.IsLoggedIn)
 {
     Navigation.NavigateTo("/login");
 }
+<<<<<<< Updated upstream
 else if (tramites == null||tramites.Count() == 0)
+=======
+else if (tramites==null)
+>>>>>>> Stashed changes
 {
 	<p>no hay tramites cargados</p>
+	<button @onclick="Crear">crear tramite</button>
 }
 else
 {
 	if (puedeVer)
 	{
-		<input @bind="idTramite" placeholder="buscar por id" />
-		<button @onclick="BuscarPorId">Buscar</button>
-		<PopUpBuscar @ref="popUpBuscar" id="@idTramite" esExpediente="false" />
+		<input @bind="@idTramite" placeholder="buscar por id" />
+		<button @onclick="()=>BuscarPorId(idTramite)">Buscar</button>
+		<button @onclick="Crear">crear tramite</button>
 		<PagListaTramites tramites="@tramites" />
 	}
 }
@@ -32,7 +38,6 @@ else
 	private bool puedeVer = false;
 	private List<Tramite>? tramites;
 	private int idTramite;
-	PopUpBuscar? popUpBuscar;
 	protected override async Task OnInitializedAsync()
 	{
 		await Task.Delay(500);
@@ -45,10 +50,14 @@ else
 		{
 			tramites = listarTramites.Ejecutar().Where(t => t.ExpedienteId==id).ToList();
 		}
-		popUpBuscar = new PopUpBuscar();
 	}
-	private void BuscarPorId()
+	private void BuscarPorId(int id)
 	{
-		popUpBuscar?.Mostrar();
+		tramites = tramites.Where(e => e.Id == id).ToList();
+		StateHasChanged();
+	}
+	private void Crear()
+	{
+		Navigation.NavigateTo("/tramite/crear");
 	}
 }

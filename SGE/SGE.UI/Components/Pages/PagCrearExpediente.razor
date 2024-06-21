@@ -1,0 +1,20 @@
+﻿@namespace SGE.UI.Components
+@using SGE.Aplicacion.CasosDeUso.Expediente
+@using SGE.Aplicacion.Entidades
+@inject EstadoDeUsuario EstadoDeUsuario
+@inject CasoDeUsoExpedienteAlta expAlta
+@page "/pagcrearexpediente"
+
+<label for="Caratula">Carátula:</label>
+<input @bind="@expediente.Caratula" placeholder="Carátula" />
+<p>Confirmar creación</p>
+<button class="btn btn-aceptar" @onclick="CrearExpediente">Aceptar</button>
+
+@code {
+    private Expediente expediente = new Expediente();
+
+    void CrearExpediente()
+    {
+        expAlta.Ejecutar(expediente, EstadoDeUsuario.usuario.Id, "EXPEDIENTE_ALTA");
+    }
+}
