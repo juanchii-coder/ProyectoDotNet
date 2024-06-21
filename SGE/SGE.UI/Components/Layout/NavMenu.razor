@@ -42,6 +42,11 @@
                     <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> opciones
                 </NavLink>
             </div>
+            <div class="top-row px-4">
+                <button @onclick="CerrarSesion">
+                    Cerrar Sesion
+                </button>
+            </div>
         }
     </nav>
 </div>
@@ -50,6 +55,11 @@
     protected override void OnInitialized()
     {
         EstadoDeUsuario.OnChange += StateHasChanged;
+    }
+    private void CerrarSesion()
+    {
+        EstadoDeUsuario.CerrarSesion();
+        Navigate.NavigateTo("/");
     }
 
     public void Dispose()
