@@ -4,6 +4,7 @@
 @inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoExpedienteAlta expAlta
 @inject NavigationManager Navigation
+@rendermode InteractiveServer
 @page "/pagcrearexpediente"
 
 <label for="Caratula">Carátula:</label>
@@ -19,10 +20,13 @@
 
     void CrearExpediente()
     {
-        try{
+        try
+        {
             expAlta.Ejecutar(expediente, EstadoDeUsuario.usuario.Id, "EXPEDIENTE_ALTA");
             Navigation.Refresh();
-        }catch(Exception e) {
+        }
+        catch (Exception e)
+        {
             errorMensaje.Mensaje = e.InnerException.ToString();
             errorMensaje.Mostrar();
         }
