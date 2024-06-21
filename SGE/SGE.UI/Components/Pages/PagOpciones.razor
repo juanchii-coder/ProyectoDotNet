@@ -2,8 +2,10 @@
 @using SGE.Aplicacion.Entidades
 @using SGE.UI.Entidades
 @inject CasoDeUsoUsuarioModificacion usuarioModificacion
+@inject CasoDeUsoUsuarioBaja usuarioBaja
 @inject EstadoDeUsuario EstadoDeUsuario
-
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
 @page "/opciones"
 
 <h3>Editar Usuario</h3>
@@ -24,27 +26,29 @@
 </div>
 
 <div class="form-group">
-    <label for="ContraseniaActual">Contraseña Actual:</label>
+    <label for="ContraseniaActual">Contraseï¿½a Actual:</label>
     <input id="ContraseniaActual" @bind-value="contraseniaActual" type="password" class="form-control" />
 </div>
 
 <div class="form-group">
-    <label for="NuevaContrasenia">Nueva Contraseña:</label>
+    <label for="NuevaContrasenia">Nueva Contraseï¿½a:</label>
     <input id="NuevaContrasenia" @bind-value="nuevaContrasenia" type="password" class="form-control" />
 </div>
 
 <div class="form-group">
-    <label for="ConfirmarContrasenia">Confirmar Nueva Contraseña:</label>
+    <label for="ConfirmarContrasenia">Confirmar Nueva Contraseï¿½a:</label>
     <input id="ConfirmarContrasenia" @bind-value="confirmarContrasenia" type="password" class="form-control" />
 </div>
 
 <button class="btn btn-primary" @onclick="GuardarCambiosPersonales">Guardar Cambios Personales</button>
-
+<button @onclick="UsuarioBaja">dar de baja el usuario</button>
+<PopUpErrorMensaje @ref="errorMensaje" />
 @code {
     private Usuario usuario;
     private string contraseniaActual = "";
     private string nuevaContrasenia = "";
     private string confirmarContrasenia = "";
+    PopUpErrorMensaje errorMensaje = null!;
 
     protected override void OnInitialized()
     {
@@ -53,9 +57,23 @@
 
     private void GuardarCambiosPersonales()
     {
-        if (nuevaContrasenia != confirmarContrasenia)
+        if (nuevaContrasenia == confirmarContrasenia)
         {
-            usuarioModificacion.Ejecutar(EstadoDeUsuario.usuario.Id, usuario);
+            try
+            {
+                usuarioModificacion.Ejecutar(EstadoDeUsuario.usuario.Id, usuario);
+            }
+            catch (Exception e)
+            {
+                errorMensaje.Mensaje = e.StackTrace.ToString();
+                errorMensaje.Mostrar();
+            }
         }
+    }
+    private void UsuarioBaja()
+    {
+        usuarioBaja.Ejecutar(EstadoDeUsuario.usuario.Id);
+        EstadoDeUsuario.CerrarSesion();
+        Navigation.NavigateTo("");
     }
 }
