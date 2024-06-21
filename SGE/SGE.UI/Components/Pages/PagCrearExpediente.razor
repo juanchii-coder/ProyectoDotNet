@@ -3,18 +3,28 @@
 @using SGE.Aplicacion.Entidades
 @inject EstadoDeUsuario EstadoDeUsuario
 @inject CasoDeUsoExpedienteAlta expAlta
+@inject NavigationManager Navigation
 @page "/pagcrearexpediente"
 
 <label for="Caratula">Carátula:</label>
 <input @bind="@expediente.Caratula" placeholder="Carátula" />
 <p>Confirmar creación</p>
-<button class="btn btn-aceptar" @onclick="CrearExpediente">Aceptar</button>
+<button class="btn btn-primary" @onclick="CrearExpediente">Aceptar</button>
+
+<PopUpErrorMensaje @ref="errorMensaje" />
 
 @code {
     private Expediente expediente = new Expediente();
+    PopUpErrorMensaje errorMensaje = null!;
 
     void CrearExpediente()
     {
-        expAlta.Ejecutar(expediente, EstadoDeUsuario.usuario.Id, "EXPEDIENTE_ALTA");
+        try{
+            expAlta.Ejecutar(expediente, EstadoDeUsuario.usuario.Id, "EXPEDIENTE_ALTA");
+            Navigation.Refresh();
+        }catch(Exception e) {
+            errorMensaje.Mensaje = e.InnerException.ToString();
+            errorMensaje.Mostrar();
+        }
     }
 }

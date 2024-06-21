@@ -17,7 +17,7 @@
 @if (crearOk)
 {
     <PagCrearExpediente/>
-    <button @onclick="Crear">Cerrar</button>
+    <button @onclick="Cerrar">Cerrar</button>
 }
 
 @if (expedientes == null || expedientes.Count() == 0)
@@ -29,7 +29,7 @@
     {
         <input @bind=@idExpediente placeholder="buscar por id" />
         <button @onclick="()=>BuscarPorId(idExpediente)">Buscar</button>
-        <button @onclick="Crear">crear Expediente</button>
+        <button class="btn btn-danger" @onclick="Crear">crear Expediente</button>
         <PagListaExpediente Expe=@expedientes/>
     }else{
         <p>No tienes permiso para ver expedientes.</p>
@@ -55,7 +55,7 @@
     }
     private void Crear()
     {
-        crearOk = !crearOk;
+        crearOk = EstadoDeUsuario.usuario.Permisos.Any(p => p.Nombre.Equals("EXPEDIENTE_ALTA"));
         //Navigation.NavigateTo("/pagcrearexpediente");
     }
 
@@ -63,5 +63,9 @@
     {
         expedientes = expedientes.Where(e => e.Id == id).ToList();
         StateHasChanged();
+    }
+
+    private void Cerrar() {
+        crearOk = false;
     }
 }

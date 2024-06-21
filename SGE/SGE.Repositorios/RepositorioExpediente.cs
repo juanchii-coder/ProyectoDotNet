@@ -5,16 +5,13 @@ using SGE.Repositorios.Configuracion;
 
 public class RepositorioExpediente : IExpedienteRepositorio
 {
-  private readonly GestionExpedienteContext _db;
-    public RepositorioExpediente(GestionExpedienteContext context) {
-        _db = context;
-    }
+  private readonly GestionExpedienteContext _db = new GestionExpedienteContext();
   public void ExpedienteAlta(Expediente expediente, int idUsuario)
   {
-    expediente.IdUsuario = idUsuario;
+    expediente.IdUsuarioModificacion = idUsuario;
     expediente.FechaCreacion = DateTime.Now;
     expediente.UltimaModificacion = DateTime.Now;
-    _db.Add(expediente);
+    _db.Expedientes.Add(expediente);
     _db.SaveChanges();
   }
 
@@ -33,7 +30,7 @@ public class RepositorioExpediente : IExpedienteRepositorio
       var expedienteModificar = ExpedienteConsultaPorId(id);
       if (expedienteModificar != null)
       {
-        expediente.IdUsuario = idUsuario;
+        expediente.IdUsuarioModificacion = idUsuario;
         expedienteModificar.Caratula = expediente.Caratula;
         expedienteModificar.UltimaModificacion = DateTime.Now;
         _db.Update(expedienteModificar);
