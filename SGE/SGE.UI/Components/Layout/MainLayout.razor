@@ -12,13 +12,6 @@
     }
 
     <main>
-        @if(EstadoDeUsuario.IsLoggedIn){
-            <div class="top-row px-4">
-                <button @onclick="CerrarSesion">
-                    Cerrar Sesion
-                </button>
-            </div>
-        }
 
         <article class="content px-4">
             @Body
@@ -31,10 +24,3 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
-@code{
-    private void CerrarSesion()
-    {
-        EstadoDeUsuario.CerrarSesion();
-        Navigate.NavigateTo("/");
-    }
-}
