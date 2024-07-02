@@ -1,0 +1,76 @@
+﻿@namespace SGE.UI.Components
+@using SGE.Aplicacion.Entidades
+@inject CasoDeUsoOtorgarPermisos otorgarPermiso
+@inject EstadoDeUsuario EstadoDeUsuario
+@rendermode InteractiveServer
+
+<h3>Otorgar Permisos a @usuario.Nombre @usuario.Apellido</h3>
+
+@foreach (var permiso in permisosDisponibles)
+{
+    <div>
+        <input type="checkbox" @checked="TienePermiso(permiso)" @onchange="(e) => CambiarPermiso(e, permiso)" />
+        @permiso.Nombre
+    </div>
+}
+
+<button @onclick="GuardarPermisos">Guardar Permisos</button>
+
+@code {
+    [Parameter]
+    public Usuario? usuario { get; set; }
+
+    private List<Permiso> permisosDisponibles = new List<Permiso>
+    {
+        new Permiso { Id = 1, Nombre = "MODIFICAR_USUARIO" },
+        new Permiso { Id = 2, Nombre = "CAMBIO_DE_PERMISOS" },
+        new Permiso { Id = 3, Nombre = "OBTENER_LISTA_USUARIOS" },
+        new Permiso { Id = 4, Nombre = "EXPEDIENTE_LECTURA" },
+        new Permiso { Id = 5, Nombre = "EXPEDIENTE_ALTA" },
+        new Permiso { Id = 6, Nombre = "EXPEDIENTE_BAJA" },
+        new Permiso { Id = 7, Nombre = "EXPEDIENTE_MODIFICACION" },
+        new Permiso { Id = 8, Nombre = "TRAMITE_LECTURA" },
+        new Permiso { Id = 9, Nombre = "TRAMITE_ALTA" },
+        new Permiso { Id = 10, Nombre = "TRAMITE_BAJA" },
+        new Permiso { Id = 11, Nombre = "TRAMITE_MODIFICACION" }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(300);
+    }
+
+    private bool TienePermiso(Permiso permiso)
+    {
+        return usuario != null && usuario.Permisos.Any(p => p.Nombre == permiso.Nombre);
+    }
+
+    private void CambiarPermiso(ChangeEventArgs e, Permiso permiso)
+    {
+        if (usuario == null) return;
+
+        if ((bool)e.Value)
+        {
+            if (!usuario.Permisos.Any(p => p.Nombre == permiso.Nombre))
+            {
+                usuario.Permisos.Add(new Permiso { Id = permiso.Id, Nombre = permiso.Nombre });
+            }
+        }
+        else
+        {
+            var permisoAEliminar = usuario.Permisos.FirstOrDefault(p => p.Nombre == permiso.Nombre);
+            if (permisoAEliminar != null)
+            {
+                usuario.Permisos.Remove(permisoAEliminar);
+            }
+        }
+    }
+
+    private void GuardarPermisos()
+    {
+        if (usuario != null)
+        {
+            otorgarPermiso.Ejecutar(EstadoDeUsuario.usuario.Id, usuario.Id, usuario.Permisos.ToList());
+        }
+    }
+}

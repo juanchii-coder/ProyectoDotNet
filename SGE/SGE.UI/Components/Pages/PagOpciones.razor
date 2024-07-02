@@ -44,7 +44,7 @@
 <button @onclick="UsuarioBaja">dar de baja el usuario</button>
 <PopUpErrorMensaje @ref="errorMensaje" />
 @code {
-    private Usuario usuario;
+    private Usuario? usuario;
     private string contraseniaActual = "";
     private string nuevaContrasenia = "";
     private string confirmarContrasenia = "";
