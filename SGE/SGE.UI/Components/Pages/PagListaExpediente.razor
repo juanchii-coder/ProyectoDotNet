@@ -46,7 +46,7 @@
                             }
                         @if (puedeEliminar)
                         {
-                            <button>Eliminar</button>
+                            <button @onclick="()=>Borrar(expediente)">Eliminar</button>
                         }
                     }
                     </td>
@@ -76,5 +76,9 @@
     private void VerTramites(Expediente expediente)
     {
         Navigation.NavigateTo($"/tramites/{expediente.Id}");
+    }
+    private void Borrar(Expediente expediente)
+    {
+        expBaja.Ejecutar(expediente.Id, EstadoDeUsuario.usuario.Id, "EXPEDIENTE_BAJA");
     }
 }
