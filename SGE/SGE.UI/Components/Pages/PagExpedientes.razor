@@ -61,6 +61,7 @@
 
     private void BuscarPorId(int id)
     {
+        expedientes = expConsultaTodos.Ejecutar();
         expedientes = expedientes.Where(e => e.Id == id).ToList();
         StateHasChanged();
     }

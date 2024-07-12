@@ -23,7 +23,7 @@ else
 {
     @if (tramites == null || tramites.Count == 0)
     {
-        <p>no hay trámites cargados</p>
+        <p>cargando...</p>
     }
     else
     {
@@ -31,13 +31,14 @@ else
         {
             <input @bind="@idTramite" placeholder="buscar por id" />
             <button @onclick="()=>BuscarPorId(idTramite)">Buscar</button>
+            <PagListaTramites tramites="@tramites" />
         }
         else
         {
             <p>no tienes permisos suficientes</p>
         }
 
-        <PagListaTramites tramites="@tramites" />
+        
     }
 
     <button @onclick="IniciarCreacion">Crear trámite</button>
@@ -71,6 +72,7 @@ else
 
     private void BuscarPorId(int id)
     {
+        tramites = listarTramites.Ejecutar();
         tramites = tramites.Where(e => e.Id == id).ToList();
     }
 
@@ -95,7 +97,5 @@ else
     private void CancelarCreacion()
     {
         crearOk = false;
-        // También podrías restablecer el objeto nuevoTramite si es necesario
-        nuevoTramite = new Tramite();
     }
 }

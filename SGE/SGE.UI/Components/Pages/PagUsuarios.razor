@@ -3,6 +3,7 @@
 @using SGE.UI.Entidades
 @inject CasoDeUsoObtenerTodosLosUsuarios usuarioTodos
 @inject EstadoDeUsuario EstadoDeUsuario
+@rendermode InteractiveServer
 @page "/usuarios"
 
 @if (EstadoDeUsuario.EsAdmin)
@@ -27,20 +28,26 @@
                         <td>@usuario.Nombre</td>
                         <td>@usuario.Apellido</td>
                         <td>@usuario.Email</td>
-                        <td><button>Otorgar Permisos</button></td>
+                        <td><button @onclick="() => Permisos(usuario)">Otorgar Permisos</button></td>
                     </tr>
                 }
             }
         </tbody>
     </table>
+    @if (permisoOk && usuarioSeleccionado != null)
+    {
+        <PagOtorgarPermisos usuario="@usuarioSeleccionado" />
+    }
 }
 else
 {
-    <p>No tiene permisos suficientes para acceder a esta p�gina.</p>
+    <p>No tiene permisos suficientes para acceder a esta página.</p>
 }
 
 @code {
     private List<Usuario>? usuarios;
+    private bool permisoOk = false;
+    private Usuario? usuarioSeleccionado;
 
     protected override async Task OnInitializedAsync()
     {
@@ -52,9 +59,13 @@ else
         }
         else
         {
-            // Manejo de caso donde EstadoDeUsuario.usuario es null
-            usuarios = new List<Usuario>(); // Opcionalmente puedes inicializarla como una lista vac�a o manejar otro tipo de
-            //mensaje / error
+            usuarios = new List<Usuario>();
         }
+    }
+
+    void Permisos(Usuario usuario)
+    {
+        usuarioSeleccionado = usuario;
+        permisoOk = true;
     }
 }
